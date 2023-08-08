@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "54380035317",
+    "firebase_url": "https://d-generator-a541a-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "d-generator-a541a",
+    "storage_bucket": "d-generator-a541a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:54380035317:android:b88d04512fc7a9025f59bc",
+        "android_client_info": {
+          "package_name": "com.luckygenerator.lucky_generator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "54380035317-qp5ao2chv5e52koevagntoi4lvs1lq2d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVsrCJg8qGlXvulnzqE1GagmUDy5VN2f4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "54380035317-qp5ao2chv5e52koevagntoi4lvs1lq2d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "54380035317-e1irkq3dlfn99077fh38p9n8ctubph9b.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.luckygenerator.luckyGenerator"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
