@@ -1,11 +1,5 @@
-import 'dart:collection';
-import 'dart:convert';
-
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
-import 'package:lucky_generator/database/entity/dmc_entity.dart';
 import 'package:lucky_generator/database/my_database.dart';
-import 'package:lucky_generator/model/dmc/dmc_real_db.dart';
 import 'package:lucky_generator/util/number_util.dart';
 
 class RealtimeDatabaseRepository {
@@ -17,11 +11,9 @@ class RealtimeDatabaseRepository {
       if (dmc.exists) {
         return dmc.value as List<Object?>;
       } else {
-        debugPrint("JAY_LOG: RealtimeDatabaseRepository, initFirebaseRefs, not exist");
         return null;
       }
     } catch (error) {
-      debugPrint("JAY_LOG: MainVMBase, initFirebaseRefs, e = $error");
       return null;
     }
   }
@@ -64,13 +56,8 @@ class RealtimeDatabaseRepository {
             consolidateList: consolidateList,
             full4dList: full4dList);
 
-        debugPrint(
-            "JAY_LOG: RealtimeDatabaseRepository, mapObjectToDmcEntity, dmcEntityData = $dmcEntityData");
-
         return dmcEntityData;
       }));
-
-      debugPrint("JAY_LOG: RealtimeDatabaseRepository, mapObjectToDmcEntity, dmcList = $dmcList");
 
       return dmcList;
     }

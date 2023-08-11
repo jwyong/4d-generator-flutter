@@ -13,7 +13,6 @@ class DmcRepository {
     await _dmcDao.insertDmcList(list);
   }
 
-  // here - // TODO: JAY_LOG: test insert and get dmc list
   /// get
   Stream<List<DmcEntityData>> getDmcListStream() => _dmcDao.getDmcListStream();
 }
