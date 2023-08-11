@@ -1,23 +1,25 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-// TODO: JAY_LOG - can be used to dispose normal controllers
-/// The base state with universal functions e.g. binding and disposing 
-/// controllers to this state's lifecycle.
-// class BaseState<T extends StatefulWidget> extends State<T> {
-//   final List<Contoller> _controllers = List.empty(growable: true);
-//
-//   @override
-//   Widget build(BuildContext context) => Container();
-//
-//   @override
-//   void dispose() {
-//     _controllers.clea
-//     super.dispose();
-//   }
-// }
-//
-// class BaseController {
-//   void bind(BaseState baseState) {
-//     baseState._controllers.add(this);
-//   }
-// }
+/// Base state with convenient functions e.g. disposing mobx or flutter controllers.
+abstract class BaseState<T extends StatefulWidget> extends State<T> {
+  final List<BaseController> _mobxControllers = List.empty(growable: true);
+  final List<Listenable> _controllers = List.empty(growable: true);
+
+  @override
+  void dispose() {
+    _mobxControllers.clear();
+    super.dispose();
+  }
+}
+
+class BaseController {
+  void bind(BaseState baseState) {
+    baseState._mobxControllers.add(this);
+  }
+}
+
+extension BaseListenable on Listenable {
+  void bind(BaseState baseState) {
+    baseState._controllers.add(this);
+  }
+}

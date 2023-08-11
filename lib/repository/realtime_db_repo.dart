@@ -17,11 +17,9 @@ class RealtimeDatabaseRepository {
       if (dmc.exists) {
         return dmc.value as List<Object?>;
       } else {
-        debugPrint("JAY_LOG: RealtimeDatabaseRepository, initFirebaseRefs, not exist");
         return null;
       }
     } catch (error) {
-      debugPrint("JAY_LOG: MainVMBase, initFirebaseRefs, e = $error");
       return null;
     }
   }
@@ -64,13 +62,8 @@ class RealtimeDatabaseRepository {
             consolidateList: consolidateList,
             full4dList: full4dList);
 
-        debugPrint(
-            "JAY_LOG: RealtimeDatabaseRepository, mapObjectToDmcEntity, dmcEntityData = $dmcEntityData");
-
         return dmcEntityData;
       }));
-
-      debugPrint("JAY_LOG: RealtimeDatabaseRepository, mapObjectToDmcEntity, dmcList = $dmcList");
 
       return dmcList;
     }
