@@ -61,6 +61,24 @@ class $DmcEntityTable extends DmcEntity
               type: DriftSqlType.string, requiredDuringInsert: false)
           .withConverter<List<String>?>(
               $DmcEntityTable.$converterconsolidateListn);
+  static const VerificationMeta _zodiac3dp1Meta =
+      const VerificationMeta('zodiac3dp1');
+  @override
+  late final GeneratedColumn<String> zodiac3dp1 = GeneratedColumn<String>(
+      'zodiac3dp1', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _zodiac3dp2Meta =
+      const VerificationMeta('zodiac3dp2');
+  @override
+  late final GeneratedColumn<String> zodiac3dp2 = GeneratedColumn<String>(
+      'zodiac3dp2', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _zodiac3dp3Meta =
+      const VerificationMeta('zodiac3dp3');
+  @override
+  late final GeneratedColumn<String> zodiac3dp3 = GeneratedColumn<String>(
+      'zodiac3dp3', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _full4dListMeta =
       const VerificationMeta('full4dList');
   @override
@@ -68,6 +86,46 @@ class $DmcEntityTable extends DmcEntity
       full4dList = GeneratedColumn<String>('full4d_list', aliasedName, true,
               type: DriftSqlType.string, requiredDuringInsert: false)
           .withConverter<List<String>?>($DmcEntityTable.$converterfull4dListn);
+  static const VerificationMeta _p13p3dMeta = const VerificationMeta('p13p3d');
+  @override
+  late final GeneratedColumn<String> p13p3d = GeneratedColumn<String>(
+      'p13p3d', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _p23p3dMeta = const VerificationMeta('p23p3d');
+  @override
+  late final GeneratedColumn<String> p23p3d = GeneratedColumn<String>(
+      'p23p3d', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _p33p3dMeta = const VerificationMeta('p33p3d');
+  @override
+  late final GeneratedColumn<String> p33p3d = GeneratedColumn<String>(
+      'p33p3d', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _starterList3p3dMeta =
+      const VerificationMeta('starterList3p3d');
+  @override
+  late final GeneratedColumnWithTypeConverter<List<String>?, String>
+      starterList3p3d = GeneratedColumn<String>(
+              'starter_list3p3d', aliasedName, true,
+              type: DriftSqlType.string, requiredDuringInsert: false)
+          .withConverter<List<String>?>(
+              $DmcEntityTable.$converterstarterList3p3dn);
+  static const VerificationMeta _consolidateList3p3dMeta =
+      const VerificationMeta('consolidateList3p3d');
+  @override
+  late final GeneratedColumnWithTypeConverter<List<String>?, String>
+      consolidateList3p3d = GeneratedColumn<String>(
+              'consolidate_list3p3d', aliasedName, true,
+              type: DriftSqlType.string, requiredDuringInsert: false)
+          .withConverter<List<String>?>(
+              $DmcEntityTable.$converterconsolidateList3p3dn);
+  static const VerificationMeta _full6dListMeta =
+      const VerificationMeta('full6dList');
+  @override
+  late final GeneratedColumnWithTypeConverter<List<String>?, String>
+      full6dList = GeneratedColumn<String>('full6d_list', aliasedName, true,
+              type: DriftSqlType.string, requiredDuringInsert: false)
+          .withConverter<List<String>?>($DmcEntityTable.$converterfull6dListn);
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -79,7 +137,16 @@ class $DmcEntityTable extends DmcEntity
         p3,
         starterList,
         consolidateList,
-        full4dList
+        zodiac3dp1,
+        zodiac3dp2,
+        zodiac3dp3,
+        full4dList,
+        p13p3d,
+        p23p3d,
+        p33p3d,
+        starterList3p3d,
+        consolidateList3p3d,
+        full6dList
       ];
   @override
   String get aliasedName => _alias ?? 'dmc_entity';
@@ -116,7 +183,41 @@ class $DmcEntityTable extends DmcEntity
     }
     context.handle(_starterListMeta, const VerificationResult.success());
     context.handle(_consolidateListMeta, const VerificationResult.success());
+    if (data.containsKey('zodiac3dp1')) {
+      context.handle(
+          _zodiac3dp1Meta,
+          zodiac3dp1.isAcceptableOrUnknown(
+              data['zodiac3dp1']!, _zodiac3dp1Meta));
+    }
+    if (data.containsKey('zodiac3dp2')) {
+      context.handle(
+          _zodiac3dp2Meta,
+          zodiac3dp2.isAcceptableOrUnknown(
+              data['zodiac3dp2']!, _zodiac3dp2Meta));
+    }
+    if (data.containsKey('zodiac3dp3')) {
+      context.handle(
+          _zodiac3dp3Meta,
+          zodiac3dp3.isAcceptableOrUnknown(
+              data['zodiac3dp3']!, _zodiac3dp3Meta));
+    }
     context.handle(_full4dListMeta, const VerificationResult.success());
+    if (data.containsKey('p13p3d')) {
+      context.handle(_p13p3dMeta,
+          p13p3d.isAcceptableOrUnknown(data['p13p3d']!, _p13p3dMeta));
+    }
+    if (data.containsKey('p23p3d')) {
+      context.handle(_p23p3dMeta,
+          p23p3d.isAcceptableOrUnknown(data['p23p3d']!, _p23p3dMeta));
+    }
+    if (data.containsKey('p33p3d')) {
+      context.handle(_p33p3dMeta,
+          p33p3d.isAcceptableOrUnknown(data['p33p3d']!, _p33p3dMeta));
+    }
+    context.handle(_starterList3p3dMeta, const VerificationResult.success());
+    context.handle(
+        _consolidateList3p3dMeta, const VerificationResult.success());
+    context.handle(_full6dListMeta, const VerificationResult.success());
     return context;
   }
 
@@ -146,9 +247,30 @@ class $DmcEntityTable extends DmcEntity
       consolidateList: $DmcEntityTable.$converterconsolidateListn.fromSql(
           attachedDatabase.typeMapping.read(
               DriftSqlType.string, data['${effectivePrefix}consolidate_list'])),
+      zodiac3dp1: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}zodiac3dp1']),
+      zodiac3dp2: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}zodiac3dp2']),
+      zodiac3dp3: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}zodiac3dp3']),
       full4dList: $DmcEntityTable.$converterfull4dListn.fromSql(attachedDatabase
           .typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}full4d_list'])),
+      p13p3d: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}p13p3d']),
+      p23p3d: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}p23p3d']),
+      p33p3d: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}p33p3d']),
+      starterList3p3d: $DmcEntityTable.$converterstarterList3p3dn.fromSql(
+          attachedDatabase.typeMapping.read(
+              DriftSqlType.string, data['${effectivePrefix}starter_list3p3d'])),
+      consolidateList3p3d: $DmcEntityTable.$converterconsolidateList3p3dn
+          .fromSql(attachedDatabase.typeMapping.read(DriftSqlType.string,
+              data['${effectivePrefix}consolidate_list3p3d'])),
+      full6dList: $DmcEntityTable.$converterfull6dListn.fromSql(attachedDatabase
+          .typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}full6d_list'])),
     );
   }
 
@@ -169,6 +291,18 @@ class $DmcEntityTable extends DmcEntity
       const StringListConverter();
   static TypeConverter<List<String>?, String?> $converterfull4dListn =
       NullAwareTypeConverter.wrap($converterfull4dList);
+  static TypeConverter<List<String>, String> $converterstarterList3p3d =
+      const StringListConverter();
+  static TypeConverter<List<String>?, String?> $converterstarterList3p3dn =
+      NullAwareTypeConverter.wrap($converterstarterList3p3d);
+  static TypeConverter<List<String>, String> $converterconsolidateList3p3d =
+      const StringListConverter();
+  static TypeConverter<List<String>?, String?> $converterconsolidateList3p3dn =
+      NullAwareTypeConverter.wrap($converterconsolidateList3p3d);
+  static TypeConverter<List<String>, String> $converterfull6dList =
+      const StringListConverter();
+  static TypeConverter<List<String>?, String?> $converterfull6dListn =
+      NullAwareTypeConverter.wrap($converterfull6dList);
 }
 
 class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
@@ -176,12 +310,25 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
   final String? status;
   final String? drawDate;
   final String? drawNo;
+
+  /// 1+3d
   final String? p1;
   final String? p2;
   final String? p3;
   final List<String>? starterList;
   final List<String>? consolidateList;
+  final String? zodiac3dp1;
+  final String? zodiac3dp2;
+  final String? zodiac3dp3;
   final List<String>? full4dList;
+
+  /// 3+3d
+  final String? p13p3d;
+  final String? p23p3d;
+  final String? p33p3d;
+  final List<String>? starterList3p3d;
+  final List<String>? consolidateList3p3d;
+  final List<String>? full6dList;
   const DmcEntityData(
       {required this.id,
       this.status,
@@ -192,7 +339,16 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
       this.p3,
       this.starterList,
       this.consolidateList,
-      this.full4dList});
+      this.zodiac3dp1,
+      this.zodiac3dp2,
+      this.zodiac3dp3,
+      this.full4dList,
+      this.p13p3d,
+      this.p23p3d,
+      this.p33p3d,
+      this.starterList3p3d,
+      this.consolidateList3p3d,
+      this.full6dList});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -224,9 +380,41 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
       map['consolidate_list'] =
           Variable<String>(converter.toSql(consolidateList));
     }
+    if (!nullToAbsent || zodiac3dp1 != null) {
+      map['zodiac3dp1'] = Variable<String>(zodiac3dp1);
+    }
+    if (!nullToAbsent || zodiac3dp2 != null) {
+      map['zodiac3dp2'] = Variable<String>(zodiac3dp2);
+    }
+    if (!nullToAbsent || zodiac3dp3 != null) {
+      map['zodiac3dp3'] = Variable<String>(zodiac3dp3);
+    }
     if (!nullToAbsent || full4dList != null) {
       final converter = $DmcEntityTable.$converterfull4dListn;
       map['full4d_list'] = Variable<String>(converter.toSql(full4dList));
+    }
+    if (!nullToAbsent || p13p3d != null) {
+      map['p13p3d'] = Variable<String>(p13p3d);
+    }
+    if (!nullToAbsent || p23p3d != null) {
+      map['p23p3d'] = Variable<String>(p23p3d);
+    }
+    if (!nullToAbsent || p33p3d != null) {
+      map['p33p3d'] = Variable<String>(p33p3d);
+    }
+    if (!nullToAbsent || starterList3p3d != null) {
+      final converter = $DmcEntityTable.$converterstarterList3p3dn;
+      map['starter_list3p3d'] =
+          Variable<String>(converter.toSql(starterList3p3d));
+    }
+    if (!nullToAbsent || consolidateList3p3d != null) {
+      final converter = $DmcEntityTable.$converterconsolidateList3p3dn;
+      map['consolidate_list3p3d'] =
+          Variable<String>(converter.toSql(consolidateList3p3d));
+    }
+    if (!nullToAbsent || full6dList != null) {
+      final converter = $DmcEntityTable.$converterfull6dListn;
+      map['full6d_list'] = Variable<String>(converter.toSql(full6dList));
     }
     return map;
   }
@@ -250,9 +438,33 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
       consolidateList: consolidateList == null && nullToAbsent
           ? const Value.absent()
           : Value(consolidateList),
+      zodiac3dp1: zodiac3dp1 == null && nullToAbsent
+          ? const Value.absent()
+          : Value(zodiac3dp1),
+      zodiac3dp2: zodiac3dp2 == null && nullToAbsent
+          ? const Value.absent()
+          : Value(zodiac3dp2),
+      zodiac3dp3: zodiac3dp3 == null && nullToAbsent
+          ? const Value.absent()
+          : Value(zodiac3dp3),
       full4dList: full4dList == null && nullToAbsent
           ? const Value.absent()
           : Value(full4dList),
+      p13p3d:
+          p13p3d == null && nullToAbsent ? const Value.absent() : Value(p13p3d),
+      p23p3d:
+          p23p3d == null && nullToAbsent ? const Value.absent() : Value(p23p3d),
+      p33p3d:
+          p33p3d == null && nullToAbsent ? const Value.absent() : Value(p33p3d),
+      starterList3p3d: starterList3p3d == null && nullToAbsent
+          ? const Value.absent()
+          : Value(starterList3p3d),
+      consolidateList3p3d: consolidateList3p3d == null && nullToAbsent
+          ? const Value.absent()
+          : Value(consolidateList3p3d),
+      full6dList: full6dList == null && nullToAbsent
+          ? const Value.absent()
+          : Value(full6dList),
     );
   }
 
@@ -270,7 +482,18 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
       starterList: serializer.fromJson<List<String>?>(json['starterList']),
       consolidateList:
           serializer.fromJson<List<String>?>(json['consolidateList']),
+      zodiac3dp1: serializer.fromJson<String?>(json['zodiac3dp1']),
+      zodiac3dp2: serializer.fromJson<String?>(json['zodiac3dp2']),
+      zodiac3dp3: serializer.fromJson<String?>(json['zodiac3dp3']),
       full4dList: serializer.fromJson<List<String>?>(json['full4dList']),
+      p13p3d: serializer.fromJson<String?>(json['p13p3d']),
+      p23p3d: serializer.fromJson<String?>(json['p23p3d']),
+      p33p3d: serializer.fromJson<String?>(json['p33p3d']),
+      starterList3p3d:
+          serializer.fromJson<List<String>?>(json['starterList3p3d']),
+      consolidateList3p3d:
+          serializer.fromJson<List<String>?>(json['consolidateList3p3d']),
+      full6dList: serializer.fromJson<List<String>?>(json['full6dList']),
     );
   }
   @override
@@ -286,7 +509,17 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
       'p3': serializer.toJson<String?>(p3),
       'starterList': serializer.toJson<List<String>?>(starterList),
       'consolidateList': serializer.toJson<List<String>?>(consolidateList),
+      'zodiac3dp1': serializer.toJson<String?>(zodiac3dp1),
+      'zodiac3dp2': serializer.toJson<String?>(zodiac3dp2),
+      'zodiac3dp3': serializer.toJson<String?>(zodiac3dp3),
       'full4dList': serializer.toJson<List<String>?>(full4dList),
+      'p13p3d': serializer.toJson<String?>(p13p3d),
+      'p23p3d': serializer.toJson<String?>(p23p3d),
+      'p33p3d': serializer.toJson<String?>(p33p3d),
+      'starterList3p3d': serializer.toJson<List<String>?>(starterList3p3d),
+      'consolidateList3p3d':
+          serializer.toJson<List<String>?>(consolidateList3p3d),
+      'full6dList': serializer.toJson<List<String>?>(full6dList),
     };
   }
 
@@ -300,7 +533,16 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
           Value<String?> p3 = const Value.absent(),
           Value<List<String>?> starterList = const Value.absent(),
           Value<List<String>?> consolidateList = const Value.absent(),
-          Value<List<String>?> full4dList = const Value.absent()}) =>
+          Value<String?> zodiac3dp1 = const Value.absent(),
+          Value<String?> zodiac3dp2 = const Value.absent(),
+          Value<String?> zodiac3dp3 = const Value.absent(),
+          Value<List<String>?> full4dList = const Value.absent(),
+          Value<String?> p13p3d = const Value.absent(),
+          Value<String?> p23p3d = const Value.absent(),
+          Value<String?> p33p3d = const Value.absent(),
+          Value<List<String>?> starterList3p3d = const Value.absent(),
+          Value<List<String>?> consolidateList3p3d = const Value.absent(),
+          Value<List<String>?> full6dList = const Value.absent()}) =>
       DmcEntityData(
         id: id ?? this.id,
         status: status.present ? status.value : this.status,
@@ -313,7 +555,20 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
         consolidateList: consolidateList.present
             ? consolidateList.value
             : this.consolidateList,
+        zodiac3dp1: zodiac3dp1.present ? zodiac3dp1.value : this.zodiac3dp1,
+        zodiac3dp2: zodiac3dp2.present ? zodiac3dp2.value : this.zodiac3dp2,
+        zodiac3dp3: zodiac3dp3.present ? zodiac3dp3.value : this.zodiac3dp3,
         full4dList: full4dList.present ? full4dList.value : this.full4dList,
+        p13p3d: p13p3d.present ? p13p3d.value : this.p13p3d,
+        p23p3d: p23p3d.present ? p23p3d.value : this.p23p3d,
+        p33p3d: p33p3d.present ? p33p3d.value : this.p33p3d,
+        starterList3p3d: starterList3p3d.present
+            ? starterList3p3d.value
+            : this.starterList3p3d,
+        consolidateList3p3d: consolidateList3p3d.present
+            ? consolidateList3p3d.value
+            : this.consolidateList3p3d,
+        full6dList: full6dList.present ? full6dList.value : this.full6dList,
       );
   @override
   String toString() {
@@ -327,14 +582,41 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
           ..write('p3: $p3, ')
           ..write('starterList: $starterList, ')
           ..write('consolidateList: $consolidateList, ')
-          ..write('full4dList: $full4dList')
+          ..write('zodiac3dp1: $zodiac3dp1, ')
+          ..write('zodiac3dp2: $zodiac3dp2, ')
+          ..write('zodiac3dp3: $zodiac3dp3, ')
+          ..write('full4dList: $full4dList, ')
+          ..write('p13p3d: $p13p3d, ')
+          ..write('p23p3d: $p23p3d, ')
+          ..write('p33p3d: $p33p3d, ')
+          ..write('starterList3p3d: $starterList3p3d, ')
+          ..write('consolidateList3p3d: $consolidateList3p3d, ')
+          ..write('full6dList: $full6dList')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, status, drawDate, drawNo, p1, p2, p3,
-      starterList, consolidateList, full4dList);
+  int get hashCode => Object.hash(
+      id,
+      status,
+      drawDate,
+      drawNo,
+      p1,
+      p2,
+      p3,
+      starterList,
+      consolidateList,
+      zodiac3dp1,
+      zodiac3dp2,
+      zodiac3dp3,
+      full4dList,
+      p13p3d,
+      p23p3d,
+      p33p3d,
+      starterList3p3d,
+      consolidateList3p3d,
+      full6dList);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -348,7 +630,16 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
           other.p3 == this.p3 &&
           other.starterList == this.starterList &&
           other.consolidateList == this.consolidateList &&
-          other.full4dList == this.full4dList);
+          other.zodiac3dp1 == this.zodiac3dp1 &&
+          other.zodiac3dp2 == this.zodiac3dp2 &&
+          other.zodiac3dp3 == this.zodiac3dp3 &&
+          other.full4dList == this.full4dList &&
+          other.p13p3d == this.p13p3d &&
+          other.p23p3d == this.p23p3d &&
+          other.p33p3d == this.p33p3d &&
+          other.starterList3p3d == this.starterList3p3d &&
+          other.consolidateList3p3d == this.consolidateList3p3d &&
+          other.full6dList == this.full6dList);
 }
 
 class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
@@ -361,7 +652,16 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
   final Value<String?> p3;
   final Value<List<String>?> starterList;
   final Value<List<String>?> consolidateList;
+  final Value<String?> zodiac3dp1;
+  final Value<String?> zodiac3dp2;
+  final Value<String?> zodiac3dp3;
   final Value<List<String>?> full4dList;
+  final Value<String?> p13p3d;
+  final Value<String?> p23p3d;
+  final Value<String?> p33p3d;
+  final Value<List<String>?> starterList3p3d;
+  final Value<List<String>?> consolidateList3p3d;
+  final Value<List<String>?> full6dList;
   const DmcEntityCompanion({
     this.id = const Value.absent(),
     this.status = const Value.absent(),
@@ -372,7 +672,16 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
     this.p3 = const Value.absent(),
     this.starterList = const Value.absent(),
     this.consolidateList = const Value.absent(),
+    this.zodiac3dp1 = const Value.absent(),
+    this.zodiac3dp2 = const Value.absent(),
+    this.zodiac3dp3 = const Value.absent(),
     this.full4dList = const Value.absent(),
+    this.p13p3d = const Value.absent(),
+    this.p23p3d = const Value.absent(),
+    this.p33p3d = const Value.absent(),
+    this.starterList3p3d = const Value.absent(),
+    this.consolidateList3p3d = const Value.absent(),
+    this.full6dList = const Value.absent(),
   });
   DmcEntityCompanion.insert({
     this.id = const Value.absent(),
@@ -384,7 +693,16 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
     this.p3 = const Value.absent(),
     this.starterList = const Value.absent(),
     this.consolidateList = const Value.absent(),
+    this.zodiac3dp1 = const Value.absent(),
+    this.zodiac3dp2 = const Value.absent(),
+    this.zodiac3dp3 = const Value.absent(),
     this.full4dList = const Value.absent(),
+    this.p13p3d = const Value.absent(),
+    this.p23p3d = const Value.absent(),
+    this.p33p3d = const Value.absent(),
+    this.starterList3p3d = const Value.absent(),
+    this.consolidateList3p3d = const Value.absent(),
+    this.full6dList = const Value.absent(),
   });
   static Insertable<DmcEntityData> custom({
     Expression<int>? id,
@@ -396,7 +714,16 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
     Expression<String>? p3,
     Expression<String>? starterList,
     Expression<String>? consolidateList,
+    Expression<String>? zodiac3dp1,
+    Expression<String>? zodiac3dp2,
+    Expression<String>? zodiac3dp3,
     Expression<String>? full4dList,
+    Expression<String>? p13p3d,
+    Expression<String>? p23p3d,
+    Expression<String>? p33p3d,
+    Expression<String>? starterList3p3d,
+    Expression<String>? consolidateList3p3d,
+    Expression<String>? full6dList,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -408,7 +735,17 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
       if (p3 != null) 'p3': p3,
       if (starterList != null) 'starter_list': starterList,
       if (consolidateList != null) 'consolidate_list': consolidateList,
+      if (zodiac3dp1 != null) 'zodiac3dp1': zodiac3dp1,
+      if (zodiac3dp2 != null) 'zodiac3dp2': zodiac3dp2,
+      if (zodiac3dp3 != null) 'zodiac3dp3': zodiac3dp3,
       if (full4dList != null) 'full4d_list': full4dList,
+      if (p13p3d != null) 'p13p3d': p13p3d,
+      if (p23p3d != null) 'p23p3d': p23p3d,
+      if (p33p3d != null) 'p33p3d': p33p3d,
+      if (starterList3p3d != null) 'starter_list3p3d': starterList3p3d,
+      if (consolidateList3p3d != null)
+        'consolidate_list3p3d': consolidateList3p3d,
+      if (full6dList != null) 'full6d_list': full6dList,
     });
   }
 
@@ -422,7 +759,16 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
       Value<String?>? p3,
       Value<List<String>?>? starterList,
       Value<List<String>?>? consolidateList,
-      Value<List<String>?>? full4dList}) {
+      Value<String?>? zodiac3dp1,
+      Value<String?>? zodiac3dp2,
+      Value<String?>? zodiac3dp3,
+      Value<List<String>?>? full4dList,
+      Value<String?>? p13p3d,
+      Value<String?>? p23p3d,
+      Value<String?>? p33p3d,
+      Value<List<String>?>? starterList3p3d,
+      Value<List<String>?>? consolidateList3p3d,
+      Value<List<String>?>? full6dList}) {
     return DmcEntityCompanion(
       id: id ?? this.id,
       status: status ?? this.status,
@@ -433,7 +779,16 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
       p3: p3 ?? this.p3,
       starterList: starterList ?? this.starterList,
       consolidateList: consolidateList ?? this.consolidateList,
+      zodiac3dp1: zodiac3dp1 ?? this.zodiac3dp1,
+      zodiac3dp2: zodiac3dp2 ?? this.zodiac3dp2,
+      zodiac3dp3: zodiac3dp3 ?? this.zodiac3dp3,
       full4dList: full4dList ?? this.full4dList,
+      p13p3d: p13p3d ?? this.p13p3d,
+      p23p3d: p23p3d ?? this.p23p3d,
+      p33p3d: p33p3d ?? this.p33p3d,
+      starterList3p3d: starterList3p3d ?? this.starterList3p3d,
+      consolidateList3p3d: consolidateList3p3d ?? this.consolidateList3p3d,
+      full6dList: full6dList ?? this.full6dList,
     );
   }
 
@@ -471,9 +826,41 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
       map['consolidate_list'] =
           Variable<String>(converter.toSql(consolidateList.value));
     }
+    if (zodiac3dp1.present) {
+      map['zodiac3dp1'] = Variable<String>(zodiac3dp1.value);
+    }
+    if (zodiac3dp2.present) {
+      map['zodiac3dp2'] = Variable<String>(zodiac3dp2.value);
+    }
+    if (zodiac3dp3.present) {
+      map['zodiac3dp3'] = Variable<String>(zodiac3dp3.value);
+    }
     if (full4dList.present) {
       final converter = $DmcEntityTable.$converterfull4dListn;
       map['full4d_list'] = Variable<String>(converter.toSql(full4dList.value));
+    }
+    if (p13p3d.present) {
+      map['p13p3d'] = Variable<String>(p13p3d.value);
+    }
+    if (p23p3d.present) {
+      map['p23p3d'] = Variable<String>(p23p3d.value);
+    }
+    if (p33p3d.present) {
+      map['p33p3d'] = Variable<String>(p33p3d.value);
+    }
+    if (starterList3p3d.present) {
+      final converter = $DmcEntityTable.$converterstarterList3p3dn;
+      map['starter_list3p3d'] =
+          Variable<String>(converter.toSql(starterList3p3d.value));
+    }
+    if (consolidateList3p3d.present) {
+      final converter = $DmcEntityTable.$converterconsolidateList3p3dn;
+      map['consolidate_list3p3d'] =
+          Variable<String>(converter.toSql(consolidateList3p3d.value));
+    }
+    if (full6dList.present) {
+      final converter = $DmcEntityTable.$converterfull6dListn;
+      map['full6d_list'] = Variable<String>(converter.toSql(full6dList.value));
     }
     return map;
   }
@@ -490,7 +877,16 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
           ..write('p3: $p3, ')
           ..write('starterList: $starterList, ')
           ..write('consolidateList: $consolidateList, ')
-          ..write('full4dList: $full4dList')
+          ..write('zodiac3dp1: $zodiac3dp1, ')
+          ..write('zodiac3dp2: $zodiac3dp2, ')
+          ..write('zodiac3dp3: $zodiac3dp3, ')
+          ..write('full4dList: $full4dList, ')
+          ..write('p13p3d: $p13p3d, ')
+          ..write('p23p3d: $p23p3d, ')
+          ..write('p33p3d: $p33p3d, ')
+          ..write('starterList3p3d: $starterList3p3d, ')
+          ..write('consolidateList3p3d: $consolidateList3p3d, ')
+          ..write('full6dList: $full6dList')
           ..write(')'))
         .toString();
   }

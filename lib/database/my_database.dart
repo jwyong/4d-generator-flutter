@@ -7,7 +7,7 @@ import 'package:lucky_generator/database/type_converter/string_list_converter.da
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
-import 'entity/dmc_entity.dart';
+import 'entity/dmc/dmc_entity.dart';
 
 part 'my_database.g.dart';
 

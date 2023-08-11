@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -5,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucky_generator/base/base_state.dart';
 import 'package:lucky_generator/main_init_module.dart';
 import 'package:lucky_generator/pages/home_page/home_page.dart';
-import 'package:lucky_generator/util/constants.dart';
+import 'package:lucky_generator/constant/constants.dart';
 import 'package:provider/provider.dart';
 
 import 'database/my_database.dart';
@@ -23,33 +24,40 @@ Future<void> main() async {
   ));
 }
 
-class MyApp extends StatelessWidget {
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
+//
+//
+//   // This widget is the root of your application.
+//   // @override
+//   // Widget build(BuildContext context) {
+//   //   return MaterialApp(
+//   //     title: 'Lucky 4d Generator',
+//   //     theme: ThemeData(
+//   //       primarySwatch: Colors.blue,
+//   //     ),
+//   //     home: const MyHomePage(title: 'Lucky 4D Generator'),
+//   //   );
+//   }
+// }
+
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Lucky 4d Generator',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Lucky 4D Generator'),
-    );
-  }
+  State<MyApp> createState() => _MyAppState();
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends BaseState<MyHomePage> {
+class _MyAppState extends BaseState<MyApp> {
   late final MainVM _vm = MainVM()..bind(this);
+
+  @override
+  void initState() {
+    super.initState();
+
+    // TODO: JAY_LOG - check performance
+    _vm.checkAndStartSync();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +68,8 @@ class _MyHomePageState extends BaseState<MyHomePage> {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (ctx, child) => MaterialApp(
-            title: DMC,
+            title: dmcShort, // TODO: JAY_LOG
+            theme: ThemeData(primarySwatch: Colors.red),
             localizationsDelegates: const [
               S.delegate,
               GlobalMaterialLocalizations.delegate,

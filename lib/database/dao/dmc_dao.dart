@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:lucky_generator/database/entity/dmc_entity.dart';
+import 'package:lucky_generator/database/entity/dmc/dmc_entity.dart';
 import 'package:lucky_generator/database/my_database.dart';
 
 part 'dmc_dao.g.dart';
@@ -10,7 +10,7 @@ class DmcDao extends DatabaseAccessor<MyDatabase> with _$DmcDaoMixin {
 
   /// Insert
   Future<void> insertDmcList(List<DmcEntityData> list) async =>
-      db.batch((batch) => batch.insertAllOnConflictUpdate(db.dmcEntity, list));
+      await db.batch((batch) => batch.insertAllOnConflictUpdate(db.dmcEntity, list));
 
   /// insert
 // single
@@ -20,6 +20,9 @@ class DmcDao extends DatabaseAccessor<MyDatabase> with _$DmcDaoMixin {
 // // bulk
 
   /// Get
+  // Check exist
+  Future<DmcEntityData?> checkExistDmc() async => select(dmcEntity).getSingleOrNull();
+
   Stream<List<DmcEntityData>> getDmcListStream() => (select(dmcEntity)).watch();
 
   // Stream query

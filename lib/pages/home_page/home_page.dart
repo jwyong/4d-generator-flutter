@@ -6,6 +6,7 @@ import 'package:lucky_generator/pages/home_page/hot_numbers/hot_numbers_page.dar
 import 'package:lucky_generator/pages/home_page/module/bottom_nav_module.dart';
 import 'package:lucky_generator/pages/home_page/my_history/my_history_page.dart';
 import 'package:lucky_generator/pages/home_page/past_results/past_results_page.dart';
+import 'package:lucky_generator/constant/constants.dart';
 
 import 'home_page_vm.dart';
 
@@ -38,7 +39,10 @@ class _HomePageState extends BaseState<HomePage> with SingleTickerProviderStateM
           elevation: 0,
           flexibleSpace: Stack(
             children: [
-              Container(color: Colors.redAccent),
+              Container(
+                color: Colors.redAccent,
+                child: const Text(dmcShort),
+              ),
               Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(

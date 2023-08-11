@@ -50,6 +50,9 @@ dependencies:
   mobx: ^2.1.4
   flutter_mobx: ^2.0.6+5
 
+  # SharedPrefs
+  shared_preferences: ^2.2.0
+
   # Database: https://drift.simonbinder.eu/docs/getting-started/
   drift: ^2.10.0
   sqlite3_flutter_libs: ^0.5.0
