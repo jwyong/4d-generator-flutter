@@ -7,14 +7,13 @@ class DmcRepository {
   final MyDatabase _db;
   late final DmcDao _dmcDao = _db.dmcDao;
 
-
   /// insert
-  // insert bulk (TODO: TEMP - clear all old contacts first)
-  Future<void> insertDmcList(List<DmcEntityCompanion> list) async {
+  // insert bulk
+  Future<void> insertDmcList(List<DmcEntityData> list) async {
     await _dmcDao.insertDmcList(list);
   }
 
-  here - // TODO: JAY_LOG: test insert and get dmc list
+  // here - // TODO: JAY_LOG: test insert and get dmc list
   /// get
-  // Stream<List<ContactData>> getContactsStream() => _dmcDao.getAllContactsStream();
+  Stream<List<DmcEntityData>> getDmcListStream() => _dmcDao.getDmcListStream();
 }

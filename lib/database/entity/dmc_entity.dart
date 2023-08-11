@@ -3,12 +3,16 @@ import 'dart:io';
 
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
+import 'package:lucky_generator/database/my_database.dart';
+import 'package:lucky_generator/database/type_converter/int_list_converter.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../type_converter/string_list_converter.dart';
 
 class DmcEntity extends Table {
   IntColumn get id => integer()();
+  @override
+  Set<Column> get primaryKey => {id};
 
   // Draw details
   TextColumn get status => text().nullable()(); // "COMPLETED" | "C" etc
@@ -19,11 +23,15 @@ class DmcEntity extends Table {
   TextColumn get p1 => text().nullable()(); // Number 1 4d "4123"
   TextColumn get p2 => text().nullable()(); // Number 2 4d "4123"
   TextColumn get p3 => text().nullable()(); // Number 3 4d "4123"
-  TextColumn get starterList =>
-      text().map(const StringListConverter()).nullable()();
+  TextColumn get starterList => text().map(const StringListConverter()).nullable()();
+  TextColumn get consolidateList => text().map(const StringListConverter()).nullable()();
 
-  TextColumn get consolidateList =>
-      text().map(const StringListConverter()).nullable()();
+  // Full lists for calculations
+  TextColumn get full4dList => text().map(const StringListConverter()).nullable()();
+
+
+
+
 // TextColumn get status => text().nullable()();
 // TextColumn get status => text().nullable()();
 // TextColumn get status => text().nullable()();

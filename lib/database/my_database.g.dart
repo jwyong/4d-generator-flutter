@@ -13,7 +13,7 @@ class $DmcEntityTable extends DmcEntity
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+      type: DriftSqlType.int, requiredDuringInsert: false);
   static const VerificationMeta _statusMeta = const VerificationMeta('status');
   @override
   late final GeneratedColumn<String> status = GeneratedColumn<String>(
@@ -61,9 +61,26 @@ class $DmcEntityTable extends DmcEntity
               type: DriftSqlType.string, requiredDuringInsert: false)
           .withConverter<List<String>?>(
               $DmcEntityTable.$converterconsolidateListn);
+  static const VerificationMeta _full4dListMeta =
+      const VerificationMeta('full4dList');
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, status, drawDate, drawNo, p1, p2, p3, starterList, consolidateList];
+  late final GeneratedColumnWithTypeConverter<List<String>?, String>
+      full4dList = GeneratedColumn<String>('full4d_list', aliasedName, true,
+              type: DriftSqlType.string, requiredDuringInsert: false)
+          .withConverter<List<String>?>($DmcEntityTable.$converterfull4dListn);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        status,
+        drawDate,
+        drawNo,
+        p1,
+        p2,
+        p3,
+        starterList,
+        consolidateList,
+        full4dList
+      ];
   @override
   String get aliasedName => _alias ?? 'dmc_entity';
   @override
@@ -75,8 +92,6 @@ class $DmcEntityTable extends DmcEntity
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('status')) {
       context.handle(_statusMeta,
@@ -101,11 +116,12 @@ class $DmcEntityTable extends DmcEntity
     }
     context.handle(_starterListMeta, const VerificationResult.success());
     context.handle(_consolidateListMeta, const VerificationResult.success());
+    context.handle(_full4dListMeta, const VerificationResult.success());
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => const {};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   DmcEntityData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
@@ -130,6 +146,9 @@ class $DmcEntityTable extends DmcEntity
       consolidateList: $DmcEntityTable.$converterconsolidateListn.fromSql(
           attachedDatabase.typeMapping.read(
               DriftSqlType.string, data['${effectivePrefix}consolidate_list'])),
+      full4dList: $DmcEntityTable.$converterfull4dListn.fromSql(attachedDatabase
+          .typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}full4d_list'])),
     );
   }
 
@@ -146,6 +165,10 @@ class $DmcEntityTable extends DmcEntity
       const StringListConverter();
   static TypeConverter<List<String>?, String?> $converterconsolidateListn =
       NullAwareTypeConverter.wrap($converterconsolidateList);
+  static TypeConverter<List<String>, String> $converterfull4dList =
+      const StringListConverter();
+  static TypeConverter<List<String>?, String?> $converterfull4dListn =
+      NullAwareTypeConverter.wrap($converterfull4dList);
 }
 
 class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
@@ -158,6 +181,7 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
   final String? p3;
   final List<String>? starterList;
   final List<String>? consolidateList;
+  final List<String>? full4dList;
   const DmcEntityData(
       {required this.id,
       this.status,
@@ -167,7 +191,8 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
       this.p2,
       this.p3,
       this.starterList,
-      this.consolidateList});
+      this.consolidateList,
+      this.full4dList});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -199,6 +224,10 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
       map['consolidate_list'] =
           Variable<String>(converter.toSql(consolidateList));
     }
+    if (!nullToAbsent || full4dList != null) {
+      final converter = $DmcEntityTable.$converterfull4dListn;
+      map['full4d_list'] = Variable<String>(converter.toSql(full4dList));
+    }
     return map;
   }
 
@@ -221,6 +250,9 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
       consolidateList: consolidateList == null && nullToAbsent
           ? const Value.absent()
           : Value(consolidateList),
+      full4dList: full4dList == null && nullToAbsent
+          ? const Value.absent()
+          : Value(full4dList),
     );
   }
 
@@ -238,6 +270,7 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
       starterList: serializer.fromJson<List<String>?>(json['starterList']),
       consolidateList:
           serializer.fromJson<List<String>?>(json['consolidateList']),
+      full4dList: serializer.fromJson<List<String>?>(json['full4dList']),
     );
   }
   @override
@@ -253,6 +286,7 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
       'p3': serializer.toJson<String?>(p3),
       'starterList': serializer.toJson<List<String>?>(starterList),
       'consolidateList': serializer.toJson<List<String>?>(consolidateList),
+      'full4dList': serializer.toJson<List<String>?>(full4dList),
     };
   }
 
@@ -265,7 +299,8 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
           Value<String?> p2 = const Value.absent(),
           Value<String?> p3 = const Value.absent(),
           Value<List<String>?> starterList = const Value.absent(),
-          Value<List<String>?> consolidateList = const Value.absent()}) =>
+          Value<List<String>?> consolidateList = const Value.absent(),
+          Value<List<String>?> full4dList = const Value.absent()}) =>
       DmcEntityData(
         id: id ?? this.id,
         status: status.present ? status.value : this.status,
@@ -278,6 +313,7 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
         consolidateList: consolidateList.present
             ? consolidateList.value
             : this.consolidateList,
+        full4dList: full4dList.present ? full4dList.value : this.full4dList,
       );
   @override
   String toString() {
@@ -290,14 +326,15 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
           ..write('p2: $p2, ')
           ..write('p3: $p3, ')
           ..write('starterList: $starterList, ')
-          ..write('consolidateList: $consolidateList')
+          ..write('consolidateList: $consolidateList, ')
+          ..write('full4dList: $full4dList')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(
-      id, status, drawDate, drawNo, p1, p2, p3, starterList, consolidateList);
+  int get hashCode => Object.hash(id, status, drawDate, drawNo, p1, p2, p3,
+      starterList, consolidateList, full4dList);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -310,7 +347,8 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
           other.p2 == this.p2 &&
           other.p3 == this.p3 &&
           other.starterList == this.starterList &&
-          other.consolidateList == this.consolidateList);
+          other.consolidateList == this.consolidateList &&
+          other.full4dList == this.full4dList);
 }
 
 class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
@@ -323,7 +361,7 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
   final Value<String?> p3;
   final Value<List<String>?> starterList;
   final Value<List<String>?> consolidateList;
-  final Value<int> rowid;
+  final Value<List<String>?> full4dList;
   const DmcEntityCompanion({
     this.id = const Value.absent(),
     this.status = const Value.absent(),
@@ -334,10 +372,10 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
     this.p3 = const Value.absent(),
     this.starterList = const Value.absent(),
     this.consolidateList = const Value.absent(),
-    this.rowid = const Value.absent(),
+    this.full4dList = const Value.absent(),
   });
   DmcEntityCompanion.insert({
-    required int id,
+    this.id = const Value.absent(),
     this.status = const Value.absent(),
     this.drawDate = const Value.absent(),
     this.drawNo = const Value.absent(),
@@ -346,8 +384,8 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
     this.p3 = const Value.absent(),
     this.starterList = const Value.absent(),
     this.consolidateList = const Value.absent(),
-    this.rowid = const Value.absent(),
-  }) : id = Value(id);
+    this.full4dList = const Value.absent(),
+  });
   static Insertable<DmcEntityData> custom({
     Expression<int>? id,
     Expression<String>? status,
@@ -358,7 +396,7 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
     Expression<String>? p3,
     Expression<String>? starterList,
     Expression<String>? consolidateList,
-    Expression<int>? rowid,
+    Expression<String>? full4dList,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -370,7 +408,7 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
       if (p3 != null) 'p3': p3,
       if (starterList != null) 'starter_list': starterList,
       if (consolidateList != null) 'consolidate_list': consolidateList,
-      if (rowid != null) 'rowid': rowid,
+      if (full4dList != null) 'full4d_list': full4dList,
     });
   }
 
@@ -384,7 +422,7 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
       Value<String?>? p3,
       Value<List<String>?>? starterList,
       Value<List<String>?>? consolidateList,
-      Value<int>? rowid}) {
+      Value<List<String>?>? full4dList}) {
     return DmcEntityCompanion(
       id: id ?? this.id,
       status: status ?? this.status,
@@ -395,7 +433,7 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
       p3: p3 ?? this.p3,
       starterList: starterList ?? this.starterList,
       consolidateList: consolidateList ?? this.consolidateList,
-      rowid: rowid ?? this.rowid,
+      full4dList: full4dList ?? this.full4dList,
     );
   }
 
@@ -433,8 +471,9 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
       map['consolidate_list'] =
           Variable<String>(converter.toSql(consolidateList.value));
     }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
+    if (full4dList.present) {
+      final converter = $DmcEntityTable.$converterfull4dListn;
+      map['full4d_list'] = Variable<String>(converter.toSql(full4dList.value));
     }
     return map;
   }
@@ -451,7 +490,7 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
           ..write('p3: $p3, ')
           ..write('starterList: $starterList, ')
           ..write('consolidateList: $consolidateList, ')
-          ..write('rowid: $rowid')
+          ..write('full4dList: $full4dList')
           ..write(')'))
         .toString();
   }

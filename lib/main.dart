@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lucky_generator/main_init_module.dart';
 import 'package:provider/provider.dart';
 
@@ -46,24 +47,26 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              'test',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
+      body: StreamBuilder<List<DmcEntityData>>(
+          stream: vm.dmcList,
+          builder: (context, snapshot) {
+            final List<DmcEntityData>? items = snapshot.data;
+            if (items?.isNotEmpty == true) {
+              return ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: items?.length,
+                  itemBuilder: (context, index) =>
+                      Text(items?.elementAt(index).full4dList?.toString() ?? ""));
+            } else {
+              return const Text("empty");
+            }
+          }),
       floatingActionButton: FloatingActionButton(
         onPressed: vm.syncDatabasesOnClick,
         tooltip: 'Increment',
