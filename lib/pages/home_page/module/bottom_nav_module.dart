@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:lucky_generator/pages/home_page/home_page_vm.dart';
 
 import '../../../generated/l10n.dart';

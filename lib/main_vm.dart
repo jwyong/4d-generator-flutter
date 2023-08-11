@@ -1,6 +1,4 @@
 
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
 import 'package:lucky_generator/base/base_state.dart';
 import 'package:lucky_generator/database/my_database.dart';
 import 'package:lucky_generator/main.dart';

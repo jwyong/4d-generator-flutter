@@ -1,11 +1,5 @@
-import 'dart:collection';
-import 'dart:convert';
-
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
-import 'package:lucky_generator/database/entity/dmc_entity.dart';
 import 'package:lucky_generator/database/my_database.dart';
-import 'package:lucky_generator/model/dmc/dmc_real_db.dart';
 import 'package:lucky_generator/util/number_util.dart';
 
 class RealtimeDatabaseRepository {
