@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucky_generator/base/base_state.dart';
 import 'package:lucky_generator/main_init_module.dart';
 import 'package:lucky_generator/pages/home_page/home_page.dart';
@@ -48,51 +49,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends BaseState<MyHomePage> {
-  late final MainVM _vm = MainVM()
-    ..bind(this);
+  late final MainVM _vm = MainVM()..bind(this);
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-    return MaterialApp(
-        title: DMC,
-        localizationsDelegates: const [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: S.delegate.supportedLocales,
-        home: const HomePage()
-    );
-
-    // Scaffold(
-    //   appBar: AppBar(
-    //     title: Text(widget.title),
-    //   ),
-    //   body: StreamBuilder<List<DmcEntityData>>(
-    //       stream: _vm.dmcList,
-    //       builder: (context, snapshot) {
-    //         final List<DmcEntityData>? items = snapshot.data;
-    //         if (items?.isNotEmpty == true) {
-    //           return ListView.builder(
-    //               physics: const BouncingScrollPhysics(),
-    //               itemCount: items?.length,
-    //               itemBuilder: (context, index) =>
-    //                   Text(items
-    //                       ?.elementAt(index)
-    //                       .full4dList
-    //                       ?.toString() ?? ""));
-    //         } else {
-    //           return const Text("empty");
-    //         }
-    //       }),
-    //   floatingActionButton: FloatingActionButton(
-    //     onPressed: _vm.syncDatabasesOnClick,
-    //     tooltip: 'Increment',
-    //     child: const Icon(Icons.add),
-    //   ), // This trailing comma makes auto-formatting nicer for build methods.
-    // );
+    return ScreenUtilInit(
+        designSize: const Size(375, 812),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (ctx, child) => MaterialApp(
+            title: DMC,
+            localizationsDelegates: const [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
+            home: const HomePage()));
   }
 }

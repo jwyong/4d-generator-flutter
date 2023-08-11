@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:lucky_generator/base/base_state.dart';
-
-import '../../generated/l10n.dart';
+import 'package:lucky_generator/generated/l10n.dart';
+import 'package:lucky_generator/pages/home_page/hot_numbers/hot_numbers_vm.dart';
 
 class HotNumbersPage extends StatefulWidget {
   const HotNumbersPage({super.key});
@@ -11,10 +11,14 @@ class HotNumbersPage extends StatefulWidget {
 }
 
 class _HotNumbersPage extends BaseState<HotNumbersPage> {
+  late final HotNumbersVM _vm = HotNumbersVM()..bind(this);
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(S().tab_title_hot),
+    return Column(
+      children: [
+
+      ]
     );
   }
 }

@@ -23,8 +23,8 @@ abstract class AMainVM with Store, BaseController {
   // @observable
   // String description = '';
 
-  // Sync all realtimeDB data to driftDB
-  void syncDatabasesOnClick() async {
+  // Sync all realtimeDB data to driftDB (for all companies dmc, toto, magnum...)
+  void checkAndSyncDatabases() async {
     // Get dmc db from realtimeDB
     final dmcObj = await _realtimeDbRepo.getDmcDatabase();
 
