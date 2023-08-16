@@ -22,9 +22,9 @@ class $DmcEntityTable extends DmcEntity
   static const VerificationMeta _drawDateMeta =
       const VerificationMeta('drawDate');
   @override
-  late final GeneratedColumn<String> drawDate = GeneratedColumn<String>(
-      'draw_date', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+  late final GeneratedColumn<DateTime> drawDate = GeneratedColumn<DateTime>(
+      'draw_date', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
   static const VerificationMeta _drawNoMeta = const VerificationMeta('drawNo');
   @override
   late final GeneratedColumn<String> drawNo = GeneratedColumn<String>(
@@ -167,6 +167,8 @@ class $DmcEntityTable extends DmcEntity
     if (data.containsKey('draw_date')) {
       context.handle(_drawDateMeta,
           drawDate.isAcceptableOrUnknown(data['draw_date']!, _drawDateMeta));
+    } else if (isInserting) {
+      context.missing(_drawDateMeta);
     }
     if (data.containsKey('draw_no')) {
       context.handle(_drawNoMeta,
@@ -232,7 +234,7 @@ class $DmcEntityTable extends DmcEntity
       status: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}status']),
       drawDate: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}draw_date']),
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}draw_date'])!,
       drawNo: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}draw_no']),
       p1: attachedDatabase.typeMapping
@@ -308,7 +310,7 @@ class $DmcEntityTable extends DmcEntity
 class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
   final int id;
   final String? status;
-  final String? drawDate;
+  final DateTime drawDate;
   final String? drawNo;
 
   /// 1+3d
@@ -332,7 +334,7 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
   const DmcEntityData(
       {required this.id,
       this.status,
-      this.drawDate,
+      required this.drawDate,
       this.drawNo,
       this.p1,
       this.p2,
@@ -356,9 +358,7 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
     if (!nullToAbsent || status != null) {
       map['status'] = Variable<String>(status);
     }
-    if (!nullToAbsent || drawDate != null) {
-      map['draw_date'] = Variable<String>(drawDate);
-    }
+    map['draw_date'] = Variable<DateTime>(drawDate);
     if (!nullToAbsent || drawNo != null) {
       map['draw_no'] = Variable<String>(drawNo);
     }
@@ -424,9 +424,7 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
       id: Value(id),
       status:
           status == null && nullToAbsent ? const Value.absent() : Value(status),
-      drawDate: drawDate == null && nullToAbsent
-          ? const Value.absent()
-          : Value(drawDate),
+      drawDate: Value(drawDate),
       drawNo:
           drawNo == null && nullToAbsent ? const Value.absent() : Value(drawNo),
       p1: p1 == null && nullToAbsent ? const Value.absent() : Value(p1),
@@ -474,7 +472,7 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
     return DmcEntityData(
       id: serializer.fromJson<int>(json['id']),
       status: serializer.fromJson<String?>(json['status']),
-      drawDate: serializer.fromJson<String?>(json['drawDate']),
+      drawDate: serializer.fromJson<DateTime>(json['drawDate']),
       drawNo: serializer.fromJson<String?>(json['drawNo']),
       p1: serializer.fromJson<String?>(json['p1']),
       p2: serializer.fromJson<String?>(json['p2']),
@@ -502,7 +500,7 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'status': serializer.toJson<String?>(status),
-      'drawDate': serializer.toJson<String?>(drawDate),
+      'drawDate': serializer.toJson<DateTime>(drawDate),
       'drawNo': serializer.toJson<String?>(drawNo),
       'p1': serializer.toJson<String?>(p1),
       'p2': serializer.toJson<String?>(p2),
@@ -526,7 +524,7 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
   DmcEntityData copyWith(
           {int? id,
           Value<String?> status = const Value.absent(),
-          Value<String?> drawDate = const Value.absent(),
+          DateTime? drawDate,
           Value<String?> drawNo = const Value.absent(),
           Value<String?> p1 = const Value.absent(),
           Value<String?> p2 = const Value.absent(),
@@ -546,7 +544,7 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
       DmcEntityData(
         id: id ?? this.id,
         status: status.present ? status.value : this.status,
-        drawDate: drawDate.present ? drawDate.value : this.drawDate,
+        drawDate: drawDate ?? this.drawDate,
         drawNo: drawNo.present ? drawNo.value : this.drawNo,
         p1: p1.present ? p1.value : this.p1,
         p2: p2.present ? p2.value : this.p2,
@@ -645,7 +643,7 @@ class DmcEntityData extends DataClass implements Insertable<DmcEntityData> {
 class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
   final Value<int> id;
   final Value<String?> status;
-  final Value<String?> drawDate;
+  final Value<DateTime> drawDate;
   final Value<String?> drawNo;
   final Value<String?> p1;
   final Value<String?> p2;
@@ -686,7 +684,7 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
   DmcEntityCompanion.insert({
     this.id = const Value.absent(),
     this.status = const Value.absent(),
-    this.drawDate = const Value.absent(),
+    required DateTime drawDate,
     this.drawNo = const Value.absent(),
     this.p1 = const Value.absent(),
     this.p2 = const Value.absent(),
@@ -703,11 +701,11 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
     this.starterList3p3d = const Value.absent(),
     this.consolidateList3p3d = const Value.absent(),
     this.full6dList = const Value.absent(),
-  });
+  }) : drawDate = Value(drawDate);
   static Insertable<DmcEntityData> custom({
     Expression<int>? id,
     Expression<String>? status,
-    Expression<String>? drawDate,
+    Expression<DateTime>? drawDate,
     Expression<String>? drawNo,
     Expression<String>? p1,
     Expression<String>? p2,
@@ -752,7 +750,7 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
   DmcEntityCompanion copyWith(
       {Value<int>? id,
       Value<String?>? status,
-      Value<String?>? drawDate,
+      Value<DateTime>? drawDate,
       Value<String?>? drawNo,
       Value<String?>? p1,
       Value<String?>? p2,
@@ -802,7 +800,7 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
       map['status'] = Variable<String>(status.value);
     }
     if (drawDate.present) {
-      map['draw_date'] = Variable<String>(drawDate.value);
+      map['draw_date'] = Variable<DateTime>(drawDate.value);
     }
     if (drawNo.present) {
       map['draw_no'] = Variable<String>(drawNo.value);
@@ -892,13 +890,348 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
   }
 }
 
+class $DmcHotEntityTable extends DmcHotEntity
+    with TableInfo<$DmcHotEntityTable, DmcHotEntityData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DmcHotEntityTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _numberMeta = const VerificationMeta('number');
+  @override
+  late final GeneratedColumn<String> number = GeneratedColumn<String>(
+      'number', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _occurrencesMeta =
+      const VerificationMeta('occurrences');
+  @override
+  late final GeneratedColumn<int> occurrences = GeneratedColumn<int>(
+      'occurrences', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _drawDateMeta =
+      const VerificationMeta('drawDate');
+  @override
+  late final GeneratedColumn<DateTime> drawDate = GeneratedColumn<DateTime>(
+      'draw_date', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _hotNumberTypeIndexMeta =
+      const VerificationMeta('hotNumberTypeIndex');
+  @override
+  late final GeneratedColumn<int> hotNumberTypeIndex = GeneratedColumn<int>(
+      'hot_number_type_index', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _timePeriodIndexMeta =
+      const VerificationMeta('timePeriodIndex');
+  @override
+  late final GeneratedColumn<int> timePeriodIndex = GeneratedColumn<int>(
+      'time_period_index', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, number, occurrences, drawDate, hotNumberTypeIndex, timePeriodIndex];
+  @override
+  String get aliasedName => _alias ?? 'dmc_hot_entity';
+  @override
+  String get actualTableName => 'dmc_hot_entity';
+  @override
+  VerificationContext validateIntegrity(Insertable<DmcHotEntityData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('number')) {
+      context.handle(_numberMeta,
+          number.isAcceptableOrUnknown(data['number']!, _numberMeta));
+    } else if (isInserting) {
+      context.missing(_numberMeta);
+    }
+    if (data.containsKey('occurrences')) {
+      context.handle(
+          _occurrencesMeta,
+          occurrences.isAcceptableOrUnknown(
+              data['occurrences']!, _occurrencesMeta));
+    } else if (isInserting) {
+      context.missing(_occurrencesMeta);
+    }
+    if (data.containsKey('draw_date')) {
+      context.handle(_drawDateMeta,
+          drawDate.isAcceptableOrUnknown(data['draw_date']!, _drawDateMeta));
+    }
+    if (data.containsKey('hot_number_type_index')) {
+      context.handle(
+          _hotNumberTypeIndexMeta,
+          hotNumberTypeIndex.isAcceptableOrUnknown(
+              data['hot_number_type_index']!, _hotNumberTypeIndexMeta));
+    } else if (isInserting) {
+      context.missing(_hotNumberTypeIndexMeta);
+    }
+    if (data.containsKey('time_period_index')) {
+      context.handle(
+          _timePeriodIndexMeta,
+          timePeriodIndex.isAcceptableOrUnknown(
+              data['time_period_index']!, _timePeriodIndexMeta));
+    } else if (isInserting) {
+      context.missing(_timePeriodIndexMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  DmcHotEntityData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DmcHotEntityData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      number: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}number'])!,
+      occurrences: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}occurrences'])!,
+      drawDate: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}draw_date']),
+      hotNumberTypeIndex: attachedDatabase.typeMapping.read(
+          DriftSqlType.int, data['${effectivePrefix}hot_number_type_index'])!,
+      timePeriodIndex: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}time_period_index'])!,
+    );
+  }
+
+  @override
+  $DmcHotEntityTable createAlias(String alias) {
+    return $DmcHotEntityTable(attachedDatabase, alias);
+  }
+}
+
+class DmcHotEntityData extends DataClass
+    implements Insertable<DmcHotEntityData> {
+  final int id;
+  final String number;
+  final int occurrences;
+  final DateTime? drawDate;
+  final int hotNumberTypeIndex;
+  final int timePeriodIndex;
+  const DmcHotEntityData(
+      {required this.id,
+      required this.number,
+      required this.occurrences,
+      this.drawDate,
+      required this.hotNumberTypeIndex,
+      required this.timePeriodIndex});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['number'] = Variable<String>(number);
+    map['occurrences'] = Variable<int>(occurrences);
+    if (!nullToAbsent || drawDate != null) {
+      map['draw_date'] = Variable<DateTime>(drawDate);
+    }
+    map['hot_number_type_index'] = Variable<int>(hotNumberTypeIndex);
+    map['time_period_index'] = Variable<int>(timePeriodIndex);
+    return map;
+  }
+
+  DmcHotEntityCompanion toCompanion(bool nullToAbsent) {
+    return DmcHotEntityCompanion(
+      id: Value(id),
+      number: Value(number),
+      occurrences: Value(occurrences),
+      drawDate: drawDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(drawDate),
+      hotNumberTypeIndex: Value(hotNumberTypeIndex),
+      timePeriodIndex: Value(timePeriodIndex),
+    );
+  }
+
+  factory DmcHotEntityData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DmcHotEntityData(
+      id: serializer.fromJson<int>(json['id']),
+      number: serializer.fromJson<String>(json['number']),
+      occurrences: serializer.fromJson<int>(json['occurrences']),
+      drawDate: serializer.fromJson<DateTime?>(json['drawDate']),
+      hotNumberTypeIndex: serializer.fromJson<int>(json['hotNumberTypeIndex']),
+      timePeriodIndex: serializer.fromJson<int>(json['timePeriodIndex']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'number': serializer.toJson<String>(number),
+      'occurrences': serializer.toJson<int>(occurrences),
+      'drawDate': serializer.toJson<DateTime?>(drawDate),
+      'hotNumberTypeIndex': serializer.toJson<int>(hotNumberTypeIndex),
+      'timePeriodIndex': serializer.toJson<int>(timePeriodIndex),
+    };
+  }
+
+  DmcHotEntityData copyWith(
+          {int? id,
+          String? number,
+          int? occurrences,
+          Value<DateTime?> drawDate = const Value.absent(),
+          int? hotNumberTypeIndex,
+          int? timePeriodIndex}) =>
+      DmcHotEntityData(
+        id: id ?? this.id,
+        number: number ?? this.number,
+        occurrences: occurrences ?? this.occurrences,
+        drawDate: drawDate.present ? drawDate.value : this.drawDate,
+        hotNumberTypeIndex: hotNumberTypeIndex ?? this.hotNumberTypeIndex,
+        timePeriodIndex: timePeriodIndex ?? this.timePeriodIndex,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('DmcHotEntityData(')
+          ..write('id: $id, ')
+          ..write('number: $number, ')
+          ..write('occurrences: $occurrences, ')
+          ..write('drawDate: $drawDate, ')
+          ..write('hotNumberTypeIndex: $hotNumberTypeIndex, ')
+          ..write('timePeriodIndex: $timePeriodIndex')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id, number, occurrences, drawDate, hotNumberTypeIndex, timePeriodIndex);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DmcHotEntityData &&
+          other.id == this.id &&
+          other.number == this.number &&
+          other.occurrences == this.occurrences &&
+          other.drawDate == this.drawDate &&
+          other.hotNumberTypeIndex == this.hotNumberTypeIndex &&
+          other.timePeriodIndex == this.timePeriodIndex);
+}
+
+class DmcHotEntityCompanion extends UpdateCompanion<DmcHotEntityData> {
+  final Value<int> id;
+  final Value<String> number;
+  final Value<int> occurrences;
+  final Value<DateTime?> drawDate;
+  final Value<int> hotNumberTypeIndex;
+  final Value<int> timePeriodIndex;
+  const DmcHotEntityCompanion({
+    this.id = const Value.absent(),
+    this.number = const Value.absent(),
+    this.occurrences = const Value.absent(),
+    this.drawDate = const Value.absent(),
+    this.hotNumberTypeIndex = const Value.absent(),
+    this.timePeriodIndex = const Value.absent(),
+  });
+  DmcHotEntityCompanion.insert({
+    this.id = const Value.absent(),
+    required String number,
+    required int occurrences,
+    this.drawDate = const Value.absent(),
+    required int hotNumberTypeIndex,
+    required int timePeriodIndex,
+  })  : number = Value(number),
+        occurrences = Value(occurrences),
+        hotNumberTypeIndex = Value(hotNumberTypeIndex),
+        timePeriodIndex = Value(timePeriodIndex);
+  static Insertable<DmcHotEntityData> custom({
+    Expression<int>? id,
+    Expression<String>? number,
+    Expression<int>? occurrences,
+    Expression<DateTime>? drawDate,
+    Expression<int>? hotNumberTypeIndex,
+    Expression<int>? timePeriodIndex,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (number != null) 'number': number,
+      if (occurrences != null) 'occurrences': occurrences,
+      if (drawDate != null) 'draw_date': drawDate,
+      if (hotNumberTypeIndex != null)
+        'hot_number_type_index': hotNumberTypeIndex,
+      if (timePeriodIndex != null) 'time_period_index': timePeriodIndex,
+    });
+  }
+
+  DmcHotEntityCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? number,
+      Value<int>? occurrences,
+      Value<DateTime?>? drawDate,
+      Value<int>? hotNumberTypeIndex,
+      Value<int>? timePeriodIndex}) {
+    return DmcHotEntityCompanion(
+      id: id ?? this.id,
+      number: number ?? this.number,
+      occurrences: occurrences ?? this.occurrences,
+      drawDate: drawDate ?? this.drawDate,
+      hotNumberTypeIndex: hotNumberTypeIndex ?? this.hotNumberTypeIndex,
+      timePeriodIndex: timePeriodIndex ?? this.timePeriodIndex,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (number.present) {
+      map['number'] = Variable<String>(number.value);
+    }
+    if (occurrences.present) {
+      map['occurrences'] = Variable<int>(occurrences.value);
+    }
+    if (drawDate.present) {
+      map['draw_date'] = Variable<DateTime>(drawDate.value);
+    }
+    if (hotNumberTypeIndex.present) {
+      map['hot_number_type_index'] = Variable<int>(hotNumberTypeIndex.value);
+    }
+    if (timePeriodIndex.present) {
+      map['time_period_index'] = Variable<int>(timePeriodIndex.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DmcHotEntityCompanion(')
+          ..write('id: $id, ')
+          ..write('number: $number, ')
+          ..write('occurrences: $occurrences, ')
+          ..write('drawDate: $drawDate, ')
+          ..write('hotNumberTypeIndex: $hotNumberTypeIndex, ')
+          ..write('timePeriodIndex: $timePeriodIndex')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$MyDatabase extends GeneratedDatabase {
   _$MyDatabase(QueryExecutor e) : super(e);
   late final $DmcEntityTable dmcEntity = $DmcEntityTable(this);
+  late final $DmcHotEntityTable dmcHotEntity = $DmcHotEntityTable(this);
   late final DmcDao dmcDao = DmcDao(this as MyDatabase);
+  late final DmcHotDao dmcHotDao = DmcHotDao(this as MyDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [dmcEntity];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [dmcEntity, dmcHotEntity];
 }

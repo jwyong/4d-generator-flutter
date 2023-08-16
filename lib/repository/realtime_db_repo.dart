@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:lucky_generator/constant/constants.dart';
 import 'package:lucky_generator/database/my_database.dart';
+import 'package:lucky_generator/util/date_time_util.dart';
 import 'package:lucky_generator/util/number_util.dart';
 
 class RealtimeDatabaseRepository {
@@ -24,6 +25,9 @@ class RealtimeDatabaseRepository {
       final dmcList = List<DmcEntityData>.from(value.map((e) {
         // Convert realtimeDb object to map
         final objectMap = e as Map<Object?, Object?>;
+
+        // Convert drawDate to DateTime obj
+        final drawDate = objectMap['drawDate'].toDateTimeInddMMyyyy();
 
         // Get all 4d numbers and lists
         final p1 = objectMap['p1'].toString();
@@ -62,7 +66,7 @@ class RealtimeDatabaseRepository {
         final dmcEntityData = DmcEntityData(
             id: objectMap['id'].toString().toIntOrNull() ?? -1,
             status: objectMap['status'].toString(),
-            drawDate: objectMap['drawDate'].toString(),
+            drawDate: drawDate,
             drawNo: objectMap['drawNo'].toString(),
             p1: p1,
             p2: p2,

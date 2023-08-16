@@ -7,7 +7,7 @@ part 'home_page_vm.g.dart';
 
 class HomePageVM = AHomePageVM with _$HomePageVM;
 
-abstract class AHomePageVM with Store, BaseController {
+abstract class AHomePageVM with Store, BaseViewModel {
   late final TabController homeTabController;
 
   @observable
@@ -16,5 +16,8 @@ abstract class AHomePageVM with Store, BaseController {
   void onBottomTabItemClicked(int index) {
     homeTabController.index = index;
     currentTabIndex = index;
+  }
+
+  void generateBtnOnClick() {
   }
 }

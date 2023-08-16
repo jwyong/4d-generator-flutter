@@ -10,7 +10,7 @@ class DmcEntity extends Table {
 
   // Draw details
   TextColumn get status => text().nullable()(); // "COMPLETED" | "C" etc
-  TextColumn get drawDate => text().nullable()(); // "30/07/2023"
+  DateTimeColumn get drawDate => dateTime()(); // drawDate in unix timestamp format (seconds). ori: "30/07/2023"
   TextColumn get drawNo => text().nullable()(); // "5618/23"
 
   /// 1+3d

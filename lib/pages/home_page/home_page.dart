@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:lucky_generator/base/base_state.dart';
+import 'package:lucky_generator/constant/constants.dart';
 import 'package:lucky_generator/pages/home_page/analytics/analytics_page.dart';
 import 'package:lucky_generator/pages/home_page/hot_numbers/hot_numbers_page.dart';
 import 'package:lucky_generator/pages/home_page/module/bottom_nav_module.dart';
 import 'package:lucky_generator/pages/home_page/my_history/my_history_page.dart';
 import 'package:lucky_generator/pages/home_page/past_results/past_results_page.dart';
-import 'package:lucky_generator/constant/constants.dart';
 
 import 'home_page_vm.dart';
 
@@ -26,7 +26,6 @@ class _HomePageState extends BaseState<HomePage> with SingleTickerProviderStateM
   @override
   void initState() {
     _vm.homeTabController = TabController(length: 4, vsync: this)..bind(this);
-    ;
     _bottomNavModule.init();
     super.initState();
   }
@@ -61,10 +60,8 @@ class _HomePageState extends BaseState<HomePage> with SingleTickerProviderStateM
         floatingActionButton: FloatingActionButton.small(
             elevation: 0,
             backgroundColor: Colors.yellowAccent,
-            child: const Icon(Icons.adb),
-            onPressed: () {
-              debugPrint("JAY_LOG: _HomePageState, build, FAB pressed");
-            }),
+            onPressed: _vm.generateBtnOnClick,
+            child: const Icon(Icons.adb)),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: Observer(builder: (ctx) {
           return BottomNavigationBar(
