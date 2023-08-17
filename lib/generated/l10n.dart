@@ -90,6 +90,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Hot Numbers`
+  String get hot_numbers {
+    return Intl.message(
+      'Hot Numbers',
+      name: 'hot_numbers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hot Numbers (Pau)`
+  String get hot_numbers_pau {
+    return Intl.message(
+      'Hot Numbers (Pau)',
+      name: 'hot_numbers_pau',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hot Doubles`
+  String get hot_doubles {
+    return Intl.message(
+      'Hot Doubles',
+      name: 'hot_doubles',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Double`
+  String get double {
+    return Intl.message(
+      'Double',
+      name: 'double',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hot Triples`
+  String get hot_triples {
+    return Intl.message(
+      'Hot Triples',
+      name: 'hot_triples',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Triple`
+  String get triple {
+    return Intl.message(
+      'Triple',
+      name: 'triple',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
