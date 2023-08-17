@@ -44,4 +44,8 @@ class DmcDao extends DatabaseAccessor<MyDatabase> with _$DmcDaoMixin {
       }
     }).get();
   }
+
+  Future<void> clearDb() async {
+    delete(dmcEntity);
+  }
 }

@@ -42,4 +42,8 @@ class DmcRepository {
     // Flatten list and return
     return nested4dList.expand<String>((i) => i ?? List.empty()).toList();
   }
+
+  Future<void> clearDb() async {
+    await _dmcDao.clearDb();
+  }
 }

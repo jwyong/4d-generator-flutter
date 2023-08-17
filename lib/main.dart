@@ -36,12 +36,13 @@ class _MyAppState extends BaseState<MyApp> {
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
+    // TODO: JAY_LOG - add willPopScope for Android back button
     return ScreenUtilInit(
         designSize: const Size(375, 812),
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (ctx, child) => MaterialApp(
-            title: dmcShort, // TODO: JAY_LOG
+            title: dmcShort,
             theme: ThemeData(primarySwatch: Colors.red),
             localizationsDelegates: const [
               S.delegate,

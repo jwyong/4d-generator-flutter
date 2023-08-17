@@ -15,7 +15,7 @@ part 'main_vm.g.dart';
 class MainVM = AMainVM with _$MainVM;
 
 /// TODO: JAY_LOG:
-/// - optimise first time realtimeDB (remove unused columns)
+/// - first time realtimeDB sync issue (vivo, iphone) - permission? check
 /// - add http lib
 /// - optimise first time driftDB (check logics, async?)
 /// - make http GET call (as per script)
@@ -29,12 +29,17 @@ abstract class AMainVM with Store, BaseViewModel {
 
   late final SharedPreferences prefs;
 
+  Future<void> clearDriftDb() async {
+    await _dmcRepository.clearDb();
+    await _dmcHotRepository.clearDb();
+  }
+
   // Sync all realtimeDB data to driftDB (for all companies dmc, toto, magnum...)
   void checkAndStartSync() async {
     prefs = await SharedPreferences.getInstance();
     final isSynced = prefs.getBool(spKeyIsDmcSynced);
 
-    debugPrint("JAY_LOG: AMainVM, checkAndSyncDatabases, isSynced = $isSynced");
+    debugPrint("AMainVM, checkAndSyncDatabases, isSynced = $isSynced");
 
     // Only sync from realtimeDB if not done yet
     if (isSynced != true) {
@@ -56,13 +61,17 @@ abstract class AMainVM with Store, BaseViewModel {
     // Get dmc entity list from realtimeDB object. This includes processing into a single list.
     final dmcEntityList = _realtimeDbRepo.getDmcEntityListFromObject(dmcObj);
 
+    // Don't proceed if list empty TODO: JAY_LOG - handle error
+    if (dmcEntityList.isEmpty) {
+      debugPrint("AMainVM, _syncDmcFromRealtimeDB, list is empty");
+      return;
+    }
+
     // Add to drift db
     await _dmcRepository.insertDmcList(dmcEntityList);
 
     // Update isSynced bool to sp
     prefs.setBool(spKeyIsDmcSynced, true);
-
-    debugPrint("JAY_LOG: AMainVM, checkAndSyncDatabases done, dmcEntityList = ${dmcEntityList.length}");
   }
 
   // Calculate hot numbers from past 1 year
@@ -70,7 +79,7 @@ abstract class AMainVM with Store, BaseViewModel {
     // TODO: JAY_LOG - combine with web check logics
     final bool needUpdate = prefs.getInt(spKeyDmcLastHotSync) == null;
 
-    debugPrint("JAY_LOG: AMainVM, _checkAndUpdateHotNumbers, needUpdate = $needUpdate");
+    debugPrint("AMainVM, _checkAndUpdateHotNumbers, needUpdate = $needUpdate");
 
     if (!needUpdate) return;
 

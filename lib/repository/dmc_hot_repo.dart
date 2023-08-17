@@ -27,5 +27,9 @@ class DmcHotRepository {
   }
 
   // Get full dmc hot list stream
-  Stream<List<DmcHotEntityData>> getDmcHotListStream() => _dmcHotDao.getDmcHotListStream();
+  Stream<List<DmcHotEntityData>> getDmcHotListStream(TimePeriod selectedTimePeriod) => _dmcHotDao.getDmcHotListStream(selectedTimePeriod);
+
+  Future<void> clearDb() async {
+    await _dmcHotDao.clearDb();
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
 import 'package:lucky_generator/constant/constants.dart';
 import 'package:lucky_generator/database/my_database.dart';
 import 'package:lucky_generator/util/date_time_util.dart';
@@ -12,17 +13,19 @@ class RealtimeDatabaseRepository {
       if (dmc.exists) {
         return dmc.value as List<Object?>;
       } else {
+        debugPrint("RealtimeDatabaseRepository, getDmcDatabase, database 'dmc' does not exist");
         return null;
       }
     } catch (error) {
+      debugPrint("RealtimeDatabaseRepository, getDmcDatabase, error = $error");
       return null;
     }
   }
 
   // Map dmc realtimeDB to driftDB object
-  List<DmcEntityData> getDmcEntityListFromObject(List<Object?>? value) {
-    if (value != null) {
-      final dmcList = List<DmcEntityData>.from(value.map((e) {
+  List<DmcEntityData> getDmcEntityListFromObject(List<Object?>? dmcRealtimeDbList) {
+    if (dmcRealtimeDbList != null) {
+      final dmcList = List<DmcEntityData>.from(dmcRealtimeDbList.map((e) {
         // Convert realtimeDb object to map
         final objectMap = e as Map<Object?, Object?>;
 
