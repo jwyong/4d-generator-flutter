@@ -12,10 +12,9 @@ abstract class AHotNumbersVM with Store, BaseViewModel {
   late final _dmcHotRepository = DmcHotRepository(database);
 
   // Selected time period (dropdown)
-  late TimePeriod _selectedTimePeriod = TimePeriod.year_1;
+  late final TimePeriod _selectedTimePeriod = TimePeriod.year_1;
 
   // Hot numbers list
-  late final Stream<List<DmcHotEntityData>> dmcHotListStream = _dmcHotRepository.getDmcHotListStream(_selectedTimePeriod);
-
-  // Hot numbers pau list
+  late final Stream<List<DmcHotEntityData>> dmcHotListStream =
+      _dmcHotRepository.getDmcHotListStream(_selectedTimePeriod);
 }

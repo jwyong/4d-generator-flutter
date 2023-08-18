@@ -6,6 +6,9 @@ class DmcHotEntity extends Table {
   // Primary key (recognised by default due to autoIncrement)
   IntColumn get id => integer().autoIncrement()();
 
+  // Parent number: for child items only (occurrence), the number of the parent.
+  TextColumn get parentNumber => text().nullable()();
+
   // Number: can be combination of 4d, 6d, or a single digit for hotDoubles / triples.
   TextColumn get number => text()(); // "0253" | "049301" | "6" etc
   IntColumn get occurrences => integer()(); // 11 | 0 | 3054

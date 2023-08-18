@@ -93,39 +93,55 @@ abstract class AMainVM with Store, BaseViewModel {
     final hotDoubles = _hotNumbersUtil.getHotDoubles(list4d1year, 3);
     final hotTriples = _hotNumbersUtil.getHotTriples(list4d1year, 3);
 
-    // Get occurrences for each hot numbers pau and doubles / triples
-    final hotNumbersPauOccurrences = List<MapEntry<String, int>>.empty(growable: true);
-    for (var element in hotNumbersPau) {
-      hotNumbersPauOccurrences.addAll(_hotNumbersUtil.getHotNumbersPauOccurrences(list4d1year, 3, element.key));
+    // Get occurrences/date for each hot numbers pau and doubles / triples
+    final List<MapEntry<String, List<DateTime?>>> hotNumbersDrawDates = List.empty(growable: true);
+    for (final element in hotNumbers) {
+      final drawDates = await _dmcRepository.getLatestDrawDatesList(element.key, 3);
+      hotNumbersDrawDates.add(MapEntry(element.key, drawDates));
     }
-    final hotDoublesOccurrences = List<MapEntry<String, int>>.empty(growable: true);
-    for (var element in hotDoubles) {
-      hotDoublesOccurrences.addAll(_hotNumbersUtil.getHotDoublesOccurrences(list4d1year, 3, element.key));
-    }
-    final hotTriplesOccurrences = List<MapEntry<String, int>>.empty(growable: true);
-    for (var element in hotTriples) {
-      hotTriplesOccurrences.addAll(_hotNumbersUtil.getHotTriplesOccurrences(list4d1year, 3, element.key));
-    }
+    final List<MapEntry<String, List<MapEntry<String, int>>>> hotNumbersPauOccurrences = hotNumbersPau.map((e) {
+      final occurrenceList = _hotNumbersUtil.getHotNumbersPauOccurrences(list4d1year, 3, e.key);
+      return MapEntry(e.key, occurrenceList);
+    }).toList();
+    final List<MapEntry<String, List<MapEntry<String, int>>>> hotDoublesOccurrences = hotDoubles.map((e) {
+      final occurrenceList = _hotNumbersUtil.getHotDoublesOccurrences(list4d1year, 3, e.key);
+      return MapEntry(e.key, occurrenceList);
+    }).toList();
+    final List<MapEntry<String, List<MapEntry<String, int>>>> hotTriplesOccurrences = hotTriples.map((e) {
+      final occurrenceList = _hotNumbersUtil.getHotTriplesOccurrences(list4d1year, 3, e.key);
+      return MapEntry(e.key, occurrenceList);
+    }).toList();
 
     // Get companion from each type of hot number list
     final hotNumbersCompanions =
         _dmcHotRepository.convertListToDmcHotEntityList(hotNumbers, HotNumberType.hotNumber, timePeriod);
-    final hotNumbersPuaCompanions =
+    final hotNumberDrawDatesCompanions = _dmcHotRepository.convertDrawDatesListToDmcHotEntityList(
+        hotNumbersDrawDates, HotNumberType.hotNumberDrawDate, timePeriod);
+
+    final hotNumbersPauCompanions =
         _dmcHotRepository.convertListToDmcHotEntityList(hotNumbersPau, HotNumberType.hotNumberPau, timePeriod);
-    final hotNumbersPuaOccurrenceCompanions =
-        _dmcHotRepository.convertListToDmcHotEntityList(hotNumbersPauOccurrences, HotNumberType.hotNumberPauOccurrence, timePeriod);
+    final hotNumbersPauOccurrenceCompanions = _dmcHotRepository.convertOccurenceListToDmcHotEntityList(
+        hotNumbersPauOccurrences, HotNumberType.hotNumberPauOccurrence, timePeriod);
+
     final hotDoublesCompanions =
         _dmcHotRepository.convertListToDmcHotEntityList(hotDoubles, HotNumberType.hotDouble, timePeriod);
-    final hotDoublesOccurrenceCompanions =
-        _dmcHotRepository.convertListToDmcHotEntityList(hotDoublesOccurrences, HotNumberType.hotDoubleOccurrence, timePeriod);
+    final hotDoublesOccurrenceCompanions = _dmcHotRepository.convertOccurenceListToDmcHotEntityList(
+        hotDoublesOccurrences, HotNumberType.hotDoubleOccurrence, timePeriod);
+
     final hotTriplesCompanions =
         _dmcHotRepository.convertListToDmcHotEntityList(hotTriples, HotNumberType.hotTriple, timePeriod);
-    final hotTriplesOccurrenceCompanions =
-        _dmcHotRepository.convertListToDmcHotEntityList(hotTriplesOccurrences, HotNumberType.hotTripleOccurrence, timePeriod);
+    final hotTriplesOccurrenceCompanions = _dmcHotRepository.convertOccurenceListToDmcHotEntityList(
+        hotTriplesOccurrences, HotNumberType.hotTripleOccurrence, timePeriod);
 
     // Combine entity list and insert to db
-    final combinedCompanions = hotNumbersCompanions + hotNumbersPuaCompanions + hotNumbersPuaOccurrenceCompanions +
-        hotDoublesCompanions + hotDoublesOccurrenceCompanions + hotTriplesCompanions + hotTriplesOccurrenceCompanions;
+    final combinedCompanions = hotNumbersCompanions +
+        hotNumberDrawDatesCompanions +
+        hotNumbersPauCompanions +
+        hotNumbersPauOccurrenceCompanions +
+        hotDoublesCompanions +
+        hotDoublesOccurrenceCompanions +
+        hotTriplesCompanions +
+        hotTriplesOccurrenceCompanions;
 
     await _dmcHotRepository.insertDmcHotList(combinedCompanions);
 

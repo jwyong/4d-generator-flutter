@@ -905,6 +905,12 @@ class $DmcHotEntityTable extends DmcHotEntity
       requiredDuringInsert: false,
       defaultConstraints:
           GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _parentNumberMeta =
+      const VerificationMeta('parentNumber');
+  @override
+  late final GeneratedColumn<String> parentNumber = GeneratedColumn<String>(
+      'parent_number', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _numberMeta = const VerificationMeta('number');
   @override
   late final GeneratedColumn<String> number = GeneratedColumn<String>(
@@ -935,8 +941,15 @@ class $DmcHotEntityTable extends DmcHotEntity
       'time_period_index', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, number, occurrences, drawDate, hotNumberTypeIndex, timePeriodIndex];
+  List<GeneratedColumn> get $columns => [
+        id,
+        parentNumber,
+        number,
+        occurrences,
+        drawDate,
+        hotNumberTypeIndex,
+        timePeriodIndex
+      ];
   @override
   String get aliasedName => _alias ?? 'dmc_hot_entity';
   @override
@@ -948,6 +961,12 @@ class $DmcHotEntityTable extends DmcHotEntity
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('parent_number')) {
+      context.handle(
+          _parentNumberMeta,
+          parentNumber.isAcceptableOrUnknown(
+              data['parent_number']!, _parentNumberMeta));
     }
     if (data.containsKey('number')) {
       context.handle(_numberMeta,
@@ -994,6 +1013,8 @@ class $DmcHotEntityTable extends DmcHotEntity
     return DmcHotEntityData(
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      parentNumber: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}parent_number']),
       number: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}number'])!,
       occurrences: attachedDatabase.typeMapping
@@ -1016,6 +1037,7 @@ class $DmcHotEntityTable extends DmcHotEntity
 class DmcHotEntityData extends DataClass
     implements Insertable<DmcHotEntityData> {
   final int id;
+  final String? parentNumber;
   final String number;
   final int occurrences;
   final DateTime? drawDate;
@@ -1023,6 +1045,7 @@ class DmcHotEntityData extends DataClass
   final int timePeriodIndex;
   const DmcHotEntityData(
       {required this.id,
+      this.parentNumber,
       required this.number,
       required this.occurrences,
       this.drawDate,
@@ -1032,6 +1055,9 @@ class DmcHotEntityData extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
+    if (!nullToAbsent || parentNumber != null) {
+      map['parent_number'] = Variable<String>(parentNumber);
+    }
     map['number'] = Variable<String>(number);
     map['occurrences'] = Variable<int>(occurrences);
     if (!nullToAbsent || drawDate != null) {
@@ -1045,6 +1071,9 @@ class DmcHotEntityData extends DataClass
   DmcHotEntityCompanion toCompanion(bool nullToAbsent) {
     return DmcHotEntityCompanion(
       id: Value(id),
+      parentNumber: parentNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(parentNumber),
       number: Value(number),
       occurrences: Value(occurrences),
       drawDate: drawDate == null && nullToAbsent
@@ -1060,6 +1089,7 @@ class DmcHotEntityData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DmcHotEntityData(
       id: serializer.fromJson<int>(json['id']),
+      parentNumber: serializer.fromJson<String?>(json['parentNumber']),
       number: serializer.fromJson<String>(json['number']),
       occurrences: serializer.fromJson<int>(json['occurrences']),
       drawDate: serializer.fromJson<DateTime?>(json['drawDate']),
@@ -1072,6 +1102,7 @@ class DmcHotEntityData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
+      'parentNumber': serializer.toJson<String?>(parentNumber),
       'number': serializer.toJson<String>(number),
       'occurrences': serializer.toJson<int>(occurrences),
       'drawDate': serializer.toJson<DateTime?>(drawDate),
@@ -1082,6 +1113,7 @@ class DmcHotEntityData extends DataClass
 
   DmcHotEntityData copyWith(
           {int? id,
+          Value<String?> parentNumber = const Value.absent(),
           String? number,
           int? occurrences,
           Value<DateTime?> drawDate = const Value.absent(),
@@ -1089,6 +1121,8 @@ class DmcHotEntityData extends DataClass
           int? timePeriodIndex}) =>
       DmcHotEntityData(
         id: id ?? this.id,
+        parentNumber:
+            parentNumber.present ? parentNumber.value : this.parentNumber,
         number: number ?? this.number,
         occurrences: occurrences ?? this.occurrences,
         drawDate: drawDate.present ? drawDate.value : this.drawDate,
@@ -1099,6 +1133,7 @@ class DmcHotEntityData extends DataClass
   String toString() {
     return (StringBuffer('DmcHotEntityData(')
           ..write('id: $id, ')
+          ..write('parentNumber: $parentNumber, ')
           ..write('number: $number, ')
           ..write('occurrences: $occurrences, ')
           ..write('drawDate: $drawDate, ')
@@ -1109,13 +1144,14 @@ class DmcHotEntityData extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(
-      id, number, occurrences, drawDate, hotNumberTypeIndex, timePeriodIndex);
+  int get hashCode => Object.hash(id, parentNumber, number, occurrences,
+      drawDate, hotNumberTypeIndex, timePeriodIndex);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is DmcHotEntityData &&
           other.id == this.id &&
+          other.parentNumber == this.parentNumber &&
           other.number == this.number &&
           other.occurrences == this.occurrences &&
           other.drawDate == this.drawDate &&
@@ -1125,6 +1161,7 @@ class DmcHotEntityData extends DataClass
 
 class DmcHotEntityCompanion extends UpdateCompanion<DmcHotEntityData> {
   final Value<int> id;
+  final Value<String?> parentNumber;
   final Value<String> number;
   final Value<int> occurrences;
   final Value<DateTime?> drawDate;
@@ -1132,6 +1169,7 @@ class DmcHotEntityCompanion extends UpdateCompanion<DmcHotEntityData> {
   final Value<int> timePeriodIndex;
   const DmcHotEntityCompanion({
     this.id = const Value.absent(),
+    this.parentNumber = const Value.absent(),
     this.number = const Value.absent(),
     this.occurrences = const Value.absent(),
     this.drawDate = const Value.absent(),
@@ -1140,6 +1178,7 @@ class DmcHotEntityCompanion extends UpdateCompanion<DmcHotEntityData> {
   });
   DmcHotEntityCompanion.insert({
     this.id = const Value.absent(),
+    this.parentNumber = const Value.absent(),
     required String number,
     required int occurrences,
     this.drawDate = const Value.absent(),
@@ -1151,6 +1190,7 @@ class DmcHotEntityCompanion extends UpdateCompanion<DmcHotEntityData> {
         timePeriodIndex = Value(timePeriodIndex);
   static Insertable<DmcHotEntityData> custom({
     Expression<int>? id,
+    Expression<String>? parentNumber,
     Expression<String>? number,
     Expression<int>? occurrences,
     Expression<DateTime>? drawDate,
@@ -1159,6 +1199,7 @@ class DmcHotEntityCompanion extends UpdateCompanion<DmcHotEntityData> {
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
+      if (parentNumber != null) 'parent_number': parentNumber,
       if (number != null) 'number': number,
       if (occurrences != null) 'occurrences': occurrences,
       if (drawDate != null) 'draw_date': drawDate,
@@ -1170,6 +1211,7 @@ class DmcHotEntityCompanion extends UpdateCompanion<DmcHotEntityData> {
 
   DmcHotEntityCompanion copyWith(
       {Value<int>? id,
+      Value<String?>? parentNumber,
       Value<String>? number,
       Value<int>? occurrences,
       Value<DateTime?>? drawDate,
@@ -1177,6 +1219,7 @@ class DmcHotEntityCompanion extends UpdateCompanion<DmcHotEntityData> {
       Value<int>? timePeriodIndex}) {
     return DmcHotEntityCompanion(
       id: id ?? this.id,
+      parentNumber: parentNumber ?? this.parentNumber,
       number: number ?? this.number,
       occurrences: occurrences ?? this.occurrences,
       drawDate: drawDate ?? this.drawDate,
@@ -1190,6 +1233,9 @@ class DmcHotEntityCompanion extends UpdateCompanion<DmcHotEntityData> {
     final map = <String, Expression>{};
     if (id.present) {
       map['id'] = Variable<int>(id.value);
+    }
+    if (parentNumber.present) {
+      map['parent_number'] = Variable<String>(parentNumber.value);
     }
     if (number.present) {
       map['number'] = Variable<String>(number.value);
@@ -1213,6 +1259,7 @@ class DmcHotEntityCompanion extends UpdateCompanion<DmcHotEntityData> {
   String toString() {
     return (StringBuffer('DmcHotEntityCompanion(')
           ..write('id: $id, ')
+          ..write('parentNumber: $parentNumber, ')
           ..write('number: $number, ')
           ..write('occurrences: $occurrences, ')
           ..write('drawDate: $drawDate, ')
