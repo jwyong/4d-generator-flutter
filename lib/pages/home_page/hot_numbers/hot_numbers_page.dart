@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lucky_generator/base/base_state.dart';
 import 'package:lucky_generator/database/my_database.dart';
 import 'package:lucky_generator/generated/l10n.dart';
-import 'package:lucky_generator/model/hot_number_type.dart';
+import 'package:lucky_generator/pages/home_page/base_home_state.dart';
 import 'package:lucky_generator/pages/home_page/hot_numbers/hot_numbers_vm.dart';
-import 'package:lucky_generator/pages/home_page/hot_numbers/widgets/hot_number_card.dart';
+import 'package:lucky_generator/pages/home_page/hot_numbers/module/hot_number_cards_module.dart';
 import 'package:lucky_generator/util/image_util.dart';
 import 'package:lucky_generator/widget/generic_title_widget.dart';
 
@@ -16,11 +15,14 @@ class HotNumbersPage extends StatefulWidget {
   State<StatefulWidget> createState() => _HotNumbersPage();
 }
 
-class _HotNumbersPage extends BaseState<HotNumbersPage> {
+class _HotNumbersPage extends BaseHomeState<HotNumbersPage> {
   late final HotNumbersVM _vm = HotNumbersVM()..bind(this);
+  late final HotNumberCardsModule _hotNumberCardsModule = HotNumberCardsModule();
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Padding(
         padding: const EdgeInsets.only(right: 15, left: 15, bottom: 10),
         child: StreamBuilder<List<DmcHotEntityData>>(
@@ -30,64 +32,24 @@ class _HotNumbersPage extends BaseState<HotNumbersPage> {
               return ListView(physics: const BouncingScrollPhysics(), children: [
                 // Hot numbers
                 GenericTitleWidget("1234", S().hot_numbers, horizontalPadding: 5),
-                Row(children: _getHotNumberCards(items)),
+                Row(children: _hotNumberCardsModule.getHotNumberCards(items)),
+                const SizedBox(height: 15),
 
                 // Hot numbers pau
                 GenericTitleWidget("1234", S().hot_numbers_pau, horizontalPadding: 5, bgImagePath: "pau".toIconPath()),
-                Row(children: _getHotNumberPauCards(items)),
+                Row(children: _hotNumberCardsModule.getHotNumberPauCards(items)),
+                const SizedBox(height: 15),
 
                 // Hot doubles
                 GenericTitleWidget("11xx", S().hot_doubles, horizontalPadding: 5),
-                Row(children: _getHotDoubleCards(items)),
+                Row(children: _hotNumberCardsModule.getHotDoubleCards(items)),
+                const SizedBox(height: 15),
+
+                // Hot triples
+                GenericTitleWidget("111x", S().hot_triples, horizontalPadding: 5),
+                Row(children: _hotNumberCardsModule.getHotTripleCards(items)),
+                const SizedBox(height: 15)
               ]);
             }));
   }
-
-  // Functions for getting each hot number type widget list
-  List<HotNumberCard> _getHotNumberCards(List<DmcHotEntityData>? items) {
-    if (items != null && items.isNotEmpty == true) {
-      return items
-          .where((e) => e.hotNumberTypeIndex == HotNumberType.hotNumber.index)
-          .map((item) => HotNumberCard(
-                title: item.number,
-                subTitle: "#${item.occurrences}",
-              ))
-          .toList();
-    } else {
-      // Skeleton
-      return _getSkeletons();
-    }
-  }
-
-  List<HotNumberCard> _getHotNumberPauCards(List<DmcHotEntityData>? items) {
-    if (items != null && items.isNotEmpty == true) {
-      return items
-          .where((e) => e.hotNumberTypeIndex == HotNumberType.hotNumberPau.index)
-          .map((item) => HotNumberCard(
-                title: item.number,
-                subTitle: "#${item.occurrences}",
-              ))
-          .toList();
-    } else {
-      // Skeleton
-      return _getSkeletons();
-    }
-  }
-
-  List<HotNumberCard> _getHotDoubleCards(List<DmcHotEntityData>? items) {
-    if (items != null && items.isNotEmpty == true) {
-      return items
-          .where((e) => e.hotNumberTypeIndex == HotNumberType.hotDouble.index)
-          .map((item) => HotNumberCard(
-                title: S().double,
-                subTitle: "${item.number} (#${item.occurrences})",
-              ))
-          .toList();
-    } else {
-      // Skeleton
-      return _getSkeletons();
-    }
-  }
-
-  List<HotNumberCard> _getSkeletons() => [const HotNumberCard(), const HotNumberCard(), const HotNumberCard()].toList();
 }

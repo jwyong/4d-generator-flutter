@@ -45,6 +45,20 @@ class DmcDao extends DatabaseAccessor<MyDatabase> with _$DmcDaoMixin {
     }).get();
   }
 
+  // Get top x list of draw dates for a number (exact), latest first
+  Future<List<DateTime?>> getLatestDrawDatesList(String number, int topCount) async {
+    final query = selectOnly(dmcEntity)
+      ..addColumns([dmcEntity.drawDate])
+      ..where(dmcEntity.full4dList.contains(number))
+      ..orderBy([OrderingTerm.desc(dmcEntity.drawDate)])
+      ..limit(topCount);
+    return query.map((row) {
+      return row.read(dmcEntity.drawDate);
+    }).get();
+  }
+
+  /// Delete
+  // Clear whole table
   Future<void> clearDb() async {
     delete(dmcEntity);
   }

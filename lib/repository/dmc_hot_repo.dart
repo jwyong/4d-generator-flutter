@@ -21,13 +21,53 @@ class DmcHotRepository {
               timePeriodIndex: Value(timePeriod.index)))
           .toList();
 
+  // Convert list of drawDates mapEntries to dmcHotEntity with type / etc
+  List<DmcHotEntityCompanion> convertDrawDatesListToDmcHotEntityList(
+      List<MapEntry<String, List<DateTime?>>> list, HotNumberType hotNumberType, TimePeriod timePeriod) {
+    List<DmcHotEntityCompanion> finalList = List.empty(growable: true);
+
+    for (var parentMapEntry in list) {
+      final childList = parentMapEntry.value.map((childMapEntry) => DmcHotEntityCompanion(
+          parentNumber: Value(parentMapEntry.key),
+          number: Value(parentMapEntry.key),
+          occurrences: const Value(1), // 1 occurrence for exact number (drawDate)
+          drawDate: Value(childMapEntry),
+          hotNumberTypeIndex: Value(hotNumberType.index),
+          timePeriodIndex: Value(timePeriod.index)));
+
+      finalList.addAll(childList);
+    }
+
+    return finalList;
+  }
+
+  // Convert list of occurrence mapEntries (nested) to dmcHotEntity with type / etc
+  List<DmcHotEntityCompanion> convertOccurenceListToDmcHotEntityList(
+      List<MapEntry<String, List<MapEntry<String, int>>>> list, HotNumberType hotNumberType, TimePeriod timePeriod) {
+    List<DmcHotEntityCompanion> finalList = List.empty(growable: true);
+
+    for (var parentMapEntry in list) {
+      final childList = parentMapEntry.value.map((childMapEntry) => DmcHotEntityCompanion(
+          parentNumber: Value(parentMapEntry.key),
+          number: Value(childMapEntry.key),
+          occurrences: Value(childMapEntry.value),
+          hotNumberTypeIndex: Value(hotNumberType.index),
+          timePeriodIndex: Value(timePeriod.index)));
+
+      finalList.addAll(childList);
+    }
+
+    return finalList;
+  }
+
   // Insert to db
   Future<void> insertDmcHotList(List<DmcHotEntityCompanion> list) async {
     await _dmcHotDao.insertDmcHotList(list);
   }
 
   // Get full dmc hot list stream
-  Stream<List<DmcHotEntityData>> getDmcHotListStream(TimePeriod selectedTimePeriod) => _dmcHotDao.getDmcHotListStream(selectedTimePeriod);
+  Stream<List<DmcHotEntityData>> getDmcHotListStream(TimePeriod selectedTimePeriod) =>
+      _dmcHotDao.getDmcHotListStream(selectedTimePeriod);
 
   Future<void> clearDb() async {
     await _dmcHotDao.clearDb();

@@ -90,8 +90,7 @@ class _HomeTabBarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => TabBarView(
-// disable blue animation on scroll end
-        physics: const BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
         controller: _vm.homeTabController,
         children: const [HotNumbersPage(), AnalyticsPage(), PastResultsPage(), MyHistoryPage()],
       );

@@ -12,7 +12,7 @@ class HotNumbersUtil {
         for (int i = 0; i <= digits.length - 4; i++) {
           String combination = digits.substring(i, i + 4);
           combinationCounts[combination] =
-          combinationCounts.containsKey(combination) ? combinationCounts[combination]! + 1 : 1;
+              combinationCounts.containsKey(combination) ? combinationCounts[combination]! + 1 : 1;
         }
       }
     }
@@ -37,14 +37,12 @@ class HotNumbersUtil {
 
     for (String digits in list) {
       if (digits.length == 4) {
-        List<int> sortedDigits =
-        digits.runes.map((rune) => int.parse(String.fromCharCode(rune))).toList();
+        List<int> sortedDigits = digits.runes.map((rune) => int.parse(String.fromCharCode(rune))).toList();
         sortedDigits.sort();
         String sortedCombination = sortedDigits.join();
 
-        combinationCounts[sortedCombination] = combinationCounts.containsKey(sortedCombination)
-            ? combinationCounts[sortedCombination]! + 1
-            : 1;
+        combinationCounts[sortedCombination] =
+            combinationCounts.containsKey(sortedCombination) ? combinationCounts[sortedCombination]! + 1 : 1;
       }
     }
 
@@ -73,7 +71,7 @@ class HotNumbersUtil {
       for (String permutation in permutations) {
         if (digits.contains(permutation)) {
           combinationCounts[permutation] =
-          combinationCounts.containsKey(permutation) ? combinationCounts[permutation]! + 1 : 1;
+              combinationCounts.containsKey(permutation) ? combinationCounts[permutation]! + 1 : 1;
         }
       }
     }
@@ -85,8 +83,7 @@ class HotNumbersUtil {
       topCount = sortedCombinations.length;
     }
 
-    debugPrint(
-        "Top $topCount most frequent combinations based on permutations of $inputCombination:");
+    debugPrint("Top $topCount most frequent combinations based on permutations of $inputCombination:");
     for (int i = 0; i < topCount; i++) {
       debugPrint("${sortedCombinations[i].key}: ${sortedCombinations[i].value} occurrences");
     }
@@ -96,49 +93,36 @@ class HotNumbersUtil {
 
   // 6x6x, 66xx, 6xx6, ..., only DOUBLES, meaning 666x, 66x6 are NOT included. Output: <hotDouble>, <occurrences> e.g. "6", 35435
   List<MapEntry<String, int>> getHotDoubles(List<String> list, int topCount) {
-    Map<String, int> digitOccurrences = {};
+    Map<String, int> digitCounts = {};
 
     for (String digits in list) {
-      Set<int> countedDigits = <int>{};
-      bool validCombination = true;
+      Set<String> countedDigits = {};
 
-      for (int digit in digits.runes.map((rune) => int.parse(String.fromCharCode(rune)))) {
-        if (countedDigits.contains(digit)) {
-          validCombination = false;
-          break;
-        }
-
-        int count = digits.split(digit.toString()).length - 1;
-        if (count == 1) {
-          if (digitOccurrences.containsKey(digit)) {
-            digitOccurrences[digit.toString()] = digitOccurrences[digit]! + 1;
+      for (String digit in digits.runes.map((rune) => String.fromCharCode(rune))) {
+        if (!countedDigits.contains(digit)) {
+          if (digitCounts.containsKey(digit)) {
+            digitCounts[digit] = digitCounts[digit]! + 1;
           } else {
-            digitOccurrences[digit.toString()] = 1;
+            digitCounts[digit] = 1;
           }
           countedDigits.add(digit);
         }
       }
-
-      if (!validCombination) {
-        for (var digit in countedDigits) {
-          digitOccurrences.remove(digit);
-        }
-      }
     }
 
-    List<MapEntry<String, int>> sortedOccurrences = digitOccurrences.entries.toList()
-      ..sort((a, b) => b.value.compareTo(a.value));
+    List<MapEntry<String, int>> sortedDigits = digitCounts.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
 
-    if (sortedOccurrences.length < topCount) {
-      topCount = sortedOccurrences.length;
+    int topCount = 3;
+    if (sortedDigits.length < topCount) {
+      topCount = sortedDigits.length;
     }
 
-    debugPrint("Top $topCount digits where a digit repeated exactly once:");
+    print("Top $topCount digits that repeated themselves exactly once:");
     for (int i = 0; i < topCount; i++) {
-      debugPrint("${sortedOccurrences[i].key}, occurrences: ${sortedOccurrences[i].value}");
+      print("${sortedDigits[i].key}: ${sortedDigits[i].value} occurrences");
     }
 
-    return sortedOccurrences.sublist(0, topCount);
+    return sortedDigits.sublist(0, topCount);
   }
 
   // Get top x occurrences of a hot double digit. Output: <hotDouble pattern>, <occurrences> e.g. "x66x", 354
@@ -170,15 +154,15 @@ class HotNumbersUtil {
     Map<String, int> digitCounts = {};
 
     for (String digits in list) {
-      Set<int> countedDigits = {};
+      Set<String> countedDigits = {};
 
-      for (int digit in digits.runes.map((rune) => int.parse(String.fromCharCode(rune)))) {
+      for (String digit in digits.runes.map((rune) => String.fromCharCode(rune))) {
         if (!countedDigits.contains(digit)) {
           if (digits.indexOf(digit.toString()) != digits.lastIndexOf(digit.toString())) {
             if (digitCounts.containsKey(digit)) {
-              digitCounts[digit.toString()] = digitCounts[digit]! + 1;
+              digitCounts[digit] = digitCounts[digit]! + 1;
             } else {
-              digitCounts[digit.toString()] = 1;
+              digitCounts[digit] = 1;
             }
             countedDigits.add(digit);
           }
@@ -186,16 +170,16 @@ class HotNumbersUtil {
       }
     }
 
-    List<MapEntry<String, int>> sortedDigits = digitCounts.entries.toList()
-      ..sort((a, b) => b.value.compareTo(a.value));
+    List<MapEntry<String, int>> sortedDigits = digitCounts.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
 
+    int topCount = 3;
     if (sortedDigits.length < topCount) {
       topCount = sortedDigits.length;
     }
 
-    debugPrint("Top $topCount digits that repeated themselves exactly twice:");
+    print("Top $topCount digits that repeated themselves exactly twice:");
     for (int i = 0; i < topCount; i++) {
-      debugPrint("${sortedDigits[i].key}: ${sortedDigits[i].value} occurrences");
+      print("${sortedDigits[i].key}: ${sortedDigits[i].value} occurrences");
     }
 
     return sortedDigits.sublist(0, topCount);
