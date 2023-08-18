@@ -150,6 +150,76 @@ class S {
       args: [],
     );
   }
+
+  /// `Last 1 year`
+  String get last_year_1 {
+    return Intl.message(
+      'Last 1 year',
+      name: 'last_year_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last 2 years`
+  String get last_year_2 {
+    return Intl.message(
+      'Last 2 years',
+      name: 'last_year_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last 3 years`
+  String get last_year_3 {
+    return Intl.message(
+      'Last 3 years',
+      name: 'last_year_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last 5 years`
+  String get last_year_5 {
+    return Intl.message(
+      'Last 5 years',
+      name: 'last_year_5',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last 10 years`
+  String get last_year_10 {
+    return Intl.message(
+      'Last 10 years',
+      name: 'last_year_10',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last 15 years`
+  String get last_year_15 {
+    return Intl.message(
+      'Last 15 years',
+      name: 'last_year_15',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All`
+  String get all {
+    return Intl.message(
+      'All',
+      name: 'all',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

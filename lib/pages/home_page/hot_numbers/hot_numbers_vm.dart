@@ -12,9 +12,19 @@ abstract class AHotNumbersVM with Store, BaseViewModel {
   late final _dmcHotRepository = DmcHotRepository(database);
 
   // Selected time period (dropdown)
-  late final TimePeriod _selectedTimePeriod = TimePeriod.year_1;
+  @observable
+  TimePeriod selectedTimePeriod = TimePeriod.year_1;
 
   // Hot numbers list
   late final Stream<List<DmcHotEntityData>> dmcHotListStream =
-      _dmcHotRepository.getDmcHotListStream(_selectedTimePeriod);
+      _dmcHotRepository.getDmcHotListStream(selectedTimePeriod);
+
+  /// TimePeriod dropdown related
+  void onTimePeriodSelected(TimePeriod timePeriod) {
+    // Update dropdown UI text
+    selectedTimePeriod = timePeriod;
+
+    // Do db queries to refresh lists
+    // TODO: JAY_LOG - here
+  }
 }
