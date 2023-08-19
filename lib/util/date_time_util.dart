@@ -1,7 +1,12 @@
 import 'package:intl/intl.dart';
 
-extension DateTimeUtil on Object? {
-  static final ddMMyyyyFormat = DateFormat('dd/MM/yyyy');
+final ddMMyyyyFormat = DateFormat('dd/MM/yyyy');
+final yyyyMMddFormat = DateFormat('yyyyMMdd');
 
-  DateTime toDateTimeInddMMyyyy() => ddMMyyyyFormat.parse(toString());
+extension DateTimeUtil on Object? {
+  DateTime toDateTimeFromddMMyyyy() => ddMMyyyyFormat.parse(toString());
+}
+
+extension DateFormatUtil on DateTime {
+  String toFormattedString(DateFormat dateFormat) => dateFormat.format(this);
 }

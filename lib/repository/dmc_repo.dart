@@ -43,9 +43,14 @@ class DmcRepository {
     return nested4dList.expand<String>((i) => i ?? List.empty()).toList();
   }
 
+  // Get latest draw dates for a number
   Future<List<DateTime?>> getLatestDrawDatesList(String number, int topCount) async =>
       await _dmcDao.getLatestDrawDatesList(number, topCount);
 
+  // Get latest draw date in DB (to see if need to sync with website)
+  Future<DateTime?> getLatestDrawDate() async => await _dmcDao.getLatestDrawDate();
+
+  // Delete whole table
   Future<void> clearDb() async {
     await _dmcDao.clearDb();
   }

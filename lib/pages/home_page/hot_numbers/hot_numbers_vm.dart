@@ -25,6 +25,6 @@ abstract class AHotNumbersVM with Store, BaseViewModel {
     selectedTimePeriod = timePeriod;
 
     // Do db queries to refresh lists
-    // TODO: JAY_LOG - here
+    // TODO: JAY_LOG
   }
 }

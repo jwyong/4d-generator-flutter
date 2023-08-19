@@ -5,7 +5,9 @@ import 'package:lucky_generator/model/hot_number_type.dart';
 import 'package:lucky_generator/model/time_period.dart';
 import 'package:lucky_generator/repository/dmc_hot_repo.dart';
 import 'package:lucky_generator/repository/dmc_repo.dart';
+import 'package:lucky_generator/repository/dmc_web_repo.dart';
 import 'package:lucky_generator/repository/realtime_db_repo.dart';
+import 'package:lucky_generator/util/date_time_util.dart';
 import 'package:lucky_generator/util/hot_numbers_util.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,14 +18,17 @@ class MainVM = AMainVM with _$MainVM;
 
 /// TODO: JAY_LOG:
 /// - first time realtimeDB sync issue (vivo, iphone) - permission? check
-/// - add http lib
+/// - add realtimeDB sync logics after xx days (1 month?)
+/// - check http web call error cases (crash? spammed?)
+/// - ads!
+/// - error handling (snack bars/retry button?)
 /// - optimise first time driftDB (check logics, async?)
-/// - make http GET call (as per script)
 abstract class AMainVM with Store, BaseViewModel {
   late final _realtimeDbRepo = RealtimeDatabaseRepository();
 
   late final _dmcRepository = DmcRepository(database);
   late final _dmcHotRepository = DmcHotRepository(database);
+  late final _dmcWebRepository = DmcWebRepository();
 
   late final HotNumbersUtil _hotNumbersUtil = HotNumbersUtil();
 
@@ -37,52 +42,120 @@ abstract class AMainVM with Store, BaseViewModel {
   // Sync all realtimeDB data to driftDB (for all companies dmc, toto, magnum...)
   void checkAndStartSync() async {
     prefs = await SharedPreferences.getInstance();
-    final isSynced = prefs.getBool(spKeyIsDmcSynced);
 
-    debugPrint("AMainVM, checkAndSyncDatabases, isSynced = $isSynced");
-
-    // Only sync from realtimeDB if not done yet
-    if (isSynced != true) {
-      await _syncDmcFromRealtimeDB();
-    } else {
-      // Already synced from realtimeDB: need to check date and sync latest from website
-      // TODO: JAY_LOG - flow for http checking
+    // Check and sync realtimeDB if not done yet
+    bool? isDmcRealtimeDbSynced = prefs.getBool(spKeyIsDmcRealtimeDbSynced);
+    debugPrint("AMainVM, checkAndSyncDatabases, isDmcRealtimeDbSynced = $isDmcRealtimeDbSynced");
+    if (isDmcRealtimeDbSynced != true) {
+      isDmcRealtimeDbSynced = await _syncDmcFromRealtimeDB();
     }
 
-    // Calculate 1 year stats (hot numbers/etc) based on driftDB data
-    // TODO: JAY_LOG - need do check logics (use sp bool again?)
-    _checkAndUpdateHotNumbers();
+    // Return error if failed to sync
+    // TODO: JAY_LOG - error, show snack bar?
+    if (isDmcRealtimeDbSynced != true) {
+      debugPrint("AMainVM, checkAndStartSync, isDmcRealtimeDbSynced error");
+      return;
+    }
+
+    // Already synced from realtimeDB: check date and sync latest from website
+    DateTime? latestDrawDate = await _dmcRepository.getLatestDrawDate();
+    // TODO: JAY_LOG - error, show snack bar?
+    if (latestDrawDate == null) {
+      debugPrint("AMainVM, checkAndStartSync, latestDrawDate null error");
+      return;
+    }
+
+    final dateTimeNow = DateTime.now();
+    final today = DateTime(dateTimeNow.year, dateTimeNow.month, dateTimeNow.day);
+    final latestDrawDay = DateTime(latestDrawDate.year, latestDrawDate.month, latestDrawDate.day);
+
+    /// Web is synced if:
+    /// - already synced today
+    /// - OR today is AFTER last draw date
+    final String? dmcLastWebSync = prefs.getString(spKeyDmcLastWebSync);
+    final String todayFormattedDateStr = today.toFormattedString(ddMMyyyyFormat);
+    final bool isWebSyncedToday = dmcLastWebSync == todayFormattedDateStr;
+    final isNextDayFromLastDrawDate = today.isAfter(latestDrawDay);
+
+    bool isDmcWebSynced = isWebSyncedToday || !isNextDayFromLastDrawDate;
+    debugPrint("AMainVM, checkAndStartSync, isDmcWebSynced = $isDmcWebSynced");
+    if (!isDmcWebSynced) {
+      isDmcWebSynced = await _syncDmcFromOfficialWeb(latestDrawDate, todayFormattedDateStr);
+    }
+
+    // Return error if failed to sync
+    // TODO: JAY_LOG - error, show snack bar?
+    if (isDmcWebSynced != true) {
+      debugPrint("AMainVM, checkAndStartSync, isDmcWebSynced error");
+      return;
+    }
+
+    /// Latest results synced from web: calculate 1 year stats (hot numbers/etc) based on driftDB data
+    /// Only need to re-calculate 1 year stats if:
+    /// - latest draw date is NOT the same as last stats sync date
+    // Get latest draw date from DB again, since it might have been updated by web sync
+    latestDrawDate = await _dmcRepository.getLatestDrawDate();
+    // TODO: JAY_LOG - error, show snack bar?
+    if (latestDrawDate == null) {
+      debugPrint("AMainVM, checkAndStartSync, latestDrawDate for hotSync null error");
+      return;
+    }
+    final latestDrawDateStr = latestDrawDate.toFormattedString(ddMMyyyyFormat);
+    final lastHotSyncDateStr = prefs.getString(spKeyDmcLastHotSync);
+
+    bool isDmcHotSynced = latestDrawDateStr == lastHotSyncDateStr;
+    debugPrint("AMainVM, checkAndStartSync, isDmcHotSynced = $isDmcHotSynced");
+    if (!isDmcHotSynced) {
+      _syncHotNumbers(latestDrawDateStr);
+    }
   }
 
-  // Get dmc db from realtimeDB
-  Future<void> _syncDmcFromRealtimeDB() async {
+// Get dmc db from realtimeDB
+  Future<bool> _syncDmcFromRealtimeDB() async {
     final dmcObj = await _realtimeDbRepo.getDmcDatabase();
 
     // Get dmc entity list from realtimeDB object. This includes processing into a single list.
     final dmcEntityList = _realtimeDbRepo.getDmcEntityListFromObject(dmcObj);
 
-    // Don't proceed if list empty TODO: JAY_LOG - handle error
+    // Return false if list is empty (failed)
     if (dmcEntityList.isEmpty) {
       debugPrint("AMainVM, _syncDmcFromRealtimeDB, list is empty");
-      return;
+      return false;
     }
 
     // Add to drift db
     await _dmcRepository.insertDmcList(dmcEntityList);
 
     // Update isSynced bool to sp
-    prefs.setBool(spKeyIsDmcSynced, true);
+    prefs.setBool(spKeyIsDmcRealtimeDbSynced, true);
+
+    // Return true after inserting
+    return true;
   }
 
-  // Calculate hot numbers from past 1 year
-  void _checkAndUpdateHotNumbers() async {
-    // TODO: JAY_LOG - combine with web check logics
-    final bool needUpdate = prefs.getInt(spKeyDmcLastHotSync) == null;
+// Get latest results from dmc web
+  Future<bool> _syncDmcFromOfficialWeb(DateTime latestDrawDate, String todayFormattedDateStr) async {
+    final latestResultsList = await _dmcWebRepository.getLatestDmcWebResultsList(latestDrawDate);
 
-    debugPrint("AMainVM, _checkAndUpdateHotNumbers, needUpdate = $needUpdate");
+    if (latestResultsList == null) {
+      return false;
+    } else {
+      // Only insert to DB if list not empty (success, no new results)
+      if (latestResultsList.isNotEmpty) {
+        _dmcRepository.insertDmcList(latestResultsList);
+      }
 
-    if (!needUpdate) return;
+      debugPrint("AMainVM, checkAndStartSync, isAfter, latestResultsList = $latestResultsList");
 
+      // Update isSyncedToday bool for success case
+      prefs.setString(spKeyDmcLastWebSync, todayFormattedDateStr);
+
+      return true;
+    }
+  }
+
+// Calculate hot numbers from past 1 year
+  Future<bool> _syncHotNumbers(String latestDrawDateStr) async {
     // Get 1 year flat 4d list from db
     const timePeriod = TimePeriod.year_1;
     final list4d1year = await _dmcRepository.getDmc4dListByTimePeriod(timePeriod);
@@ -143,9 +216,13 @@ abstract class AMainVM with Store, BaseViewModel {
         hotTriplesCompanions +
         hotTriplesOccurrenceCompanions;
 
+    // Clear hot table before inserting new list
+    await _dmcHotRepository.clearDb();
     await _dmcHotRepository.insertDmcHotList(combinedCompanions);
 
-    // Update sp once done insert
-    prefs.setInt(spKeyDmcLastHotSync, DateTime.now().millisecondsSinceEpoch);
+    // Update sp with latest drawDate once done insert
+    prefs.setString(spKeyDmcLastHotSync, latestDrawDateStr);
+
+    return true;
   }
 }

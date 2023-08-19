@@ -68,6 +68,9 @@ dependencies:
   # GetX: get database
   get: ^4.6.5
 
+  # Http: get, post, etc
+  http: ^1.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

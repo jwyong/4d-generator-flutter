@@ -1,4 +1,5 @@
 /// SharedPrefs constants
 /// DMC
-const spKeyIsDmcSynced = "spKeyIsDmcSynced";
+const spKeyIsDmcRealtimeDbSynced = "spKeyIsDmcRealtimeDbSynced";
+const spKeyDmcLastWebSync = "spKeyDmcLastWebSync";
 const spKeyDmcLastHotSync = "spKeyDmcLastHotSync";

@@ -40,7 +40,7 @@ class _HotNumbersPage extends BaseHomeState<HotNumbersPage> {
                   children: [
                     // Top 3 / all prizes dropdown
                     // TODO: JAY_LOG
-                    Observer(builder: (ctx) => GenericDropdown(title: "Top 3")),
+                    GenericDropdown(title: "Top 3"),
 
                     const Spacer(),
 

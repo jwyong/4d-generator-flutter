@@ -57,6 +57,17 @@ class DmcDao extends DatabaseAccessor<MyDatabase> with _$DmcDaoMixin {
     }).get();
   }
 
+  // Get latest draw date
+  Future<DateTime?> getLatestDrawDate() async {
+    final query = selectOnly(dmcEntity)
+      ..addColumns([dmcEntity.drawDate])
+      ..orderBy([OrderingTerm.desc(dmcEntity.drawDate)])
+      ..limit(1);
+    return query.map((row) {
+      return row.read(dmcEntity.drawDate);
+    }).getSingleOrNull();
+  }
+
   /// Delete
   // Clear whole table
   Future<void> clearDb() async {
