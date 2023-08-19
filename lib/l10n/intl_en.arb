@@ -8,5 +8,12 @@
   "hot_doubles": "Hot Doubles",
   "double": "Double",
   "hot_triples": "Hot Triples",
-  "triple": "Triple"
+  "triple": "Triple",
+  "last_year_1": "Last 1 year",
+  "last_year_2": "Last 2 years",
+  "last_year_3": "Last 3 years",
+  "last_year_5": "Last 5 years",
+  "last_year_10": "Last 10 years",
+  "last_year_15": "Last 15 years",
+  "all": "All"
 }

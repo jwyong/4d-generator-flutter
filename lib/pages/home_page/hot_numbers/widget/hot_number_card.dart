@@ -5,9 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucky_generator/base/base_state.dart';
 
 /// TODO: JAY_LOG:
-/// - update back UI with correct data
 /// - disable tap when animating
-/// - change widget to class
 /// - check animation
 class HotNumberCard extends StatefulWidget {
   const HotNumberCard({super.key, this.title, this.subTitle, this.width, this.rearTitle, this.rearLabelsList});

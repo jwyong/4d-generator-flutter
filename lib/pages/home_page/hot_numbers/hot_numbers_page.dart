@@ -1,11 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:lucky_generator/database/my_database.dart';
 import 'package:lucky_generator/generated/l10n.dart';
 import 'package:lucky_generator/pages/home_page/base_home_state.dart';
 import 'package:lucky_generator/pages/home_page/hot_numbers/hot_numbers_vm.dart';
-import 'package:lucky_generator/pages/home_page/hot_numbers/module/hot_number_cards_module.dart';
+import 'package:lucky_generator/pages/home_page/hot_numbers/module/hot_numbers_card_module.dart';
+import 'package:lucky_generator/pages/home_page/hot_numbers/module/hot_numbers_filter_module.dart';
 import 'package:lucky_generator/util/image_util.dart';
+import 'package:lucky_generator/widget/generic_dropdown.dart';
 import 'package:lucky_generator/widget/generic_title_widget.dart';
 
 class HotNumbersPage extends StatefulWidget {
@@ -16,8 +18,11 @@ class HotNumbersPage extends StatefulWidget {
 }
 
 class _HotNumbersPage extends BaseHomeState<HotNumbersPage> {
-  late final HotNumbersVM _vm = HotNumbersVM()..bind(this);
+  late final HotNumbersVM _vm = HotNumbersVM()
+    ..bind(this);
+
   late final HotNumberCardsModule _hotNumberCardsModule = HotNumberCardsModule();
+  late final HotNumbersFilterModule _hotNumbersFilterModule = HotNumbersFilterModule(_vm);
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +35,29 @@ class _HotNumbersPage extends BaseHomeState<HotNumbersPage> {
             builder: (context, snapshot) {
               final List<DmcHotEntityData>? items = snapshot.data;
               return ListView(physics: const BouncingScrollPhysics(), children: [
+                // Options row
+                Row(
+                  children: [
+                    // Top 3 / all prizes dropdown
+                    // TODO: JAY_LOG
+                    GenericDropdown(title: "Top 3"),
+
+                    const Spacer(),
+
+                    // TimePeriod dropdown
+                    Observer(
+                        builder: (ctx) =>
+                            GenericDropdown(
+                              title: _hotNumbersFilterModule.getDropdownText(_vm.selectedTimePeriod),
+                              iconData: Icons.access_time_outlined,
+                              onTap: () {
+                                _hotNumbersFilterModule.timePeriodDropdownOnTap(ctx);
+                              },
+                            ))
+                  ],
+                ),
+                const SizedBox(height: 10),
+
                 // Hot numbers
                 GenericTitleWidget("1234", S().hot_numbers, horizontalPadding: 5),
                 Row(children: _hotNumberCardsModule.getHotNumberCards(items)),

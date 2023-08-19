@@ -22,12 +22,19 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "all": MessageLookupByLibrary.simpleMessage("All"),
         "double": MessageLookupByLibrary.simpleMessage("Double"),
         "hot_doubles": MessageLookupByLibrary.simpleMessage("Hot Doubles"),
         "hot_numbers": MessageLookupByLibrary.simpleMessage("Hot Numbers"),
         "hot_numbers_pau":
             MessageLookupByLibrary.simpleMessage("Hot Numbers (Pau)"),
         "hot_triples": MessageLookupByLibrary.simpleMessage("Hot Triples"),
+        "last_year_1": MessageLookupByLibrary.simpleMessage("Last 1 year"),
+        "last_year_10": MessageLookupByLibrary.simpleMessage("Last 10 years"),
+        "last_year_15": MessageLookupByLibrary.simpleMessage("Last 15 years"),
+        "last_year_2": MessageLookupByLibrary.simpleMessage("Last 2 years"),
+        "last_year_3": MessageLookupByLibrary.simpleMessage("Last 3 years"),
+        "last_year_5": MessageLookupByLibrary.simpleMessage("Last 5 years"),
         "tab_title_analytics":
             MessageLookupByLibrary.simpleMessage("Analytics"),
         "tab_title_hot": MessageLookupByLibrary.simpleMessage("Hot"),

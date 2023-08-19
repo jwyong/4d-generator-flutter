@@ -17,7 +17,5 @@ class DmcHotDao extends DatabaseAccessor<MyDatabase> with _$DmcHotDaoMixin {
   Stream<List<DmcHotEntityData>> getDmcHotListStream(TimePeriod selectedTimePeriod) =>
       (select(dmcHotEntity)..where((tbl) => tbl.timePeriodIndex.equals(selectedTimePeriod.index))).watch();
 
-  Future<void> clearDb() async {
-    delete(dmcHotEntity);
-  }
+  Future<int> clearDb() async => await delete(dmcHotEntity).go();
 }
