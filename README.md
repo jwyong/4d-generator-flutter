@@ -1,19 +1,19 @@
 # lucky_generator
 
-Lucky 4D Generator app.
+Lucky 4D Generator app: an app which generates 4d number based on analysis of past history. Still in developement for eventual launching once MVP is ready.
 
-## Getting Started
+## Current Features
+- querying data from Firebase RealtimeDB
+- process and insert data to DriftDB
+- calculate top 3 hot exact combinations, hot permutated combinations, hot doubles and hot triples, along with other relevant info such as occurrences, date of occurrence, etc
+- analyse past results and attempt to generate a combination which is most likely to occur in the future draws.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-## TODO:
-- encrypted drift
+## Core Frameworks:
+- Firebase RealtimeDB
+- DriftDB
+- MobX Observers
+- MVVM
+- HTTP
+- Localisation
+- SharedPrefs
+- ScreenUtils
