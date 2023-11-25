@@ -15,5 +15,14 @@
   "last_year_5": "Last 5 years",
   "last_year_10": "Last 10 years",
   "last_year_15": "Last 15 years",
-  "all": "All"
+  "all": "All",
+  "generate_number_title": "Powered by wtf.ai.",
+  "generate": "Generate",
+  "generate_start_text": "Start generating now!",
+  "generate_end_text": "Your lucky number is:",
+  "generating_text_1": "Generating now!",
+  "generating_text_2": "AI is calculating",
+  "generating_text_3": "Almost there",
+  "generating_text_4": "Deep diving into the unknown...",
+  "generating_text_5": "Running meticulous algorithm..."
 }

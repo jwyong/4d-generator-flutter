@@ -19,7 +19,7 @@ class DmcRepository {
     return data != null;
   }
 
-  // Get flat list of dmc 4d numbers based on timePeriod
+  // Get flat list of dmc 4d numbers based on timePeriod enum
   Future<List<String>> getDmc4dListByTimePeriod(TimePeriod timePeriod) async {
     // Get the unix timeStamp to be used to query db
     final int unixForFilter;
@@ -41,6 +41,37 @@ class DmcRepository {
 
     // Flatten list and return
     return nested4dList.expand<String>((i) => i ?? List.empty()).toList();
+  }
+
+  // Get flat list of dmc 4d numbers from 1 year - last month away
+  Future<List<String>> getDmc4dFlatList2yearsAgo() async {
+    final dateTimeNow = DateTime.now();
+
+    // Get start date (2 years ago)
+    final dateTimeStart = DateTime(dateTimeNow.year - 1, dateTimeNow.month, dateTimeNow.day);
+
+    // Get end date (1 year ago)
+    final dateTimeEnd = DateTime(dateTimeNow.year, dateTimeNow.month, dateTimeNow.day);
+
+    // Get list from dao
+    final nested4dList = await _dmcDao.get4dListBetweenStartToEndDate(dateTimeStart, dateTimeEnd);
+
+    // Flatten list and return
+    return nested4dList.expand<String>((i) => i ?? List.empty()).toList();
+  }
+
+  // Get list of dmc 4d numbers from 1 month ago
+  Future<List<List<String>?>> getDmc4dListNested1Year() {
+    final dateTimeNow = DateTime.now();
+
+    // Get start date (1 year ago)
+    final dateTimeStart = DateTime(dateTimeNow.year - 1, dateTimeNow.month, dateTimeNow.day);
+
+    // Get list from dao
+    final nested4dList = _dmcDao.getNested4dListFromStartDate(dateTimeStart);
+
+    // Retrun nested list of strings
+    return nested4dList;
   }
 
   // Get latest draw dates for a number

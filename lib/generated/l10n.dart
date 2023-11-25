@@ -220,6 +220,96 @@ class S {
       args: [],
     );
   }
+
+  /// `Powered by wtf.ai.`
+  String get generate_number_title {
+    return Intl.message(
+      'Powered by wtf.ai.',
+      name: 'generate_number_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Generate`
+  String get generate {
+    return Intl.message(
+      'Generate',
+      name: 'generate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start generating now!`
+  String get generate_start_text {
+    return Intl.message(
+      'Start generating now!',
+      name: 'generate_start_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your lucky number is:`
+  String get generate_end_text {
+    return Intl.message(
+      'Your lucky number is:',
+      name: 'generate_end_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Generating now!`
+  String get generating_text_1 {
+    return Intl.message(
+      'Generating now!',
+      name: 'generating_text_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `AI is calculating`
+  String get generating_text_2 {
+    return Intl.message(
+      'AI is calculating',
+      name: 'generating_text_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Almost there`
+  String get generating_text_3 {
+    return Intl.message(
+      'Almost there',
+      name: 'generating_text_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deep diving into the unknown...`
+  String get generating_text_4 {
+    return Intl.message(
+      'Deep diving into the unknown...',
+      name: 'generating_text_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Running meticulous algorithm...`
+  String get generating_text_5 {
+    return Intl.message(
+      'Running meticulous algorithm...',
+      name: 'generating_text_5',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

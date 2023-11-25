@@ -22,6 +22,37 @@ class DmcDao extends DatabaseAccessor<MyDatabase> with _$DmcDaoMixin {
     final query = selectOnly(dmcEntity)
       ..where(dmcEntity.drawDate.isBiggerThan(Constant(dateTime)))
       ..addColumns([dmcEntity.full4dList]);
+    return await query.map((row) {
+      final read = row.read(dmcEntity.full4dList);
+      if (read == null) {
+        return null;
+      } else {
+        return const StringListConverter().fromSql(read);
+      }
+    }).get();
+  }
+
+  // Get 4d list between 2 dateTime objects
+  Future<List<List<String>?>> get4dListBetweenStartToEndDate(DateTime startDateTime, DateTime endDateTime) {
+    final query = selectOnly(dmcEntity)
+      ..where(dmcEntity.drawDate.isBiggerOrEqual(Constant(startDateTime)) &
+          dmcEntity.drawDate.isSmallerThan(Constant(endDateTime)))
+      ..addColumns([dmcEntity.full4dList]);
+    return query.map((row) {
+      final read = row.read(dmcEntity.full4dList);
+      if (read == null) {
+        return null;
+      } else {
+        return const StringListConverter().fromSql(read);
+      }
+    }).get();
+  }
+
+  // Get 4d list from a start dateTime object
+  Future<List<List<String>?>> getNested4dListFromStartDate(DateTime startDateTime) {
+    final query = selectOnly(dmcEntity)
+      ..where(dmcEntity.drawDate.isBiggerOrEqual(Constant(startDateTime)))
+      ..addColumns([dmcEntity.full4dList]);
     return query.map((row) {
       final read = row.read(dmcEntity.full4dList);
       if (read == null) {

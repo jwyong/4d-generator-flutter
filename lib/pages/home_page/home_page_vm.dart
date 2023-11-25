@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucky_generator/widget/generate_number_dialog/generate_number_dialog.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../base/base_state.dart';
@@ -18,6 +19,7 @@ abstract class AHomePageVM with Store, BaseViewModel {
     currentTabIndex = index;
   }
 
-  void generateBtnOnClick() {
+  void generateBtnOnClick(BuildContext context) {
+    showDialog(context: context, builder: (ctx) => const GenerateNumberDialog());
   }
 }
