@@ -71,6 +71,9 @@ dependencies:
   # Http: get, post, etc
   http: ^1.1.0
 
+  # Pair, etc
+  analyzer_plugin: ^0.11.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

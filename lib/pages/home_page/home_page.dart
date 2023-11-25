@@ -60,7 +60,9 @@ class _HomePageState extends BaseState<HomePage> with SingleTickerProviderStateM
         floatingActionButton: FloatingActionButton.small(
             elevation: 0,
             backgroundColor: Colors.yellowAccent,
-            onPressed: _vm.generateBtnOnClick,
+            onPressed: () {
+              _vm.generateBtnOnClick(context);
+            },
             child: const Icon(Icons.adb)),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: Observer(builder: (ctx) {
@@ -90,7 +92,7 @@ class _HomeTabBarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => TabBarView(
-            physics: const BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         controller: _vm.homeTabController,
         children: const [HotNumbersPage(), AnalyticsPage(), PastResultsPage(), MyHistoryPage()],
       );

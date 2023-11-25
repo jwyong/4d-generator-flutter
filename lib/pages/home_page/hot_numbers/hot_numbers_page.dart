@@ -18,8 +18,7 @@ class HotNumbersPage extends StatefulWidget {
 }
 
 class _HotNumbersPage extends BaseHomeState<HotNumbersPage> {
-  late final HotNumbersVM _vm = HotNumbersVM()
-    ..bind(this);
+  late final HotNumbersVM _vm = HotNumbersVM()..bind(this);
 
   late final HotNumberCardsModule _hotNumberCardsModule = HotNumberCardsModule();
   late final HotNumbersFilterModule _hotNumbersFilterModule = HotNumbersFilterModule(_vm);

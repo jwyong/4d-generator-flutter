@@ -24,6 +24,23 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "all": MessageLookupByLibrary.simpleMessage("All"),
         "double": MessageLookupByLibrary.simpleMessage("Double"),
+        "generate": MessageLookupByLibrary.simpleMessage("Generate"),
+        "generate_end_text":
+            MessageLookupByLibrary.simpleMessage("Your lucky number is:"),
+        "generate_number_title":
+            MessageLookupByLibrary.simpleMessage("Powered by wtf.ai."),
+        "generate_start_text":
+            MessageLookupByLibrary.simpleMessage("Start generating now!"),
+        "generating_text_1":
+            MessageLookupByLibrary.simpleMessage("Generating now!"),
+        "generating_text_2":
+            MessageLookupByLibrary.simpleMessage("AI is calculating"),
+        "generating_text_3":
+            MessageLookupByLibrary.simpleMessage("Almost there"),
+        "generating_text_4": MessageLookupByLibrary.simpleMessage(
+            "Deep diving into the unknown..."),
+        "generating_text_5": MessageLookupByLibrary.simpleMessage(
+            "Running meticulous algorithm..."),
         "hot_doubles": MessageLookupByLibrary.simpleMessage("Hot Doubles"),
         "hot_numbers": MessageLookupByLibrary.simpleMessage("Hot Numbers"),
         "hot_numbers_pau":
