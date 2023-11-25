@@ -47,6 +47,7 @@ analysis_benchmark.json
 
 # packages file containing multi-root paths
 .packages.generated
+lib/generated/l10n.dart
 
 # Flutter/Dart/Pub related
 **/doc/api/
@@ -295,6 +296,7 @@ replay_pid*
 
 #.DS_Store
 .idea/shelf
+generated
 /confluence/target
 /dependencies/repo
 /android.tests.dependencies
