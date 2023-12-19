@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lucky_generator/base/base_state.dart';
 import 'package:lucky_generator/constant/shared_prefs_constants.dart';
-import 'package:lucky_generator/model/hot_number_type.dart';
-import 'package:lucky_generator/model/time_period.dart';
+import 'package:lucky_generator/model/universal/hot_number_type.dart';
+import 'package:lucky_generator/model/universal/time_period.dart';
 import 'package:lucky_generator/repository/dmc_hot_repo.dart';
 import 'package:lucky_generator/repository/dmc_repo.dart';
 import 'package:lucky_generator/repository/dmc_web_repo.dart';
-import 'package:lucky_generator/repository/realtime_db_repo.dart';
+import 'package:lucky_generator/repository/universal/realtime_db_repo.dart';
 import 'package:lucky_generator/util/date_time_util.dart';
 import 'package:lucky_generator/util/hot_numbers_util.dart';
 import 'package:mobx/mobx.dart';
@@ -23,7 +23,7 @@ class MainVM = AMainVM with _$MainVM;
 /// - ads!
 /// - error handling (snack bars/retry button?)
 /// - optimise first time driftDB (check logics, async?)
-abstract class AMainVM with Store, BaseViewModel {
+abstract class AMainVM extends BaseViewModel with Store {
   late final _realtimeDbRepo = RealtimeDatabaseRepository();
 
   late final _dmcRepository = DmcRepository(database);
@@ -45,7 +45,6 @@ abstract class AMainVM with Store, BaseViewModel {
 
     // Check and sync realtimeDB if not done yet
     bool? isDmcRealtimeDbSynced = prefs.getBool(spKeyIsDmcRealtimeDbSynced);
-    debugPrint("AMainVM, checkAndSyncDatabases, isDmcRealtimeDbSynced = $isDmcRealtimeDbSynced");
     if (isDmcRealtimeDbSynced != true) {
       isDmcRealtimeDbSynced = await _syncDmcFromRealtimeDB();
     }
@@ -78,7 +77,6 @@ abstract class AMainVM with Store, BaseViewModel {
     final isNextDayFromLastDrawDate = today.isAfter(latestDrawDay);
 
     bool isDmcWebSynced = isWebSyncedToday || !isNextDayFromLastDrawDate;
-    debugPrint("AMainVM, checkAndStartSync, isDmcWebSynced = $isDmcWebSynced");
     if (!isDmcWebSynced) {
       isDmcWebSynced = await _syncDmcFromOfficialWeb(latestDrawDate, todayFormattedDateStr);
     }
@@ -104,7 +102,6 @@ abstract class AMainVM with Store, BaseViewModel {
     final lastHotSyncDateStr = prefs.getString(spKeyDmcLastHotSync);
 
     bool isDmcHotSynced = latestDrawDateStr == lastHotSyncDateStr;
-    debugPrint("AMainVM, checkAndStartSync, isDmcHotSynced = $isDmcHotSynced");
     if (!isDmcHotSynced) {
       _syncHotNumbers(latestDrawDateStr);
     }
@@ -117,7 +114,7 @@ abstract class AMainVM with Store, BaseViewModel {
     // Get dmc entity list from realtimeDB object. This includes processing into a single list.
     final dmcEntityList = _realtimeDbRepo.getDmcEntityListFromObject(dmcObj);
 
-    // Return false if list is empty (failed)
+    // TODO: JAY_LOG - show snack bar? Return false if list is empty (failed)
     if (dmcEntityList.isEmpty) {
       debugPrint("AMainVM, _syncDmcFromRealtimeDB, list is empty");
       return false;
@@ -144,8 +141,6 @@ abstract class AMainVM with Store, BaseViewModel {
       if (latestResultsList.isNotEmpty) {
         _dmcRepository.insertDmcList(latestResultsList);
       }
-
-      debugPrint("AMainVM, checkAndStartSync, isAfter, latestResultsList = $latestResultsList");
 
       // Update isSyncedToday bool for success case
       prefs.setString(spKeyDmcLastWebSync, todayFormattedDateStr);

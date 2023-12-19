@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:lucky_generator/base/base_state.dart';
 import 'package:lucky_generator/generated/l10n.dart';
 import 'package:lucky_generator/repository/dmc_repo.dart';
+import 'package:lucky_generator/repository/universal/my_history_repo.dart';
 import 'package:lucky_generator/util/generate_number_util.dart';
 import 'package:lucky_generator/util/generate_number_util_neighbour.dart';
 import 'package:mobx/mobx.dart';
@@ -11,8 +12,10 @@ part 'generate_number_vm.g.dart';
 
 class GenerateNumberVM = AGenerateNumberVM with _$GenerateNumberVM;
 
-abstract class AGenerateNumberVM with Store, BaseViewModel {
+abstract class AGenerateNumberVM extends BaseViewModel with Store {
   late final DmcRepository _dmcRepository = DmcRepository(database);
+  late final MyHistoryRepository _myHistoryRepository = MyHistoryRepository(database);
+
   late final GenerateNumberUtil _generateNumberUtil = GenerateNumberUtil();
   late final GenerateNumberNeighbourUtil _generateNumberNeighbourUtil = GenerateNumberNeighbourUtil();
 
@@ -38,6 +41,7 @@ abstract class AGenerateNumberVM with Store, BaseViewModel {
   ];
   late final Random _random = Random();
 
+  // TODO: JAY_LOG - figure out threading for smooth UI updates
   void onGenerateButtonPressed() async {
     // Update UI state
     generateState = GenerateState.generating;
@@ -49,11 +53,17 @@ abstract class AGenerateNumberVM with Store, BaseViewModel {
     final nested4dList1YearAgo = await _dmcRepository.getDmc4dListNested1Year();
 
     // Pass both lists to util to start calculations
-    generatedNumber = _generateNumberUtil.generateNumber(flat4dList2YearsAgo, nested4dList1YearAgo);
+    // TODO: JAY_LOG - improve generating algorithm
+    final generated = _generateNumberUtil.generateNumber(flat4dList2YearsAgo, nested4dList1YearAgo);
     // generatedNumber = _generateNumberNeighbourUtil.generateNumber(flat4dList2YearsAgo, nested4dList1YearAgo);
 
+    // Add to myHistory db
+    _myHistoryRepository.insertGeneratedNumber(generated);
+
+    // Update to UI
+    generatedNumber = generated;
+
     // Update generated number to UI
-    // TODO: JAY_LOG
     generateState = GenerateState.generated;
   }
 

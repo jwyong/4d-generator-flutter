@@ -24,6 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "all": MessageLookupByLibrary.simpleMessage("All"),
         "double": MessageLookupByLibrary.simpleMessage("Double"),
+        "draw_no": MessageLookupByLibrary.simpleMessage("Draw no"),
         "generate": MessageLookupByLibrary.simpleMessage("Generate"),
         "generate_end_text":
             MessageLookupByLibrary.simpleMessage("Your lucky number is:"),
@@ -31,6 +32,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Powered by wtf.ai."),
         "generate_start_text":
             MessageLookupByLibrary.simpleMessage("Start generating now!"),
+        "generated": MessageLookupByLibrary.simpleMessage("Generated"),
         "generating_text_1":
             MessageLookupByLibrary.simpleMessage("Generating now!"),
         "generating_text_2":
@@ -52,6 +54,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "last_year_2": MessageLookupByLibrary.simpleMessage("Last 2 years"),
         "last_year_3": MessageLookupByLibrary.simpleMessage("Last 3 years"),
         "last_year_5": MessageLookupByLibrary.simpleMessage("Last 5 years"),
+        "number": MessageLookupByLibrary.simpleMessage("Number"),
+        "status": MessageLookupByLibrary.simpleMessage("Status"),
         "tab_title_analytics":
             MessageLookupByLibrary.simpleMessage("Analytics"),
         "tab_title_hot": MessageLookupByLibrary.simpleMessage("Hot"),

@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:analyzer_plugin/utilities/pair.dart';
-import 'package:flutter/material.dart';
 import 'package:lucky_generator/constant/constants.dart';
 
 class GenerateNumberNeighbourUtil {
@@ -61,12 +60,6 @@ class GenerateNumberNeighbourUtil {
     // final digit2 = _generateRandom(digit2List);
     // final digit3 = _generateRandom(digit3List);
     // final digit4 = _generateRandom(digit4List);
-    //
-    debugPrint("JAY_LOG: GenerateNumberNeighbourUtil, generateNumber, digit1List = $digit1List");
-    debugPrint("JAY_LOG: GenerateNumberNeighbourUtil, generateNumber, digit2List = $digit2List");
-    debugPrint("JAY_LOG: GenerateNumberNeighbourUtil, generateNumber, digit3List = $digit3List");
-    debugPrint("JAY_LOG: GenerateNumberNeighbourUtil, generateNumber, digit4List = $digit4List");
-
 
     return "$digit1$digit2$digit3$digit4";
   }
@@ -96,9 +89,6 @@ class GenerateNumberNeighbourUtil {
       topCounts.add(sortedDigits[i].value);
     }
 
-    print('Top $topCount most frequent digits: $topDigits');
-    print('Their occurrence counts: $topCounts');
-
     return topDigits;
   }
 
@@ -125,12 +115,6 @@ class GenerateNumberNeighbourUtil {
 
     // Remove givenDigit from list
     // topDigits.removeWhere((element) => element.key == givenDigit);
-
-    // Print the top x most occurring digits and their occurrence counts
-    print('Top $topCount most frequent digits when $givenDigit is present:');
-    for (var entry in topDigits) {
-      print('${entry.key}: ${entry.value} occurrences');
-    }
 
     return topDigits.map((e) => e.key).toList();
   }
@@ -296,10 +280,7 @@ class GenerateNumberNeighbourUtil {
 
     List<MapEntry<String, int>> entries = patternStringOccurrences.entries.toList();
     entries.sort((a, b) => b.value.compareTo(a.value)); // Compare in descending order
-    debugPrint("JAY_LOG: GenerateNumberUtil, _getOutputPattern, hot = $entries");
-
     entries.sort((a, b) => a.value.compareTo(b.value));
-    debugPrint("JAY_LOG: GenerateNumberUtil, _getOutputPattern, cold = $entries");
 
     // Find the highest occurrence value
     int highestOccurrence =
@@ -319,11 +300,8 @@ class GenerateNumberNeighbourUtil {
   // Get the list of numbers to be used to generate each digit based on the top occurring pattern
   Map<int, List<String>?> _getNumberListForEachDigit(
       List<Map<String, dynamic>> outputPattern, Map<int, Map<String, List<String>>> patternCategory) {
-    debugPrint("GenerateNumberUtil, _generateNumber, patternCategory = $patternCategory");
 
     final String pattern = outputPattern.first.keys.first;
-
-    debugPrint("GenerateNumberUtil, _generateNumber, pattern = $pattern");
 
     Map<int, List<String>?> patternMapping = {};
 

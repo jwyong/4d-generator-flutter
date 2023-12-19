@@ -8,7 +8,7 @@ part 'home_page_vm.g.dart';
 
 class HomePageVM = AHomePageVM with _$HomePageVM;
 
-abstract class AHomePageVM with Store, BaseViewModel {
+abstract class AHomePageVM extends BaseViewModel with Store {
   late final TabController homeTabController;
 
   @observable

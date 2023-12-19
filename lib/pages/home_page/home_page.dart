@@ -92,7 +92,7 @@ class _HomeTabBarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => TabBarView(
-        physics: const BouncingScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         controller: _vm.homeTabController,
         children: const [HotNumbersPage(), AnalyticsPage(), PastResultsPage(), MyHistoryPage()],
       );

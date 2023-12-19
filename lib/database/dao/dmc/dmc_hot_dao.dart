@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:lucky_generator/database/entity/dmc/dmc_hot_entity.dart';
 import 'package:lucky_generator/database/my_database.dart';
-import 'package:lucky_generator/model/time_period.dart';
+import 'package:lucky_generator/model/universal/time_period.dart';
 
 part 'dmc_hot_dao.g.dart';
 

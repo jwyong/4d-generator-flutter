@@ -1,6 +1,6 @@
 import 'package:lucky_generator/database/my_database.dart';
 import 'package:lucky_generator/generated/l10n.dart';
-import 'package:lucky_generator/model/hot_number_type.dart';
+import 'package:lucky_generator/model/universal/hot_number_type.dart';
 import 'package:lucky_generator/pages/home_page/hot_numbers/widget/hot_number_card.dart';
 
 class HotNumberCardsModule {
