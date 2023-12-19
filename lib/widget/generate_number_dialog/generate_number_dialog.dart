@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucky_generator/base/base_state.dart';
 import 'package:lucky_generator/generated/l10n.dart';
 import 'package:lucky_generator/widget/generate_number_dialog/generate_number_vm.dart';
-import 'package:lucky_generator/widget/generic_button/generic_button.dart';
+import 'package:lucky_generator/widget/generic_button.dart';
 
 class GenerateNumberDialog extends StatefulWidget {
   const GenerateNumberDialog({super.key});
@@ -30,7 +30,14 @@ class _GenerateNumberDialogState extends BaseState<GenerateNumberDialog> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 // Close button
-                const Row(children: [Spacer(), Icon(Icons.close)]),
+                Row(children: [
+                  const Spacer(),
+                  IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      })
+                ]),
 
                 // Disclaimer
                 Text(S().generate_number_title, textAlign: TextAlign.center),
@@ -38,7 +45,7 @@ class _GenerateNumberDialogState extends BaseState<GenerateNumberDialog> {
                 const SizedBox(height: 30),
 
                 Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Stack(children: [
                     // Middle progress circle
                     AspectRatio(

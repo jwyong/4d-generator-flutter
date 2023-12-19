@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:analyzer_plugin/utilities/pair.dart';
-import 'package:flutter/material.dart';
 import 'package:lucky_generator/constant/constants.dart';
 
 class GenerateNumberUtil {
@@ -14,8 +13,6 @@ class GenerateNumberUtil {
 
     // Get most occurring output pattern from full outpuList
     final outputPattern = _getOutputPattern(outputList);
-
-    debugPrint("JAY_LOG: GenerateNumberUtil, generateNumber, outputPattern = $outputPattern");
 
     // Get list of numbers for each digit to be used to generate 4d
     final numberMapToGenerate = _getNumberListForEachDigit(outputPattern, latestPatternCategories);
@@ -170,12 +167,7 @@ class GenerateNumberUtil {
 
     List<MapEntry<String, int>> entries = patternStringOccurrences.entries.toList();
     entries.sort((a, b) => b.value.compareTo(a.value)); // Compare in descending order
-    debugPrint("JAY_LOG: GenerateNumberUtil, _getOutputPattern, hot = $entries");
-
     entries.sort((a, b) => a.value.compareTo(b.value));
-    debugPrint("JAY_LOG: GenerateNumberUtil, _getOutputPattern, cold = $entries");
-
-
 
     // Find the highest occurrence value
     int highestOccurrence =
@@ -195,11 +187,8 @@ class GenerateNumberUtil {
   // Get the list of numbers to be used to generate each digit based on the top occurring pattern
   Map<int, List<String>?> _getNumberListForEachDigit(
       List<Map<String, dynamic>> outputPattern, Map<int, Map<String, List<String>>> patternCategory) {
-    debugPrint("GenerateNumberUtil, _generateNumber, patternCategory = $patternCategory");
 
     final String pattern = outputPattern.first.keys.first;
-    
-    debugPrint("GenerateNumberUtil, _generateNumber, pattern = $pattern");
 
     Map<int, List<String>?> patternMapping = {};
 
@@ -216,8 +205,6 @@ class GenerateNumberUtil {
 
       patternMapping[digit] = patternCategory[i]?[letter];
     }
-
-    print(patternMapping);
 
     return patternMapping;
   }

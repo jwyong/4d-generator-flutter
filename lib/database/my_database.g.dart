@@ -149,9 +149,10 @@ class $DmcEntityTable extends DmcEntity
         full6dList
       ];
   @override
-  String get aliasedName => _alias ?? 'dmc_entity';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'dmc_entity';
+  String get actualTableName => $name;
+  static const String $name = 'dmc_entity';
   @override
   VerificationContext validateIntegrity(Insertable<DmcEntityData> instance,
       {bool isInserting = false}) {
@@ -816,11 +817,13 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
     }
     if (starterList.present) {
       final converter = $DmcEntityTable.$converterstarterListn;
+
       map['starter_list'] =
           Variable<String>(converter.toSql(starterList.value));
     }
     if (consolidateList.present) {
       final converter = $DmcEntityTable.$converterconsolidateListn;
+
       map['consolidate_list'] =
           Variable<String>(converter.toSql(consolidateList.value));
     }
@@ -835,6 +838,7 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
     }
     if (full4dList.present) {
       final converter = $DmcEntityTable.$converterfull4dListn;
+
       map['full4d_list'] = Variable<String>(converter.toSql(full4dList.value));
     }
     if (p13p3d.present) {
@@ -848,16 +852,19 @@ class DmcEntityCompanion extends UpdateCompanion<DmcEntityData> {
     }
     if (starterList3p3d.present) {
       final converter = $DmcEntityTable.$converterstarterList3p3dn;
+
       map['starter_list3p3d'] =
           Variable<String>(converter.toSql(starterList3p3d.value));
     }
     if (consolidateList3p3d.present) {
       final converter = $DmcEntityTable.$converterconsolidateList3p3dn;
+
       map['consolidate_list3p3d'] =
           Variable<String>(converter.toSql(consolidateList3p3d.value));
     }
     if (full6dList.present) {
       final converter = $DmcEntityTable.$converterfull6dListn;
+
       map['full6d_list'] = Variable<String>(converter.toSql(full6dList.value));
     }
     return map;
@@ -951,9 +958,10 @@ class $DmcHotEntityTable extends DmcHotEntity
         timePeriodIndex
       ];
   @override
-  String get aliasedName => _alias ?? 'dmc_hot_entity';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'dmc_hot_entity';
+  String get actualTableName => $name;
+  static const String $name = 'dmc_hot_entity';
   @override
   VerificationContext validateIntegrity(Insertable<DmcHotEntityData> instance,
       {bool isInserting = false}) {
@@ -1270,15 +1278,351 @@ class DmcHotEntityCompanion extends UpdateCompanion<DmcHotEntityData> {
   }
 }
 
+class $MyHistoryEntityTable extends MyHistoryEntity
+    with TableInfo<$MyHistoryEntityTable, MyHistoryEntityData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MyHistoryEntityTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _moduleTypeIdMeta =
+      const VerificationMeta('moduleTypeId');
+  @override
+  late final GeneratedColumn<int> moduleTypeId = GeneratedColumn<int>(
+      'module_type_id', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _dateGeneratedMeta =
+      const VerificationMeta('dateGenerated');
+  @override
+  late final GeneratedColumn<DateTime> dateGenerated =
+      GeneratedColumn<DateTime>('date_generated', aliasedName, false,
+          type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _numberMeta = const VerificationMeta('number');
+  @override
+  late final GeneratedColumn<String> number = GeneratedColumn<String>(
+      'number', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _drawNoMeta = const VerificationMeta('drawNo');
+  @override
+  late final GeneratedColumn<String> drawNo = GeneratedColumn<String>(
+      'draw_no', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _winStatusIdMeta =
+      const VerificationMeta('winStatusId');
+  @override
+  late final GeneratedColumn<int> winStatusId = GeneratedColumn<int>(
+      'win_status_id', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, moduleTypeId, dateGenerated, number, drawNo, winStatusId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'my_history_entity';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<MyHistoryEntityData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('module_type_id')) {
+      context.handle(
+          _moduleTypeIdMeta,
+          moduleTypeId.isAcceptableOrUnknown(
+              data['module_type_id']!, _moduleTypeIdMeta));
+    } else if (isInserting) {
+      context.missing(_moduleTypeIdMeta);
+    }
+    if (data.containsKey('date_generated')) {
+      context.handle(
+          _dateGeneratedMeta,
+          dateGenerated.isAcceptableOrUnknown(
+              data['date_generated']!, _dateGeneratedMeta));
+    } else if (isInserting) {
+      context.missing(_dateGeneratedMeta);
+    }
+    if (data.containsKey('number')) {
+      context.handle(_numberMeta,
+          number.isAcceptableOrUnknown(data['number']!, _numberMeta));
+    } else if (isInserting) {
+      context.missing(_numberMeta);
+    }
+    if (data.containsKey('draw_no')) {
+      context.handle(_drawNoMeta,
+          drawNo.isAcceptableOrUnknown(data['draw_no']!, _drawNoMeta));
+    }
+    if (data.containsKey('win_status_id')) {
+      context.handle(
+          _winStatusIdMeta,
+          winStatusId.isAcceptableOrUnknown(
+              data['win_status_id']!, _winStatusIdMeta));
+    } else if (isInserting) {
+      context.missing(_winStatusIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  MyHistoryEntityData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MyHistoryEntityData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      moduleTypeId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}module_type_id'])!,
+      dateGenerated: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}date_generated'])!,
+      number: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}number'])!,
+      drawNo: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}draw_no']),
+      winStatusId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}win_status_id'])!,
+    );
+  }
+
+  @override
+  $MyHistoryEntityTable createAlias(String alias) {
+    return $MyHistoryEntityTable(attachedDatabase, alias);
+  }
+}
+
+class MyHistoryEntityData extends DataClass
+    implements Insertable<MyHistoryEntityData> {
+  final int id;
+  final int moduleTypeId;
+  final DateTime dateGenerated;
+  final String number;
+  final String? drawNo;
+  final int winStatusId;
+  const MyHistoryEntityData(
+      {required this.id,
+      required this.moduleTypeId,
+      required this.dateGenerated,
+      required this.number,
+      this.drawNo,
+      required this.winStatusId});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['module_type_id'] = Variable<int>(moduleTypeId);
+    map['date_generated'] = Variable<DateTime>(dateGenerated);
+    map['number'] = Variable<String>(number);
+    if (!nullToAbsent || drawNo != null) {
+      map['draw_no'] = Variable<String>(drawNo);
+    }
+    map['win_status_id'] = Variable<int>(winStatusId);
+    return map;
+  }
+
+  MyHistoryEntityCompanion toCompanion(bool nullToAbsent) {
+    return MyHistoryEntityCompanion(
+      id: Value(id),
+      moduleTypeId: Value(moduleTypeId),
+      dateGenerated: Value(dateGenerated),
+      number: Value(number),
+      drawNo:
+          drawNo == null && nullToAbsent ? const Value.absent() : Value(drawNo),
+      winStatusId: Value(winStatusId),
+    );
+  }
+
+  factory MyHistoryEntityData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MyHistoryEntityData(
+      id: serializer.fromJson<int>(json['id']),
+      moduleTypeId: serializer.fromJson<int>(json['moduleTypeId']),
+      dateGenerated: serializer.fromJson<DateTime>(json['dateGenerated']),
+      number: serializer.fromJson<String>(json['number']),
+      drawNo: serializer.fromJson<String?>(json['drawNo']),
+      winStatusId: serializer.fromJson<int>(json['winStatusId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'moduleTypeId': serializer.toJson<int>(moduleTypeId),
+      'dateGenerated': serializer.toJson<DateTime>(dateGenerated),
+      'number': serializer.toJson<String>(number),
+      'drawNo': serializer.toJson<String?>(drawNo),
+      'winStatusId': serializer.toJson<int>(winStatusId),
+    };
+  }
+
+  MyHistoryEntityData copyWith(
+          {int? id,
+          int? moduleTypeId,
+          DateTime? dateGenerated,
+          String? number,
+          Value<String?> drawNo = const Value.absent(),
+          int? winStatusId}) =>
+      MyHistoryEntityData(
+        id: id ?? this.id,
+        moduleTypeId: moduleTypeId ?? this.moduleTypeId,
+        dateGenerated: dateGenerated ?? this.dateGenerated,
+        number: number ?? this.number,
+        drawNo: drawNo.present ? drawNo.value : this.drawNo,
+        winStatusId: winStatusId ?? this.winStatusId,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('MyHistoryEntityData(')
+          ..write('id: $id, ')
+          ..write('moduleTypeId: $moduleTypeId, ')
+          ..write('dateGenerated: $dateGenerated, ')
+          ..write('number: $number, ')
+          ..write('drawNo: $drawNo, ')
+          ..write('winStatusId: $winStatusId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, moduleTypeId, dateGenerated, number, drawNo, winStatusId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MyHistoryEntityData &&
+          other.id == this.id &&
+          other.moduleTypeId == this.moduleTypeId &&
+          other.dateGenerated == this.dateGenerated &&
+          other.number == this.number &&
+          other.drawNo == this.drawNo &&
+          other.winStatusId == this.winStatusId);
+}
+
+class MyHistoryEntityCompanion extends UpdateCompanion<MyHistoryEntityData> {
+  final Value<int> id;
+  final Value<int> moduleTypeId;
+  final Value<DateTime> dateGenerated;
+  final Value<String> number;
+  final Value<String?> drawNo;
+  final Value<int> winStatusId;
+  const MyHistoryEntityCompanion({
+    this.id = const Value.absent(),
+    this.moduleTypeId = const Value.absent(),
+    this.dateGenerated = const Value.absent(),
+    this.number = const Value.absent(),
+    this.drawNo = const Value.absent(),
+    this.winStatusId = const Value.absent(),
+  });
+  MyHistoryEntityCompanion.insert({
+    this.id = const Value.absent(),
+    required int moduleTypeId,
+    required DateTime dateGenerated,
+    required String number,
+    this.drawNo = const Value.absent(),
+    required int winStatusId,
+  })  : moduleTypeId = Value(moduleTypeId),
+        dateGenerated = Value(dateGenerated),
+        number = Value(number),
+        winStatusId = Value(winStatusId);
+  static Insertable<MyHistoryEntityData> custom({
+    Expression<int>? id,
+    Expression<int>? moduleTypeId,
+    Expression<DateTime>? dateGenerated,
+    Expression<String>? number,
+    Expression<String>? drawNo,
+    Expression<int>? winStatusId,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (moduleTypeId != null) 'module_type_id': moduleTypeId,
+      if (dateGenerated != null) 'date_generated': dateGenerated,
+      if (number != null) 'number': number,
+      if (drawNo != null) 'draw_no': drawNo,
+      if (winStatusId != null) 'win_status_id': winStatusId,
+    });
+  }
+
+  MyHistoryEntityCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? moduleTypeId,
+      Value<DateTime>? dateGenerated,
+      Value<String>? number,
+      Value<String?>? drawNo,
+      Value<int>? winStatusId}) {
+    return MyHistoryEntityCompanion(
+      id: id ?? this.id,
+      moduleTypeId: moduleTypeId ?? this.moduleTypeId,
+      dateGenerated: dateGenerated ?? this.dateGenerated,
+      number: number ?? this.number,
+      drawNo: drawNo ?? this.drawNo,
+      winStatusId: winStatusId ?? this.winStatusId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (moduleTypeId.present) {
+      map['module_type_id'] = Variable<int>(moduleTypeId.value);
+    }
+    if (dateGenerated.present) {
+      map['date_generated'] = Variable<DateTime>(dateGenerated.value);
+    }
+    if (number.present) {
+      map['number'] = Variable<String>(number.value);
+    }
+    if (drawNo.present) {
+      map['draw_no'] = Variable<String>(drawNo.value);
+    }
+    if (winStatusId.present) {
+      map['win_status_id'] = Variable<int>(winStatusId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MyHistoryEntityCompanion(')
+          ..write('id: $id, ')
+          ..write('moduleTypeId: $moduleTypeId, ')
+          ..write('dateGenerated: $dateGenerated, ')
+          ..write('number: $number, ')
+          ..write('drawNo: $drawNo, ')
+          ..write('winStatusId: $winStatusId')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$MyDatabase extends GeneratedDatabase {
   _$MyDatabase(QueryExecutor e) : super(e);
   late final $DmcEntityTable dmcEntity = $DmcEntityTable(this);
   late final $DmcHotEntityTable dmcHotEntity = $DmcHotEntityTable(this);
+  late final $MyHistoryEntityTable myHistoryEntity =
+      $MyHistoryEntityTable(this);
   late final DmcDao dmcDao = DmcDao(this as MyDatabase);
   late final DmcHotDao dmcHotDao = DmcHotDao(this as MyDatabase);
+  late final MyHistoryDao myHistoryDao = MyHistoryDao(this as MyDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [dmcEntity, dmcHotEntity];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [dmcEntity, dmcHotEntity, myHistoryEntity];
 }

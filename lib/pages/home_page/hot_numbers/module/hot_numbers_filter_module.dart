@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lucky_generator/generated/l10n.dart';
-import 'package:lucky_generator/model/time_period.dart';
+import 'package:lucky_generator/model/universal/time_period.dart';
 import 'package:lucky_generator/pages/home_page/hot_numbers/hot_numbers_vm.dart';
 import 'package:lucky_generator/util/dialog_util.dart';
 

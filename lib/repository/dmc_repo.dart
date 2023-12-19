@@ -1,6 +1,6 @@
-import 'package:lucky_generator/database/dao/dmc_dao.dart';
+import 'package:lucky_generator/database/dao/dmc/dmc_dao.dart';
 import 'package:lucky_generator/database/my_database.dart';
-import 'package:lucky_generator/model/time_period.dart';
+import 'package:lucky_generator/model/universal/time_period.dart';
 
 class DmcRepository {
   DmcRepository(this._db);

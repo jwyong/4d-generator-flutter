@@ -310,6 +310,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Number`
+  String get number {
+    return Intl.message(
+      'Number',
+      name: 'number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Generated`
+  String get generated {
+    return Intl.message(
+      'Generated',
+      name: 'generated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Status`
+  String get status {
+    return Intl.message(
+      'Status',
+      name: 'status',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Draw no`
+  String get draw_no {
+    return Intl.message(
+      'Draw no',
+      name: 'draw_no',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

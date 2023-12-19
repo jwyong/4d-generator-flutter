@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
-import 'package:lucky_generator/database/dao/dmc_hot_dao.dart';
+import 'package:lucky_generator/database/dao/dmc/dmc_hot_dao.dart';
 import 'package:lucky_generator/database/my_database.dart';
-import 'package:lucky_generator/model/hot_number_type.dart';
-import 'package:lucky_generator/model/time_period.dart';
+import 'package:lucky_generator/model/universal/hot_number_type.dart';
+import 'package:lucky_generator/model/universal/time_period.dart';
 
 class DmcHotRepository {
   DmcHotRepository(this._db);

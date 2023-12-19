@@ -17,10 +17,12 @@ class RealtimeDatabaseRepository {
       if (dmc.exists) {
         return dmc.value as List<Object?>;
       } else {
+        // TODO: JAY_LOG - error handling
         debugPrint("RealtimeDatabaseRepository, getDmcDatabase, database 'dmc' does not exist");
         return null;
       }
     } catch (error) {
+      // TODO: JAY_LOG - error handling
       debugPrint("RealtimeDatabaseRepository, getDmcDatabase, error = $error");
       return null;
     }

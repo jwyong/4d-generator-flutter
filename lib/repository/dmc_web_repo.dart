@@ -15,16 +15,12 @@ class DmcWebRepository {
   Future<List<DmcEntityData>?> getLatestDmcWebResultsList(DateTime dateTimeLatestDraw) async {
     final pastResultsDateTimeList = await _getPastResultsDateList();
 
-    // debugPrint("DmcWebRepository, getLatestDmcWebResultsList, pastResultsDateTimeList = $pastResultsDateTimeList");
-    
     // Return if error or empty list (no need to sync)
     if (pastResultsDateTimeList == null) return null;
     if( pastResultsDateTimeList.isEmpty) return List.empty();
 
     // Get list of dates in string to query
     final datesToQuery = _getDatesStringListToQuery(pastResultsDateTimeList, dateTimeLatestDraw);
-    // debugPrint("DmcWebRepository, getLatestDmcWebResultsList, datesToQuery = $datesToQuery");
-
     // Return empty if no need to sync (subList returned empty)
     // TODO: JAY_LOG - check if subList = emptyList will crash?
     if (datesToQuery.isEmpty) return List.empty();
@@ -37,7 +33,6 @@ class DmcWebRepository {
 
       requestLinkList.add(requestLink);
     }
-    // debugPrint("DmcWebRepository, getLatestDmcWebResultsList, requestLinkList = $requestLinkList");
 
     // Return error if no list
     if (requestLinkList.isEmpty) return null;
@@ -50,7 +45,6 @@ class DmcWebRepository {
 
       pastResultsList.add(dmcEntityData);
     }
-    // debugPrint("DmcWebRepository, getLatestDmcWebResultsList, pastResultsList size = ${pastResultsList.length}");
 
     return pastResultsList;
   }

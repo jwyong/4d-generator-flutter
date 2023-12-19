@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+
 
 /// Util for getting hot numbers / doubles / etc from any platform
 /// TODO: optimise calls
@@ -22,10 +22,6 @@ class HotNumbersUtil {
 
     if (sortedCombinations.length < topCount) {
       topCount = sortedCombinations.length;
-    }
-    debugPrint("Top $topCount most frequent 4-digit combinations:");
-    for (int i = 0; i < topCount; i++) {
-      debugPrint("${sortedCombinations[i].key}: ${sortedCombinations[i].value} occurrences");
     }
 
     return sortedCombinations.sublist(0, topCount);
@@ -53,11 +49,6 @@ class HotNumbersUtil {
       topCount = sortedCombinations.length;
     }
 
-    debugPrint("Top $topCount most frequent 4-digit combinations:");
-    for (int i = 0; i < topCount; i++) {
-      debugPrint("${sortedCombinations[i].key}: ${sortedCombinations[i].value} occurrences");
-    }
-
     return sortedCombinations.sublist(0, topCount);
   }
 
@@ -81,11 +72,6 @@ class HotNumbersUtil {
 
     if (sortedCombinations.length < topCount) {
       topCount = sortedCombinations.length;
-    }
-
-    debugPrint("Top $topCount most frequent combinations based on permutations of $inputCombination:");
-    for (int i = 0; i < topCount; i++) {
-      debugPrint("${sortedCombinations[i].key}: ${sortedCombinations[i].value} occurrences");
     }
 
     return sortedCombinations.sublist(0, topCount);
@@ -117,11 +103,6 @@ class HotNumbersUtil {
       topCount = sortedDigits.length;
     }
 
-    print("Top $topCount digits that repeated themselves exactly once:");
-    for (int i = 0; i < topCount; i++) {
-      print("${sortedDigits[i].key}: ${sortedDigits[i].value} occurrences");
-    }
-
     return sortedDigits.sublist(0, topCount);
   }
 
@@ -140,11 +121,6 @@ class HotNumbersUtil {
     // Sort patterns by occurrence count in descending order
     List<MapEntry<String, int>> sortedPatterns = patternOccurrences.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
-
-    // Display the top x occurring patterns
-    for (int i = 0; i < topCount && i < sortedPatterns.length; i++) {
-      debugPrint("${sortedPatterns[i].key} : occurred ${sortedPatterns[i].value} times");
-    }
 
     return sortedPatterns.sublist(0, topCount);
   }
@@ -177,11 +153,6 @@ class HotNumbersUtil {
       topCount = sortedDigits.length;
     }
 
-    print("Top $topCount digits that repeated themselves exactly twice:");
-    for (int i = 0; i < topCount; i++) {
-      print("${sortedDigits[i].key}: ${sortedDigits[i].value} occurrences");
-    }
-
     return sortedDigits.sublist(0, topCount);
   }
 
@@ -200,11 +171,6 @@ class HotNumbersUtil {
     // Sort patterns by occurrence count in descending order
     List<MapEntry<String, int>> sortedPatterns = patternOccurrences.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
-
-    // Display the top x occurring patterns
-    for (int i = 0; i < topCount && i < sortedPatterns.length; i++) {
-      debugPrint("${sortedPatterns[i].key} : occurred ${sortedPatterns[i].value} times");
-    }
 
     return sortedPatterns.sublist(0, topCount);
   }
