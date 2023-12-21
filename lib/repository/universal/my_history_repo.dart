@@ -14,9 +14,18 @@ class MyHistoryRepository {
     await _myHistoryDao.insertGeneratedNumber(generatedNumber);
   }
 
+  // Insert list of myHistory items and replace if conflict
+  Future<void> insertMyHistoryList(List<MyHistoryEntityData> list) async {
+    await _myHistoryDao.insertMyHistoryList(list);
+  }
+
+  // Get list of myHistory items without winStatus and still valid
+  Future<List<MyHistoryEntityData>> getUnwonHistoryList(ModuleType selectedModuleType) =>
+      _myHistoryDao.getMyHistoryListByWinStatus(selectedModuleType);
+
   // Get full my history list stream
   Stream<List<MyHistoryEntityData>> getMyHistoryPagedList(
-          ModuleType selectedModuleType, FilterItemType sortType, bool isDesc, int currentPage) {
+      ModuleType selectedModuleType, FilterItemType sortType, bool isDesc, int currentPage) {
     return _myHistoryDao.getMyHistoryPagedListStream(selectedModuleType, sortType, isDesc, currentPage);
   }
 }

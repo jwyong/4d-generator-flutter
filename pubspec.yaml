@@ -74,6 +74,9 @@ dependencies:
   # Pair, etc
   analyzer_plugin: ^0.11.2
 
+  # Collection for ListEquality, etc
+  collection: ^1.15.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

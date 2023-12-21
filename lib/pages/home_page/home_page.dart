@@ -94,6 +94,6 @@ class _HomeTabBarView extends StatelessWidget {
   Widget build(BuildContext context) => TabBarView(
         physics: const NeverScrollableScrollPhysics(),
         controller: _vm.homeTabController,
-        children: const [HotNumbersPage(), AnalyticsPage(), PastResultsPage(), MyHistoryPage()],
+        children: const [HotNumbersPage(), PastResultsPage(), MyHistoryPage(), AnalyticsPage()],
       );
 }

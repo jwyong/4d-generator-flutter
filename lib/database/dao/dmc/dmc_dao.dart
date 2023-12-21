@@ -1,3 +1,4 @@
+import 'package:analyzer_plugin/utilities/pair.dart';
 import 'package:drift/drift.dart';
 import 'package:lucky_generator/database/entity/dmc/dmc_entity.dart';
 import 'package:lucky_generator/database/my_database.dart';
@@ -44,6 +45,24 @@ class DmcDao extends DatabaseAccessor<MyDatabase> with _$DmcDaoMixin {
         return null;
       } else {
         return const StringListConverter().fromSql(read);
+      }
+    }).get();
+  }
+
+  // Get 4d list between 2 dateTime objects along with the associated drawNo
+  Future<List<Pair<String, List<String>>?>> get4dListPairBetweenStartToEndDate(
+      DateTime startDateTime, DateTime endDateTime) {
+    final query = selectOnly(dmcEntity)
+      ..where(dmcEntity.drawDate.isBiggerOrEqual(Constant(startDateTime)) &
+          dmcEntity.drawDate.isSmallerThan(Constant(endDateTime)))
+      ..addColumns([dmcEntity.full4dList, dmcEntity.drawNo]);
+    return query.map((row) {
+      final full4dList = row.read(dmcEntity.full4dList);
+      final drawNo = row.read(dmcEntity.drawNo);
+      if (drawNo == null || full4dList == null) {
+        return null;
+      } else {
+        return Pair(drawNo, const StringListConverter().fromSql(full4dList));
       }
     }).get();
   }

@@ -37,9 +37,8 @@ class _HotNumbersPage extends BaseHomeState<HotNumbersPage> {
                 // Options row
                 Row(
                   children: [
-                    // Top 3 / all prizes dropdown
-                    // TODO: JAY_LOG
-                    GenericDropdown(title: "Top 3"),
+                    // TODO: JAY_LOG Top 3 / all prizes dropdown
+                    const GenericDropdown(title: "Top 3"),
 
                     const Spacer(),
 
