@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:analyzer_plugin/utilities/pair.dart';
 import 'package:lucky_generator/base/base_state.dart';
 import 'package:lucky_generator/database/my_database.dart';
+import 'package:lucky_generator/model/universal/module_type.dart';
 import 'package:lucky_generator/repository/dmc_repo.dart';
 import 'package:lucky_generator/repository/universal/my_history_repo.dart';
 import 'package:lucky_generator/util/my_history_util.dart';
@@ -37,11 +38,19 @@ abstract class AMyHistoryVM extends BaseViewModel with Store {
 
   Stream<List<MyHistoryEntityData>> get myHistoryListStream => _myHistoryListController.stream;
 
+  // Observe when moduleType changed (dmc, toto, etc)
+  @override
+  void onModuleTypeChanged(ModuleType moduleType) {
+    super.onModuleTypeChanged(moduleType);
+
+    syncMyHistoryWithLatestResults(moduleType: moduleType);
+  }
+
   // Sync latest results with myHistory list in DB
-  void syncMyHistoryWithLatestResults() async {
+  void syncMyHistoryWithLatestResults({ModuleType? moduleType}) async {
     // Get myHistory list without win status and not expired yet
     final List<MyHistoryEntityData> unwonHistoryList =
-    await _myHistoryRepository.getUnwonHistoryList(selectedModuleType);
+    await _myHistoryRepository.getUnwonHistoryList(moduleType?? selectedModuleType);
 
     // Get list of past results up to earliest generated number in myHistory list
     final MyHistoryEntityData? earliestUnwonItem = unwonHistoryList.lastOrNull;
