@@ -1,3 +1,4 @@
+import 'package:analyzer_plugin/utilities/pair.dart';
 import 'package:flutter/material.dart';
 import 'package:lucky_generator/base/base_state.dart';
 import 'package:lucky_generator/constant/shared_prefs_constants.dart';
@@ -6,21 +7,25 @@ import 'package:lucky_generator/model/universal/time_period.dart';
 import 'package:lucky_generator/repository/dmc_hot_repo.dart';
 import 'package:lucky_generator/repository/dmc_repo.dart';
 import 'package:lucky_generator/repository/dmc_web_repo.dart';
+import 'package:lucky_generator/repository/universal/my_history_repo.dart';
 import 'package:lucky_generator/repository/universal/realtime_db_repo.dart';
 import 'package:lucky_generator/util/date_time_util.dart';
 import 'package:lucky_generator/util/hot_numbers_util.dart';
+import 'package:lucky_generator/util/my_history_util.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'database/my_database.dart';
 
 part 'main_vm.g.dart';
 
 class MainVM = AMainVM with _$MainVM;
 
 /// TODO: JAY_LOG:
+/// - ads: start after listed to store (complete MVP > list > implement adMob)
 /// - first time realtimeDB sync issue (vivo, iphone) - permission? check
 /// - add realtimeDB sync logics after xx days (1 month?)
 /// - check http web call error cases (crash? spammed?)
-/// - ads!
 /// - error handling (snack bars/retry button?)
 /// - optimise first time driftDB (check logics, async?)
 abstract class AMainVM extends BaseViewModel with Store {
@@ -29,6 +34,8 @@ abstract class AMainVM extends BaseViewModel with Store {
   late final _dmcRepository = DmcRepository(database);
   late final _dmcHotRepository = DmcHotRepository(database);
   late final _dmcWebRepository = DmcWebRepository();
+  late final _myHistoryRepository = MyHistoryRepository(database);
+  late final _myHistoryUtil = MyHistoryUtil();
 
   late final HotNumbersUtil _hotNumbersUtil = HotNumbersUtil();
 
@@ -79,6 +86,9 @@ abstract class AMainVM extends BaseViewModel with Store {
     bool isDmcWebSynced = isWebSyncedToday || !isNextDayFromLastDrawDate;
     if (!isDmcWebSynced) {
       isDmcWebSynced = await _syncDmcFromOfficialWeb(latestDrawDate, todayFormattedDateStr);
+
+      // Do myHistory syncing with latest past results once web sync done
+      _syncMyHistoryWithLatestResults();
     }
 
     // Return error if failed to sync
@@ -107,7 +117,7 @@ abstract class AMainVM extends BaseViewModel with Store {
     }
   }
 
-// Get dmc db from realtimeDB
+  // Get dmc db from realtimeDB
   Future<bool> _syncDmcFromRealtimeDB() async {
     final dmcObj = await _realtimeDbRepo.getDmcDatabase();
 
@@ -130,7 +140,7 @@ abstract class AMainVM extends BaseViewModel with Store {
     return true;
   }
 
-// Get latest results from dmc web
+  // Get latest results from dmc web
   Future<bool> _syncDmcFromOfficialWeb(DateTime latestDrawDate, String todayFormattedDateStr) async {
     final latestResultsList = await _dmcWebRepository.getLatestDmcWebResultsList(latestDrawDate);
 
@@ -149,7 +159,26 @@ abstract class AMainVM extends BaseViewModel with Store {
     }
   }
 
-// Calculate hot numbers from past 1 year
+  // Sync latest results with myHistory list in DB
+  void _syncMyHistoryWithLatestResults() async {
+    // Get myHistory list without win status and not expired yet
+    final List<MyHistoryEntityData> unwonHistoryList =
+    await _myHistoryRepository.getUnwonHistoryList(selectedModuleType);
+
+    // Get list of past results up to earliest generated number in myHistory list
+    final MyHistoryEntityData? earliestUnwonItem = unwonHistoryList.lastOrNull;
+    if (earliestUnwonItem == null) return;
+    final List<Pair<String, String>> pastResultsList =
+    await _dmcRepository.getDmc4dFlatPairListSinceDate(earliestUnwonItem.dateGenerated);
+
+    // Map a list new historyEntity data items with hit / pau statuses
+    final hitOrPauList = _myHistoryUtil.getHitOrPauList(unwonHistoryList, pastResultsList);
+
+    // Bulk insert hit / pau list to MyHistory DB
+    _myHistoryRepository.insertMyHistoryList(hitOrPauList);
+  }
+
+  // Calculate hot numbers from past 1 year
   Future<bool> _syncHotNumbers(String latestDrawDateStr) async {
     // Get 1 year flat 4d list from db
     const timePeriod = TimePeriod.year_1;

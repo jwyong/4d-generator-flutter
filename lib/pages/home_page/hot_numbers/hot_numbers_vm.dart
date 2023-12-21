@@ -24,7 +24,6 @@ abstract class AHotNumbersVM extends BaseViewModel with Store {
     // Update dropdown UI text
     selectedTimePeriod = timePeriod;
 
-    // Do db queries to refresh lists
-    // TODO: JAY_LOG
+    // TODO: JAY_LOG Do db queries to refresh lists
   }
 }

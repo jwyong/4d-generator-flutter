@@ -1,3 +1,4 @@
+import 'package:analyzer_plugin/utilities/pair.dart';
 import 'package:lucky_generator/database/dao/dmc/dmc_dao.dart';
 import 'package:lucky_generator/database/my_database.dart';
 import 'package:lucky_generator/model/universal/time_period.dart';
@@ -58,6 +59,16 @@ class DmcRepository {
 
     // Flatten list and return
     return nested4dList.expand<String>((i) => i ?? List.empty()).toList();
+  }
+
+  // Get flat list of dmc 4d numbers from a specific date to now
+  Future<List<Pair<String, String>>> getDmc4dFlatPairListSinceDate(DateTime startDate) async {
+    final nested4dList = await _dmcDao.get4dListPairBetweenStartToEndDate(startDate, DateTime.now());
+
+    return nested4dList
+        .where((pair) => pair != null)
+        .expand((pair) => pair!.last.map((innerItem) => Pair(pair.first, innerItem)))
+        .toList();
   }
 
   // Get list of dmc 4d numbers from 1 month ago

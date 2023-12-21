@@ -7,6 +7,9 @@ import 'package:lucky_generator/pages/home_page/my_history/my_history_vm.dart';
 
 import '../../../widget/generic_filter_list_view/generic_filter_list_view.dart';
 
+/// TODO: JAY_LOG
+/// - when to get latest results from web?
+/// - re-visit whole dmc web syncing flow?
 class MyHistoryPage extends StatefulWidget {
   const MyHistoryPage({super.key});
 
@@ -25,13 +28,17 @@ class MyHistoryPageState extends BaseHomeState<MyHistoryPage> {
     FilterItem(3, FilterItemType.date, S().generated, 10, isSorting: true),
     FilterItem(4, FilterItemType.status, S().status, 4),
   ];
-  
+
   late final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
 
+    // Sync my history list data with latest results
+    _vm.syncMyHistoryWithLatestResults();
+
+    // Get initial stream of myHistory list
     _vm.updateMyHistoryListStream();
   }
 
@@ -39,23 +46,28 @@ class MyHistoryPageState extends BaseHomeState<MyHistoryPage> {
   Widget build(BuildContext context) {
     super.build(context);
 
-    return GenericFilterListView(
-      scrollController: _scrollController,
-      filterItems: filterItemsList,
-      dataStream: _vm.myHistoryListStream,
-      itemBuilder: (item) => _myHistoryListModule.buildHistoryItemWidget(item),
-      onItemSwiped: (item) {
-        debugPrint("JAY_LOG: _MyHistoryPage, build, item deleted: $item");
+    return Column(children: [
+      // Title
+      Text(S().tab_title_my_history),
+      Expanded(
+        child: GenericFilterListView(
+          scrollController: _scrollController,
+          filterItems: filterItemsList,
+          dataStream: _vm.myHistoryListStream,
+          itemBuilder: (item) => _myHistoryListModule.buildHistoryItemWidget(item),
+          onItemSwiped: (item) {
+            // TODO: JAY_LOG - swipe to delete history number
+          },
+          onSortItemClicked: (FilterItem filterItem) {
+            // Scroll to top of list
+            _scrollController.animateTo(0, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
 
-        // TODO: JAY_LOG - swipe to delete history number
-      },
-      onSortItemClicked: (FilterItem filterItem) {
-        // Scroll to top of list
-        _scrollController.animateTo(0, duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
-
-        _vm.updateMyHistoryListStream(sortType: filterItem.type, isDesc: filterItem.isDesc);
-      },
-    );
+            // Update stream with new sorting filterType and direction
+            _vm.updateMyHistoryListStream(sortType: filterItem.type, isDesc: filterItem.isDesc);
+          },
+        ),
+      ),
+    ]);
   }
 
   @override

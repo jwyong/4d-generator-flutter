@@ -80,12 +80,10 @@ class GenericFilterListView<T> extends StatelessWidget {
         child: StreamBuilder<List<T>>(
       stream: dataStream,
       builder: (context, snapshot) {
+        // TODO: JAY_LOG - skeleton loading
         if (snapshot.connectionState == ConnectionState.waiting) {
-          // TODO: JAY_LOG - skeleton loading
-          debugPrint("JAY_LOG: _MyHistoryPage, _buildMyHistoryPagedListView, waiting");
           // return const CircularProgressIndicator();
         } else {
-          debugPrint("JAY_LOG: _MyHistoryPage, _buildMyHistoryPagedListView, done waiting");
         }
 
         final List<T>? items = snapshot.data;
@@ -95,6 +93,7 @@ class GenericFilterListView<T> extends StatelessWidget {
 
         return ListView.builder(
             controller: scrollController,
+            physics: const BouncingScrollPhysics(),
             itemCount: items.length,
             itemBuilder: (context, index) {
               return _buildDataItemView(context, items[index]);
@@ -109,8 +108,6 @@ class GenericFilterListView<T> extends StatelessWidget {
 
         // Build dismissable widget if swipe function available
         ? Dismissible(
-            // TODO: JAY_LOG - remove once done full function
-            // ignore: avoid_dismissible_ignore
             key: Key(item.hashCode.toString()),
             // Use a unique identifier for each item
             background: Container(

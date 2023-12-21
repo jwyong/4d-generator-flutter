@@ -1,12 +1,8 @@
 import 'package:drift/drift.dart';
-import 'package:flutter/material.dart';
-import 'package:lucky_generator/database/entity/dmc/dmc_entity.dart';
 import 'package:lucky_generator/database/entity/universal/my_history_entity.dart';
 import 'package:lucky_generator/database/my_database.dart';
-import 'package:lucky_generator/database/type_converter/string_list_converter.dart';
 import 'package:lucky_generator/model/universal/history/history_win_status.dart';
 import 'package:lucky_generator/model/universal/module_type.dart';
-import 'package:lucky_generator/pages/home_page/my_history/my_history_vm.dart';
 import 'package:lucky_generator/widget/generic_filter_list_view/generic_filter_list_view.dart';
 
 part 'my_history_dao.g.dart';
@@ -16,6 +12,7 @@ class MyHistoryDao extends DatabaseAccessor<MyDatabase> with _$MyHistoryDaoMixin
   MyHistoryDao(MyDatabase db) : super(db);
 
   /// Insert
+  // Insert single item (generated number)
   Future<void> insertGeneratedNumber(String generatedNumber) async =>
       await db.into(db.myHistoryEntity).insert(MyHistoryEntityCompanion.insert(
           moduleTypeId: ModuleType.dmc.id,
@@ -23,15 +20,26 @@ class MyHistoryDao extends DatabaseAccessor<MyDatabase> with _$MyHistoryDaoMixin
           number: generatedNumber,
           winStatusId: HistoryWinStatus.none.id));
 
-  // Get my history paged lists in streams based on moduleType and currentPage
-  Stream<List<MyHistoryEntityData>> getMyHistoryPagedListStream(
-      ModuleType selectedModuleType, FilterItemType sortType, bool isDesc, int currentPage) {
-    debugPrint("JAY_LOG: MyHistoryDao, getMyHistoryPagedListStream, sortType = $sortType, isDesc= $isDesc");
+  // Insert list of items
+  Future<void> insertMyHistoryList(List<MyHistoryEntityData> list) async =>
+      await db.batch((batch) => batch.insertAllOnConflictUpdate(db.myHistoryEntity, list));
 
+  // Get my history list based on winStatus
+  Future<List<MyHistoryEntityData>> getMyHistoryListByWinStatus(ModuleType selectedModuleType) {
+    final query = select(myHistoryEntity)
+      ..where((tbl) => tbl.moduleTypeId.equals(selectedModuleType.id) & tbl.winStatusId.equals(0))
+      ..orderBy([(item) => OrderingTerm(expression: item.dateGenerated, mode: OrderingMode.asc)]);
+
+    return query.get();
+  }
+
+  // Get my history paged lists in streams based on moduleType and currentPage
+  Stream<List<MyHistoryEntityData>> getMyHistoryPagedListStream(ModuleType selectedModuleType, FilterItemType sortType,
+      bool isDesc, int currentPage) {
     final query = select(myHistoryEntity)
       ..where((tbl) => tbl.moduleTypeId.equals(selectedModuleType.id))
       ..orderBy([
-        (item) {
+            (item) {
           // Convert sortType to respective database column
           Expression expression = item.dateGenerated;
           switch (sortType) {
