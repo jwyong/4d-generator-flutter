@@ -24,7 +24,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "all": MessageLookupByLibrary.simpleMessage("All"),
         "double": MessageLookupByLibrary.simpleMessage("Double"),
-        "draw_no": MessageLookupByLibrary.simpleMessage("Draw no"),
+        "draw_date": MessageLookupByLibrary.simpleMessage("draw date"),
+        "draw_no": MessageLookupByLibrary.simpleMessage("draw no"),
         "generate": MessageLookupByLibrary.simpleMessage("Generate"),
         "generate_end_text":
             MessageLookupByLibrary.simpleMessage("Your lucky number is:"),

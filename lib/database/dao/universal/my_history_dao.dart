@@ -13,9 +13,9 @@ class MyHistoryDao extends DatabaseAccessor<MyDatabase> with _$MyHistoryDaoMixin
 
   /// Insert
   // Insert single item (generated number)
-  Future<void> insertGeneratedNumber(String generatedNumber) async =>
+  Future<void> insertGeneratedNumber(String generatedNumber, ModuleType moduleType) async =>
       await db.into(db.myHistoryEntity).insert(MyHistoryEntityCompanion.insert(
-          moduleTypeId: ModuleType.dmc.id,
+          moduleTypeId: moduleType.id,
           dateGenerated: DateTime.now(),
           number: generatedNumber,
           winStatusId: HistoryWinStatus.none.id));

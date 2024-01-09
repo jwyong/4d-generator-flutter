@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lucky_generator/database/my_database.dart';
-import 'package:lucky_generator/util/shared_prefs_manager.dart';
+import 'package:lucky_generator/singleton/shared_prefs_manager.dart';
 
 import 'firebase_options.dart';
 

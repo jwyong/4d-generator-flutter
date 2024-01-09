@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lucky_generator/generated/l10n.dart';
 import 'package:lucky_generator/pages/home_page/base_home_state.dart';
@@ -59,7 +58,7 @@ class MyHistoryPageState extends BaseHomeState<MyHistoryPage> {
             // TODO: JAY_LOG - swipe to delete history number
           },
           onSortItemClicked: (FilterItem filterItem) {
-            // Scroll to top of list
+            // Scroll to top of list // TODO: JAY_LOG - shift this into the customView?
             _scrollController.animateTo(0, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
 
             // Update stream with new sorting filterType and direction

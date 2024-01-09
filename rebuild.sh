@@ -9,7 +9,8 @@ while getopts "c" arg; do
 done
 
 if [ $should_clean == 1 ]; then
-  dart run clean
+  dart run build_runner clean
+  dart run build_runner build --delete-conflicting-outputs
+else
+  dart run build_runner build --delete-conflicting-outputs
 fi
-
-dart run build_runner build --delete-conflicting-outputs

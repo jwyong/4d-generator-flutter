@@ -6,7 +6,6 @@ class DialogUtil {
     showModalBottomSheet(
         context: context,
         shape: const RoundedRectangleBorder(
-          // <-- SEE HERE
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(25.0),
           ),

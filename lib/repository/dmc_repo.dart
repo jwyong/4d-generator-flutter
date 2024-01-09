@@ -92,6 +92,31 @@ class DmcRepository {
   // Get latest draw date in DB (to see if need to sync with website)
   Future<DateTime?> getLatestDrawDate() async => await _dmcDao.getLatestDrawDate();
 
+  /// Past results page related
+  // Get the x previous past results from today
+  Stream<List<DmcEntityData>> getLatestPastResults(int count) => _dmcDao.getLatestPastResults(count);
+
+  // Get the x past results on both sides of a given drawNo (previous and next)
+  Future<Stream<List<DmcEntityData>>?> getPastResultsAroundDrawNo(String drawNo, int count) async {
+    // Get the drawDate from drawNo first
+    DateTime? drawDate = await _dmcDao.getDrawDateFromDrawNo(drawNo);
+
+    // Add a flat 2 weeks into the drawDate to cater for next pastResults
+    drawDate = drawDate?.add(const Duration(days: 14));
+
+    // Add a flat 8 items to count to cater for next pastResults
+    return drawDate != null ? _dmcDao.getPreviousPastResultsFromDateTime(drawDate, count + 8, true) : null;
+  }
+
+  // Get x previous past results from a given date
+  Stream<List<DmcEntityData>> getPreviousPastResultsFromDateTime(
+          DateTime dateTime, int count, bool shouldIncludeDate) =>
+      _dmcDao.getPreviousPastResultsFromDateTime(dateTime, count, shouldIncludeDate);
+
+  // Get x next past results from a given date
+  Stream<List<DmcEntityData>> getNextPastResultsFromDateTime(DateTime dateTime, int count, bool shouldIncludeDate) =>
+      _dmcDao.getNextPastResultsFromDateTime(dateTime, count, shouldIncludeDate);
+
   // Delete whole table
   Future<void> clearDb() async {
     await _dmcDao.clearDb();

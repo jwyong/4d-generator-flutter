@@ -10,8 +10,8 @@ class MyHistoryRepository {
   late final MyHistoryDao _myHistoryDao = _db.myHistoryDao;
 
   // Insert newly generated number to myHistory db
-  Future<void> insertGeneratedNumber(String generatedNumber) async {
-    await _myHistoryDao.insertGeneratedNumber(generatedNumber);
+  Future<void> insertGeneratedNumber(String generatedNumber, ModuleType moduleType) async {
+    await _myHistoryDao.insertGeneratedNumber(generatedNumber, moduleType);
   }
 
   // Insert list of myHistory items and replace if conflict

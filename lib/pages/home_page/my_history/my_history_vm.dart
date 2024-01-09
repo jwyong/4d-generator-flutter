@@ -34,7 +34,7 @@ abstract class AMyHistoryVM extends BaseViewModel with Store {
   /// History list related
   // MyHistory paged list stream
   final StreamController<List<MyHistoryEntityData>> _myHistoryListController =
-  StreamController<List<MyHistoryEntityData>>.broadcast();
+  StreamController<List<MyHistoryEntityData>>();
 
   Stream<List<MyHistoryEntityData>> get myHistoryListStream => _myHistoryListController.stream;
 
@@ -42,8 +42,7 @@ abstract class AMyHistoryVM extends BaseViewModel with Store {
   @override
   void onModuleTypeChanged(ModuleType moduleType) {
     super.onModuleTypeChanged(moduleType);
-
-    syncMyHistoryWithLatestResults(moduleType: moduleType);
+    updateMyHistoryListStream();
   }
 
   // Sync latest results with myHistory list in DB

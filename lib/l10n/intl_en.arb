@@ -28,5 +28,6 @@
   "number": "Number",
   "generated": "Generated",
   "status": "Status",
-  "draw_no": "Draw no"
+  "draw_no": "draw no",
+  "draw_date": "draw date"
 }

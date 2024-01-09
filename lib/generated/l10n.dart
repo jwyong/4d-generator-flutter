@@ -341,11 +341,21 @@ class S {
     );
   }
 
-  /// `Draw no`
+  /// `draw no`
   String get draw_no {
     return Intl.message(
-      'Draw no',
+      'draw no',
       name: 'draw_no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `draw date`
+  String get draw_date {
+    return Intl.message(
+      'draw date',
+      name: 'draw_date',
       desc: '',
       args: [],
     );
