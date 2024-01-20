@@ -23,6 +23,9 @@ class GenericFilterListView<T> extends StatelessWidget {
   // Swipe action on item - disabled if null
   final Function(T item)? onItemSwiped;
 
+  // Item clicked action
+  final Function(T item)? onItemClicked;
+
   const GenericFilterListView(
       {super.key,
       required this.scrollController,
@@ -30,7 +33,7 @@ class GenericFilterListView<T> extends StatelessWidget {
       required this.dataStream,
       required this.itemBuilder,
       required this.onSortItemClicked,
-      this.onItemSwiped});
+      this.onItemSwiped, this.onItemClicked});
 
   @override
   Widget build(BuildContext context) {
@@ -83,8 +86,7 @@ class GenericFilterListView<T> extends StatelessWidget {
         // TODO: JAY_LOG - skeleton loading
         if (snapshot.connectionState == ConnectionState.waiting) {
           // return const CircularProgressIndicator();
-        } else {
-        }
+        } else {}
 
         final List<T>? items = snapshot.data;
 
@@ -104,50 +106,55 @@ class GenericFilterListView<T> extends StatelessWidget {
 
   // Build item based on whether swipe is enabled
   Widget _buildDataItemView(BuildContext context, T item) {
-    return onItemSwiped != null
+    return InkWell(
+      onTap: () {
+        onItemClicked?.call(item);
+      },
+      child: onItemSwiped != null
 
-        // Build dismissable widget if swipe function available
-        ? Dismissible(
-            key: Key(item.hashCode.toString()),
-            // Use a unique identifier for each item
-            background: Container(
-              color: Colors.red,
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: const Icon(
-                Icons.delete,
-                color: Colors.white,
+          // Build dismissable widget if swipe function available
+          ? Dismissible(
+              key: Key(item.hashCode.toString()),
+              // Use a unique identifier for each item
+              background: Container(
+                color: Colors.red,
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: const Icon(
+                  Icons.delete,
+                  color: Colors.white,
+                ),
               ),
-            ),
-            confirmDismiss: (direction) async {
-              return await showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  // TODO: JAY_LOG - strings
-                  return AlertDialog(
-                    title: const Text("Confirm Delete"),
-                    content: const Text("Are you sure you want to delete this item?"),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(false), // Return false to cancel dismissal
-                        child: const Text("Cancel"),
-                      ),
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(true), // Return true to proceed with dismissal
-                        child: const Text("Delete"),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-            onDismissed: (direction) {
-              onItemSwiped?.call(item);
-            },
-            child: itemBuilder(item))
+              confirmDismiss: (direction) async {
+                return await showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    // TODO: JAY_LOG - strings
+                    return AlertDialog(
+                      title: const Text("Confirm Delete"),
+                      content: const Text("Are you sure you want to delete this item?"),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(false), // Return false to cancel dismissal
+                          child: const Text("Cancel"),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(true), // Return true to proceed with dismissal
+                          child: const Text("Delete"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              onDismissed: (direction) {
+                onItemSwiped?.call(item);
+              },
+              child: itemBuilder(item))
 
-        // Just build normal item if no swipe function
-        : itemBuilder(item);
+          // Just build normal item if no swipe function
+          : itemBuilder(item),
+    );
   }
 }
 

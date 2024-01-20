@@ -9,6 +9,6 @@ class PastResultsModule {
     if (index == 0 && item.drawNo != dmcFirstDrawNo) return const SizedBox.shrink();
 
     // TODO: JAY_LOG - how to differentiate between moduleTypes? DMC / TOTO etc
-    return PastResultsDmcWidget(item);
+    return SingleChildScrollView(child: PastResultsDmcWidget(item));
   }
 }

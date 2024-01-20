@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucky_generator/generated/l10n.dart';
 import 'package:lucky_generator/pages/home_page/base_home_state.dart';
+import 'package:lucky_generator/pages/home_page/my_history/module/my_history_detail_module.dart';
 import 'package:lucky_generator/pages/home_page/my_history/module/my_history_list_module.dart';
 import 'package:lucky_generator/pages/home_page/my_history/my_history_vm.dart';
 
@@ -20,6 +21,7 @@ class MyHistoryPageState extends BaseHomeState<MyHistoryPage> {
   late final MyHistoryVM _vm = MyHistoryVM()..bind(this);
 
   late final MyHistoryListModule _myHistoryListModule = MyHistoryListModule(this);
+  late final MyHistoryDetailModule _myHistoryDetailModule = MyHistoryDetailModule(_vm);
 
   late final List<FilterItem> filterItemsList = [
     FilterItem(1, FilterItemType.rank, "#", 2, isSortable: false),
@@ -63,6 +65,9 @@ class MyHistoryPageState extends BaseHomeState<MyHistoryPage> {
 
             // Update stream with new sorting filterType and direction
             _vm.updateMyHistoryListStream(sortType: filterItem.type, isDesc: filterItem.isDesc);
+          },
+          onItemClicked: (item) {
+            _myHistoryDetailModule.onHistoryItemClicked(context, item);
           },
         ),
       ),

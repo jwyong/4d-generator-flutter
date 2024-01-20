@@ -6,5 +6,4 @@ class TextStyles {
     fontWeight: FontWeight.bold,
     color: Colors.black,
   );
-
 }

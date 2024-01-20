@@ -410,6 +410,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Generated number`
+  String get generated_number {
+    return Intl.message(
+      'Generated number',
+      name: 'generated_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date generated`
+  String get date_generated {
+    return Intl.message(
+      'Date generated',
+      name: 'date_generated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Win status`
+  String get win_status {
+    return Intl.message(
+      'Win status',
+      name: 'win_status',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

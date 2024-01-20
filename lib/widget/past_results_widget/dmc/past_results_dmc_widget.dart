@@ -5,31 +5,33 @@ import 'package:lucky_generator/text_style/dmc_text_styles.dart';
 import 'package:lucky_generator/util/date_time_util.dart';
 import 'package:lucky_generator/util/image_util.dart';
 import 'package:lucky_generator/util/list_util.dart';
+import 'package:lucky_generator/util/number_util.dart';
 import 'package:lucky_generator/util/string_util.dart';
 import 'package:lucky_generator/widget/dmc/dmc_generic_round_bg.dart';
 
 class PastResultsDmcWidget extends BaseStatelessWidget {
-  PastResultsDmcWidget(this.item, {super.key});
+  PastResultsDmcWidget(this.item, {super.key, this.generatedNumber});
 
   final DmcEntityData item;
 
+  // The generated history number which got hit / pau
+  final String? generatedNumber;
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const SizedBox(height: 5),
-          _buildHeaderText(context),
-          const SizedBox(height: 15),
-          _build4dHeader(),
-          const SizedBox(height: 10),
-          _buildTop3List(),
-          const SizedBox(height: 15),
-          _buildStarterConsolationRow(),
-          const SizedBox(height: 10)
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const SizedBox(height: 5),
+        _buildHeaderText(context),
+        const SizedBox(height: 15),
+        _build4dHeader(),
+        const SizedBox(height: 10),
+        _buildTop3List(),
+        const SizedBox(height: 15),
+        _buildStarterConsolationRow(),
+        const SizedBox(height: 10)
+      ],
     );
   }
 
@@ -96,7 +98,7 @@ class PastResultsDmcWidget extends BaseStatelessWidget {
         const SizedBox(height: 3),
 
         // Number
-        Text(value, style: DmcTextStyles.pastResultsBody, textAlign: TextAlign.center)
+        _buildNumberRow(value),
       ]));
 
   /// Starter + consolation prizes row
@@ -127,12 +129,34 @@ class PastResultsDmcWidget extends BaseStatelessWidget {
   }
 
   // Starter / column item
-  Widget _buildStartConsolationItem(List<String> list) => Expanded(
-      child: Column(
-          children: list
-              .map((e) => Text(
-                    e,
-                    style: DmcTextStyles.pastResultsBody,
-                  ))
-              .toList()));
+  Widget _buildStartConsolationItem(List<String> list) =>
+      Expanded(child: Column(children: list.map((e) => _buildNumberRow(e)).toList()));
+
+  // Build number row with prefix hit / pau icon if applicable
+  Widget _buildNumberRow(String value) {
+    final prefixIcon = _getHitOrPauIcon(value);
+    final textWidget = Text(value, style: DmcTextStyles.pastResultsBody, textAlign: TextAlign.center);
+    return prefixIcon == null
+        ? textWidget
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [prefixIcon, const SizedBox(width: 5), textWidget],
+          );
+  }
+
+  Widget? _getHitOrPauIcon(String value) {
+    if (generatedNumber == null) {
+      // No number - null
+      return null;
+    } else if (generatedNumber == value) {
+      // Hit
+      return const Icon(Icons.star, size: 20);
+    } else if (arePermutations(generatedNumber!, value)) {
+      // Pau
+      return Image.asset("pau".toIconPath(), height: 25);
+    } else {
+      // No match - null
+      return null;
+    }
+  }
 }

@@ -142,6 +142,14 @@ class DmcDao extends DatabaseAccessor<MyDatabase> with _$DmcDaoMixin {
     return await query.map((p0) => p0.read(dmcEntity.drawDate)).getSingle();
   }
 
+  // Get pastResult from a given drawNo
+  Future<DmcEntityData?> getPastResultForDrawNo(String drawNo) async {
+    final query = select(dmcEntity)
+      ..where((t) => t.drawNo.equals(drawNo));
+
+    return query.getSingleOrNull();
+  }
+
   // Get the x previous past results from a given dateTime
   Stream<List<DmcEntityData>> getPreviousPastResultsFromDateTime(DateTime dateTime, int count, bool shouldIncludeDate) {
     final query = select(dmcEntity)

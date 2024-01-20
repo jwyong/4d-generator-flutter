@@ -25,6 +25,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "all": MessageLookupByLibrary.simpleMessage("All"),
         "consolation_prize":
             MessageLookupByLibrary.simpleMessage("Consolation Prize"),
+        "date_generated":
+            MessageLookupByLibrary.simpleMessage("Date generated"),
         "double": MessageLookupByLibrary.simpleMessage("Double"),
         "draw_date": MessageLookupByLibrary.simpleMessage("draw date"),
         "draw_no": MessageLookupByLibrary.simpleMessage("draw no"),
@@ -37,6 +39,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "generate_start_text":
             MessageLookupByLibrary.simpleMessage("Start generating now!"),
         "generated": MessageLookupByLibrary.simpleMessage("Generated"),
+        "generated_number":
+            MessageLookupByLibrary.simpleMessage("Generated number"),
         "generating_text_1":
             MessageLookupByLibrary.simpleMessage("Generating now!"),
         "generating_text_2":
@@ -70,6 +74,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "tab_title_past_results":
             MessageLookupByLibrary.simpleMessage("Past Results"),
         "third_prize": MessageLookupByLibrary.simpleMessage("3rd Prize"),
-        "triple": MessageLookupByLibrary.simpleMessage("Triple")
+        "triple": MessageLookupByLibrary.simpleMessage("Triple"),
+        "win_status": MessageLookupByLibrary.simpleMessage("Win status")
       };
 }
