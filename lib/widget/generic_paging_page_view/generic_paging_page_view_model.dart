@@ -13,11 +13,17 @@ abstract class AGenericPagingPageViewVM<T> extends BaseViewModel with Store {
   PageController? pageController;
 
   // Whether there are any more items to be loaded on the right end (future)
+  @observable
   bool noMoreNextPastResults = true;
+  @observable
   bool noMorePreviousPastResults = true;
 
   // The initial page for the pageView
+  @observable
   int? initialPage;
+
+  // Current index for left / right button visibility UX
+  int? currentPage;
 
   // Currently showing data list for use in the stream
   final _dataList = List<T>.empty(growable: true);

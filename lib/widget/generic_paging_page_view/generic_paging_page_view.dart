@@ -67,34 +67,66 @@ class _GenericPagingPageState<T> extends BaseState<GenericPagingPageView<T>> {
             _vm.pageController ??= PageController(initialPage: _vm.initialPage.toNonNull());
           }
 
-          return PageView.builder(
-            // Use null to signify that there are still more next items to be loaded
-            itemCount: _vm.noMoreNextPastResults ? items.length : null,
-            // Unlimited paging
-            controller: _vm.pageController,
-            onPageChanged: (int index) {
-              // Call previous page callback when reached index == 0
-              if (index == 0) {
-                widget.onPreviousPaging(items.firstOrNull)?.listen((previousList) {
-                  _vm.onPreviousPaging(previousList, widget.fetchCount);
-                });
-              }
-
-              // Call next page callback when reached last item
-              if (index == items.length - 1) {
-                widget.onNextPaging(items.lastOrNull)?.listen((nextList) {
-                  _vm.onNextPaging(nextList);
-                });
-              }
-            },
-            physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, index) {
-              final item = items[index];
-
-              return widget.itemBuilder(item, index);
-            },
-          );
+          return Stack(children: [
+            // TODO: JAY_LOG - Left / right arrows based on whether there are more items
+            // Observer(builder: (context) {
+            //   return _vm.currentPage != items.length - 1? Positioned.fill(
+            //     right: 5,
+            //     child: Align(
+            //       alignment: Alignment.centerRight,
+            //       child: Container(
+            //         width: 25,
+            //         decoration: ShapeDecoration(
+            //           color: Colors.grey.withOpacity(0.5), // Background color
+            //           shape: RoundedRectangleBorder(
+            //             borderRadius: BorderRadius.circular(8.0), // Border radius
+            //           ),
+            //         ),
+            //         child: IconButton(
+            //           padding: EdgeInsets.zero,
+            //           icon: const Icon(Icons.chevron_right),
+            //           color: Colors.white, // Icon color
+            //           onPressed: () {
+            //             // Your onPressed logic here
+            //           },
+            //         ),
+            //       ),
+            //     ),
+            //   ): const SizedBox();
+            // }),
+            _buildPageView(items)
+          ]);
         });
+  }
+
+  Widget _buildPageView(List<T> items) {
+    return PageView.builder(
+      // Use null to signify that there are still more next items to be loaded
+      itemCount: _vm.noMoreNextPastResults ? items.length : null,
+      // Unlimited paging
+      controller: _vm.pageController,
+      onPageChanged: (int index) {
+        // Call previous page callback when reached index == 0
+        if (index == 0) {
+          widget.onPreviousPaging(items.firstOrNull)?.listen((previousList) {
+            _vm.onPreviousPaging(previousList, widget.fetchCount);
+          });
+        }
+
+        // Call next page callback when reached last item
+        if (index == items.length - 1) {
+          widget.onNextPaging(items.lastOrNull)?.listen((nextList) {
+            _vm.onNextPaging(nextList);
+          });
+        }
+      },
+      physics: const BouncingScrollPhysics(),
+      itemBuilder: (context, index) {
+        final item = items[index];
+
+        return widget.itemBuilder(item, index);
+      },
+    );
   }
 
   @override

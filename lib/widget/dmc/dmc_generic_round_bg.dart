@@ -7,11 +7,14 @@ class DmcGenericRoundBg extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) => Container(
-        decoration: const BoxDecoration(
-          color: color_dmcDarkBlue, // Set your desired background color
-          shape: BoxShape.circle, // Set border radius
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 5),
+        child: Container(
+          decoration: BoxDecoration(
+            color: colorDmcDarkBlue, // Set your desired background color
+            borderRadius: BorderRadius.circular(20), // Set half of the height as the border radius
+          ),
+          child: child,
         ),
-        child: child,
       );
 }

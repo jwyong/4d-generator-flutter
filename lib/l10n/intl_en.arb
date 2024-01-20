@@ -29,5 +29,10 @@
   "generated": "Generated",
   "status": "Status",
   "draw_no": "draw no",
-  "draw_date": "draw date"
+  "draw_date": "draw date",
+  "first_prize": "1st Prize",
+  "second_prize": "2nd Prize",
+  "third_prize": "3rd Prize",
+  "starter_prize": "Starter Prize",
+  "consolation_prize": "Consolation Prize"
 }

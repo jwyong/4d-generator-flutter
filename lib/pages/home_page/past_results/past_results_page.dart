@@ -4,6 +4,7 @@ import 'package:lucky_generator/constant/constants.dart';
 import 'package:lucky_generator/pages/home_page/base_home_state.dart';
 import 'package:lucky_generator/pages/home_page/past_results/past_results_module.dart';
 import 'package:lucky_generator/pages/home_page/past_results/past_results_page_vm.dart';
+import 'package:lucky_generator/text_style/text_styles.dart';
 import 'package:lucky_generator/widget/generic_paging_page_view/generic_paging_page_view.dart';
 
 class PastResultsPage extends StatefulWidget {
@@ -32,7 +33,7 @@ class _PastResultsPageState extends BaseHomeState<PastResultsPage> {
     return Column(
       children: [
         // Title
-        Text(s.tab_title_past_results),
+        Text(s.tab_title_past_results, style: TextStyles.title,),
 
         // TODO: JAY_LOG - switch widget according to moduleType
         // PageView
