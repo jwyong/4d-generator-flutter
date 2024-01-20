@@ -108,6 +108,9 @@ class DmcRepository {
     return drawDate != null ? _dmcDao.getPreviousPastResultsFromDateTime(drawDate, count + 8, true) : null;
   }
 
+  // Get a particular pastResult based on drawNo
+  Future<DmcEntityData?> getPastResultForDrawNo(String drawNo) => _dmcDao.getPastResultForDrawNo(drawNo);
+
   // Get x previous past results from a given date
   Stream<List<DmcEntityData>> getPreviousPastResultsFromDateTime(
           DateTime dateTime, int count, bool shouldIncludeDate) =>

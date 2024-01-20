@@ -34,5 +34,8 @@
   "second_prize": "2nd Prize",
   "third_prize": "3rd Prize",
   "starter_prize": "Starter Prize",
-  "consolation_prize": "Consolation Prize"
+  "consolation_prize": "Consolation Prize",
+  "generated_number": "Generated number",
+  "date_generated": "Date generated",
+  "win_status": "Win status"
 }

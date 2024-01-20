@@ -76,6 +76,10 @@ abstract class AMyHistoryVM extends BaseViewModel with Store {
     });
   }
 
+  /// My history detail related
+  // Get a pastResult item for a history item (which pastResult got hit / pau for this generated history number)
+  Future<DmcEntityData?> getPastResultForHistoryItem(String drawNo) =>_dmcRepository.getPastResultForDrawNo(drawNo);
+
   void dispose() {
     _myHistoryListController.close();
   }
