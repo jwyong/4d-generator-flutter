@@ -58,7 +58,7 @@ abstract class AGenerateNumberVM extends BaseViewModel with Store {
     // generatedNumber = _generateNumberNeighbourUtil.generateNumber(flat4dList2YearsAgo, nested4dList1YearAgo);
 
     // Add to myHistory db
-    _myHistoryRepository.insertGeneratedNumber(generated);
+    _myHistoryRepository.insertGeneratedNumber(generated, selectedModuleType);
 
     // Update to UI
     generatedNumber = generated;

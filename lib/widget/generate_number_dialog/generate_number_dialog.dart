@@ -97,7 +97,7 @@ class _GenerateNumberDialogState extends BaseState<GenerateNumberDialog> {
                 // Generate button
                 Observer(
                     builder: (ctx) => GenericButton(
-                          title: S().generate,
+                          title: s.generate,
                           onPressed: _vm.isGenerating ? null : _vm.onGenerateButtonPressed,
                         ))
               ],

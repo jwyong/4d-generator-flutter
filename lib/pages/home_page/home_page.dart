@@ -25,7 +25,8 @@ class _HomePageState extends BaseState<HomePage> with SingleTickerProviderStateM
 
   @override
   void initState() {
-    _vm.homeTabController = TabController(length: 4, vsync: this)..bind(this);
+    // TODO: JAY_LOG - hardcoded initial index to pastResults tab
+    _vm.homeTabController = TabController(length: 4, vsync: this, initialIndex: 1)..bind(this);
     _bottomNavModule.init();
     super.initState();
   }

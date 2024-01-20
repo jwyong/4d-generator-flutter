@@ -25,5 +25,15 @@ abstract class AHotNumbersVM extends BaseViewModel with Store {
     selectedTimePeriod = timePeriod;
 
     // TODO: JAY_LOG Do db queries to refresh lists
+    // Old test codes for switching modules
+    // switch (timePeriod) {
+    //   case TimePeriod.year_1:
+    //     updateSelectedModuleType(ModuleType.toto);
+    //     break;
+    //
+    //   default:
+    //     updateSelectedModuleType(ModuleType.dmc);
+    //     break;
+    // }
   }
 }

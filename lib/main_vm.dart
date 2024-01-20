@@ -13,7 +13,6 @@ import 'package:lucky_generator/util/date_time_util.dart';
 import 'package:lucky_generator/util/hot_numbers_util.dart';
 import 'package:lucky_generator/util/my_history_util.dart';
 import 'package:mobx/mobx.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'database/my_database.dart';
 
@@ -39,8 +38,6 @@ abstract class AMainVM extends BaseViewModel with Store {
 
   late final HotNumbersUtil _hotNumbersUtil = HotNumbersUtil();
 
-  late final SharedPreferences prefs;
-
   Future<void> clearDriftDb() async {
     await _dmcRepository.clearDb();
     await _dmcHotRepository.clearDb();
@@ -48,10 +45,8 @@ abstract class AMainVM extends BaseViewModel with Store {
 
   // Sync all realtimeDB data to driftDB (for all companies dmc, toto, magnum...)
   void checkAndStartSync() async {
-    prefs = await SharedPreferences.getInstance();
-
     // Check and sync realtimeDB if not done yet
-    bool? isDmcRealtimeDbSynced = prefs.getBool(spKeyIsDmcRealtimeDbSynced);
+    bool? isDmcRealtimeDbSynced = sharedPrefs.getBool(spKeyIsDmcRealtimeDbSynced);
     if (isDmcRealtimeDbSynced != true) {
       isDmcRealtimeDbSynced = await _syncDmcFromRealtimeDB();
     }
@@ -78,7 +73,7 @@ abstract class AMainVM extends BaseViewModel with Store {
     /// Web is synced if:
     /// - already synced today
     /// - OR today is AFTER last draw date
-    final String? dmcLastWebSync = prefs.getString(spKeyDmcLastWebSync);
+    final String? dmcLastWebSync = sharedPrefs.getString(spKeyDmcLastWebSync);
     final String todayFormattedDateStr = today.toFormattedString(ddMMyyyyFormat);
     final bool isWebSyncedToday = dmcLastWebSync == todayFormattedDateStr;
     final isNextDayFromLastDrawDate = today.isAfter(latestDrawDay);
@@ -109,7 +104,7 @@ abstract class AMainVM extends BaseViewModel with Store {
       return;
     }
     final latestDrawDateStr = latestDrawDate.toFormattedString(ddMMyyyyFormat);
-    final lastHotSyncDateStr = prefs.getString(spKeyDmcLastHotSync);
+    final lastHotSyncDateStr = sharedPrefs.getString(spKeyDmcLastHotSync);
 
     bool isDmcHotSynced = latestDrawDateStr == lastHotSyncDateStr;
     if (!isDmcHotSynced) {
@@ -134,7 +129,7 @@ abstract class AMainVM extends BaseViewModel with Store {
     await _dmcRepository.insertDmcList(dmcEntityList);
 
     // Update isSynced bool to sp
-    prefs.setBool(spKeyIsDmcRealtimeDbSynced, true);
+    sharedPrefs.setBool(spKeyIsDmcRealtimeDbSynced, true);
 
     // Return true after inserting
     return true;
@@ -153,7 +148,7 @@ abstract class AMainVM extends BaseViewModel with Store {
       }
 
       // Update isSyncedToday bool for success case
-      prefs.setString(spKeyDmcLastWebSync, todayFormattedDateStr);
+      sharedPrefs.setString(spKeyDmcLastWebSync, todayFormattedDateStr);
 
       return true;
     }
@@ -245,7 +240,7 @@ abstract class AMainVM extends BaseViewModel with Store {
     await _dmcHotRepository.insertDmcHotList(combinedCompanions);
 
     // Update sp with latest drawDate once done insert
-    prefs.setString(spKeyDmcLastHotSync, latestDrawDateStr);
+    sharedPrefs.setString(spKeyDmcLastHotSync, latestDrawDateStr);
 
     return true;
   }

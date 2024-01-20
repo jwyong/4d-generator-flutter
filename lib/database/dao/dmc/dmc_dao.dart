@@ -118,6 +118,54 @@ class DmcDao extends DatabaseAccessor<MyDatabase> with _$DmcDaoMixin {
     }).getSingleOrNull();
   }
 
+  // Get total counts of pastResults
+  Future<int> getPastResultsCount() async {
+    final result = await customSelect('SELECT COUNT(*) AS total_count FROM your_table').getSingle();
+    return result.read<int>('total_count');
+  }
+
+  // Get the x previous past results from today
+  Stream<List<DmcEntityData>> getLatestPastResults(int count) {
+    final query = select(dmcEntity)
+      ..orderBy([(tbl) => OrderingTerm.desc(tbl.drawDate)])
+      ..limit(count);
+
+    return query.watch();
+  }
+
+  // Get the drawDate from a given drawNo
+  Future<DateTime?> getDrawDateFromDrawNo(String drawNo) async {
+    final query = selectOnly(dmcEntity)
+      ..addColumns([dmcEntity.drawDate])
+      ..where(dmcEntity.drawNo.isValue(drawNo));
+
+    return await query.map((p0) => p0.read(dmcEntity.drawDate)).getSingle();
+  }
+
+  // Get the x previous past results from a given dateTime
+  Stream<List<DmcEntityData>> getPreviousPastResultsFromDateTime(DateTime dateTime, int count, bool shouldIncludeDate) {
+    final query = select(dmcEntity)
+      ..where((tbl) => shouldIncludeDate
+          ? dmcEntity.drawDate.isSmallerOrEqualValue(dateTime)
+          : dmcEntity.drawDate.isSmallerThanValue(dateTime))
+      ..orderBy([(tbl) => OrderingTerm.desc(tbl.drawDate)])
+      ..limit(count);
+
+    return query.watch();
+  }
+
+  // Get the x next past results from a given dateTime
+  Stream<List<DmcEntityData>> getNextPastResultsFromDateTime(DateTime dateTime, int count, bool shouldIncludeDate) {
+    final query = select(dmcEntity)
+      ..where((tbl) => shouldIncludeDate
+          ? dmcEntity.drawDate.isBiggerOrEqualValue(dateTime)
+          : dmcEntity.drawDate.isBiggerThanValue(dateTime))
+      ..orderBy([(tbl) => OrderingTerm.asc(tbl.drawDate)])
+      ..limit(count);
+
+    return query.watch();
+  }
+
   /// Delete
   // Clear whole table
   Future<void> clearDb() async {

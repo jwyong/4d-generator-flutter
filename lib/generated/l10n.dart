@@ -341,11 +341,71 @@ class S {
     );
   }
 
-  /// `Draw no`
+  /// `draw no`
   String get draw_no {
     return Intl.message(
-      'Draw no',
+      'draw no',
       name: 'draw_no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `draw date`
+  String get draw_date {
+    return Intl.message(
+      'draw date',
+      name: 'draw_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1st Prize`
+  String get first_prize {
+    return Intl.message(
+      '1st Prize',
+      name: 'first_prize',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `2nd Prize`
+  String get second_prize {
+    return Intl.message(
+      '2nd Prize',
+      name: 'second_prize',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `3rd Prize`
+  String get third_prize {
+    return Intl.message(
+      '3rd Prize',
+      name: 'third_prize',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Starter Prize`
+  String get starter_prize {
+    return Intl.message(
+      'Starter Prize',
+      name: 'starter_prize',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Consolation Prize`
+  String get consolation_prize {
+    return Intl.message(
+      'Consolation Prize',
+      name: 'consolation_prize',
       desc: '',
       args: [],
     );

@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:lucky_generator/generated/l10n.dart';
 import 'package:lucky_generator/pages/home_page/base_home_state.dart';
 

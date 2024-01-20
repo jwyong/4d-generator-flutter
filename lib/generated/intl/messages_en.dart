@@ -23,8 +23,12 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "all": MessageLookupByLibrary.simpleMessage("All"),
+        "consolation_prize":
+            MessageLookupByLibrary.simpleMessage("Consolation Prize"),
         "double": MessageLookupByLibrary.simpleMessage("Double"),
-        "draw_no": MessageLookupByLibrary.simpleMessage("Draw no"),
+        "draw_date": MessageLookupByLibrary.simpleMessage("draw date"),
+        "draw_no": MessageLookupByLibrary.simpleMessage("draw no"),
+        "first_prize": MessageLookupByLibrary.simpleMessage("1st Prize"),
         "generate": MessageLookupByLibrary.simpleMessage("Generate"),
         "generate_end_text":
             MessageLookupByLibrary.simpleMessage("Your lucky number is:"),
@@ -55,6 +59,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "last_year_3": MessageLookupByLibrary.simpleMessage("Last 3 years"),
         "last_year_5": MessageLookupByLibrary.simpleMessage("Last 5 years"),
         "number": MessageLookupByLibrary.simpleMessage("Number"),
+        "second_prize": MessageLookupByLibrary.simpleMessage("2nd Prize"),
+        "starter_prize": MessageLookupByLibrary.simpleMessage("Starter Prize"),
         "status": MessageLookupByLibrary.simpleMessage("Status"),
         "tab_title_analytics":
             MessageLookupByLibrary.simpleMessage("Analytics"),
@@ -63,6 +69,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("My History"),
         "tab_title_past_results":
             MessageLookupByLibrary.simpleMessage("Past Results"),
+        "third_prize": MessageLookupByLibrary.simpleMessage("3rd Prize"),
         "triple": MessageLookupByLibrary.simpleMessage("Triple")
       };
 }

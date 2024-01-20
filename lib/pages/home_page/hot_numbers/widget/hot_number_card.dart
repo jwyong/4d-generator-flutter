@@ -71,7 +71,7 @@ class _HotNumberCardState extends BaseState<HotNumberCard> {
           child:
               // Show skeleton loading if null
               widget.title == null
-                  ? const Text("Loading...") // TODO: JAY_LOG
+                  ? const Text("Loading...") // TODO: JAY_LOG - skeleton loading
                   : Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,

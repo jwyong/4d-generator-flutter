@@ -113,8 +113,8 @@ class GenericFilterListView<T> extends StatelessWidget {
             background: Container(
               color: Colors.red,
               alignment: Alignment.centerRight,
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
-              child: Icon(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: const Icon(
                 Icons.delete,
                 color: Colors.white,
               ),
@@ -123,17 +123,18 @@ class GenericFilterListView<T> extends StatelessWidget {
               return await showDialog(
                 context: context,
                 builder: (BuildContext context) {
+                  // TODO: JAY_LOG - strings
                   return AlertDialog(
-                    title: Text("Confirm Delete"),
-                    content: Text("Are you sure you want to delete this item?"),
+                    title: const Text("Confirm Delete"),
+                    content: const Text("Are you sure you want to delete this item?"),
                     actions: <Widget>[
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(false), // Return false to cancel dismissal
-                        child: Text("Cancel"),
+                        child: const Text("Cancel"),
                       ),
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(true), // Return true to proceed with dismissal
-                        child: Text("Delete"),
+                        child: const Text("Delete"),
                       ),
                     ],
                   );
